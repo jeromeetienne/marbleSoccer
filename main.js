@@ -90,18 +90,12 @@ function animate() {
 
 // ## Render the 3D Scene
 function render() {
-	// move the camera based on a timer
-	if( false ){
-		var timer	= - new Date().getTime() * 0.0004;
-		camera.position.x = 1000 * Math.cos( timer );
-		camera.position.z = 1000 * Math.sin( timer );		
-	}
 
 	player.tick(); 
 	map.tick(); 
 
 	// make the camera follow the player
-	if( true ){
+	if( false ){
 		camera.position.x = player.mesh().position.x;
 		camera.position.y = player.mesh().position.y + 100;
 		camera.position.z = player.mesh().position.z + 500;
