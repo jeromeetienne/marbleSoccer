@@ -41,7 +41,7 @@ function init() {
 	directionalLight.position.set( 0, 0, 1 ).normalize();
 	scene.addLight( directionalLight );
 				
-	if( true ){
+	if( false ){
 		var skybox	= new Marble.Skymap();
 		skyboxMesh	= skybox.mesh();
 		scene.addObject( skyboxMesh );
@@ -99,6 +99,15 @@ function render() {
 
 	player.tick(); 
 	map.tick(); 
+
+	// make the camera follow the player
+	if( true ){
+		camera.position.x = player.mesh().position.x;
+		camera.position.y = player.mesh().position.y + 100;
+		camera.position.z = player.mesh().position.z + 500;
+		
+		camera.target.position	= player.mesh().position;
+	}
 
 	// actually display the scene in the Dom element
 	renderer.render( scene, camera );
