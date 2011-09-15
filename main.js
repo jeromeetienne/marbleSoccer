@@ -41,7 +41,7 @@ function init() {
 	directionalLight.position.set( 0, 0, 1 ).normalize();
 	scene.addLight( directionalLight );
 				
-	if( false ){
+	if( true ){
 		var skybox	= new Marble.Skymap();
 		skyboxMesh	= skybox.mesh();
 		scene.addObject( skyboxMesh );
