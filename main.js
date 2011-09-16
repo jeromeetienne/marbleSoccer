@@ -54,6 +54,10 @@ function init() {
 	player		= new Marble.Player();
 	scene.addObject( player.mesh() );
 
+	var enemy	= new Marble.Enemy();
+	enemy.mesh().position.x	= 30;
+	scene.addObject( enemy.mesh() );
+
 	// ## End of the Skybox Code
 
 	// create the container element
