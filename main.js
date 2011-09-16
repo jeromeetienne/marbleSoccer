@@ -6,7 +6,7 @@
 // declare a bunch of variable we will need later
 var startTime	= Date.now();
 var container;
-var keyboard, player, map;
+var keyboard, player, enemy, map;
 var camera, scene, renderer, stats;
 var skyboxMesh;
 
@@ -54,7 +54,7 @@ function init() {
 	player		= new Marble.Player();
 	scene.addObject( player.mesh() );
 
-	var enemy	= new Marble.Enemy();
+	enemy	= new Marble.Enemy();
 	enemy.mesh().position.x	= 30;
 	scene.addObject( enemy.mesh() );
 
@@ -96,7 +96,21 @@ function animate() {
 function render() {
 
 	player.tick(); 
-	map.tick(); 
+	map.tick();
+	
+(function(){
+	var player2Enemy	= new THREE.Vector3();
+	player2Enemy.sub( enemy.mesh().position, player.mesh().position);
+
+	vector	= player2Enemy.normalize().negate().multiplyScalar(Marble.tileSize);
+
+	camera.position.add( player.mesh().position, vector );
+	camera.position.y	= Marble.tileSize;
+
+	camera.position.y	= Marble.tileSize;
+
+	camera.target.position	= enemy.mesh().position.clone();
+}());
 
 	// make the camera follow the player
 	if( false ){
