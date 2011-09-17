@@ -4,9 +4,6 @@ server:
 	python -m SimpleHTTPServer
 
 deploy:
-	# assume there is something to commit
-	# use "git diff --exit-code HEAD" to know if there is something to commit
-	# so two lines: one if no commit, one if something to commit
-	git diff --exit-code HEAD || (git commit -a -m "New deploy" && git push -f origin HEAD:gh-pages && git reset HEAD~)
-	git diff --exit-code HEAD && git push -f origin HEAD:gh-pages
+	git diff --quiet HEAD || git commit -a -m "New deploy" && git push -f origin HEAD:gh-pages && git reset HEAD~
+	git diff --quiet HEAD && git push -f origin HEAD:gh-pages
 
