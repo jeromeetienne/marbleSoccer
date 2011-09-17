@@ -6,7 +6,7 @@
 // declare a bunch of variable we will need later
 var startTime	= Date.now();
 var container;
-var keyboard, world;
+var keyboard, devOrientation, world;
 var camera, scene, renderer, stats;
 var skyboxMesh;
 
@@ -33,9 +33,9 @@ function init() {
 	});
 	renderer.setSize( window.innerWidth, window.innerHeight );
 	container.appendChild( renderer.domElement );
-
 	
 	keyboard	= new THREEx.KeyboardState();
+	devOrientation	= new THREEx.DeviceOrientationState();
 	// create the renderer cache
 	renderer._microCache	= new MicroCache();
 
