@@ -23,12 +23,31 @@ if ( ! Detector.webgl ){
 
 // ## Initialize everything
 function init() {
+	// create the container element
+	container = document.createElement( 'div' );
+	document.body.appendChild( container );
+
+	// init the WebGL renderer and append it to the Dom
+	renderer = new THREE.WebGLRenderer({
+		antialias	: true
+	});
+	renderer.setSize( window.innerWidth, window.innerHeight );
+	container.appendChild( renderer.domElement );
+
+	
+	keyboard	= new THREEx.KeyboardState();
+	// create the renderer cache
+	renderer._microCache	= new MicroCache();
+
+	// init the Stats and append it to the Dom - performance vuemeter
+	stats	= new Stats();
+	stats.domElement.style.position = 'absolute';
+	stats.domElement.style.bottom	= '0px';
+	container.appendChild( stats.domElement );
+
 	// create the Scene
 	scene = new THREE.Scene();
 	
-	// ## Begining of the Skybox Code
-	
-
 	var ambient	= new THREE.AmbientLight( 0xFFFFFF );
 	scene.addLight( ambient );
 
@@ -40,27 +59,7 @@ function init() {
 		scene	: scene
 	});
 
-	// ## End of the Skybox Code
-
-	// create the container element
-	container = document.createElement( 'div' );
-	document.body.appendChild( container );
-
-	// init the WebGL renderer and append it to the Dom
-	renderer = new THREE.WebGLRenderer({
-		antialias	: true
-	});
-	renderer.setSize( window.innerWidth, window.innerHeight );
-	container.appendChild( renderer.domElement );
-	
 	THREEx.WindowResize(renderer, world.camera().object());
-	keyboard	= new THREEx.KeyboardState();
-
-	// init the Stats and append it to the Dom - performance vuemeter
-	stats	= new Stats();
-	stats.domElement.style.position = 'absolute';
-	stats.domElement.style.bottom	= '0px';
-	container.appendChild( stats.domElement );
 }
 
 // ## Animate and Display the Scene
