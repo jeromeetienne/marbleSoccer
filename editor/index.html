@@ -105,7 +105,9 @@
 
 				// grid
 
-				plane = new THREE.Mesh( new THREE.PlaneGeometry( 1000, 1000, 20, 20 ), new THREE.MeshBasicMaterial( { color: 0x555555, wireframe: true } ) );
+				var planeW	= 50;
+				var planeH	= 50;
+				plane = new THREE.Mesh( new THREE.PlaneGeometry( planeW*50, planeH*50, planeW, planeH ), new THREE.MeshBasicMaterial( { color: 0x555555, wireframe: true } ) );
 				plane.rotation.x = - 90 * Math.PI / 180;
 				scene.addObject( plane );
 
@@ -118,6 +120,8 @@
 				scene.addLight( ambientLight );
 
 				var directionalLight = new THREE.DirectionalLight( 0xffffff );
+				// TODO WHATA ??? why is this random ?
+				// get it away
 				directionalLight.position.x = Math.random() - 0.5;
 				directionalLight.position.y = Math.random() - 0.5;
 				directionalLight.position.z = Math.random() - 0.5;
