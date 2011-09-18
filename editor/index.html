@@ -39,7 +39,7 @@
 			var projector, plane, cube;
 			var mouse2D, mouse3D, ray,
 			rollOveredFace, isShiftDown = false,
-			theta = 45, isAltDown = false;
+			theta = 45, isAltDown = false, isMouseDown = false;
 			var cubeColors	= [
 				new THREE.Color().setRGB(1, 0, 0),
 				new THREE.Color().setRGB(0, 1, 0),
@@ -120,19 +120,7 @@
 				scene.addLight( ambientLight );
 
 				var directionalLight = new THREE.DirectionalLight( 0xffffff );
-				// TODO WHATA ??? why is this random ?
-				// get it away
-				directionalLight.position.x = Math.random() - 0.5;
-				directionalLight.position.y = Math.random() - 0.5;
-				directionalLight.position.z = Math.random() - 0.5;
-				directionalLight.position.normalize();
-				scene.addLight( directionalLight );
-
-				var directionalLight = new THREE.DirectionalLight( 0x808080 );
-				directionalLight.position.x = Math.random() - 0.5;
-				directionalLight.position.y = Math.random() - 0.5;
-				directionalLight.position.z = Math.random() - 0.5;
-				directionalLight.position.normalize();
+				directionalLight.position.set(1,1,1).normalize();
 				scene.addLight( directionalLight );
 
 				renderer = new THREE.WebGLRenderer({
@@ -152,6 +140,7 @@
 
 				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 				document.addEventListener( 'mousedown', onDocumentMouseDown, false );
+				document.addEventListener( 'mouseup', onDocumentMouseUp, false );
 				document.addEventListener( 'keydown', onDocumentKeyDown, false );
 				document.addEventListener( 'keyup', onDocumentKeyUp, false );
 				document.addEventListener( 'drop', onDrop, false);
@@ -208,19 +197,13 @@
 				voxelPosition.z = Math.floor( voxelPosition.z / 50 ) * 50 + 25;
 
 			}
-
-			function onDocumentMouseMove( event ) {
-
-				event.preventDefault();
-
-				mouse2D.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-				mouse2D.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-
-			}
-
-			function onDocumentMouseDown( event ) {
-
-				event.preventDefault();
+			
+			var lastPutDelDate	= Date.now();
+			function putDelVoxel(){
+				
+				// rate limiter for the painting
+				if( Date.now() - lastPutDelDate < 0.3 * 1000 )	return;
+				lastPutDelDate	= Date.now();
 
 				var intersects = ray.intersectScene( scene );
 
@@ -254,6 +237,34 @@
 					}
 
 				}
+				
+			}
+
+			function onDocumentMouseMove( event ) {
+
+				event.preventDefault();
+
+				mouse2D.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+				mouse2D.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+				if( isMouseDown )	putDelVoxel();
+
+			}
+
+			function onDocumentMouseDown( event ) {
+
+				event.preventDefault();
+				
+				isMouseDown	= true;
+				
+				putDelVoxel();
+
+			}
+
+			function onDocumentMouseUp( event ) {
+
+				isMouseDown	= false;
+
 			}
 			
 			function setCubeType(type) {
