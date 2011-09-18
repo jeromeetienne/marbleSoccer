@@ -39,7 +39,7 @@
 			var projector, plane, cube;
 			var mouse2D, mouse3D, ray,
 			rollOveredFace, isShiftDown = false,
-			theta = 45, isAltDown = false, isMouseDown = false;
+			theta = 45, isAltDown = false, isCtrlDown = false;
 			var cubeColors	= [
 				new THREE.Color().setRGB(1, 0, 0),
 				new THREE.Color().setRGB(0, 1, 0),
@@ -72,14 +72,50 @@
 				info.style.width = '100%';
 				info.style.textAlign = 'center';
 				info.style['z-index'] = '1';
-				info.innerHTML = '<a href="http://github.com/mrdoob/three.js" target="_blank">three.js</a> - voxel painter - webgl<br /><strong>click</strong>: add voxel, <strong>alt + click</strong>: remove voxel, <strong>shift + click</strong>: rotate<br/><strong>0 to 9 keys</strong>: change color, <strong>drop json</strong>: load map file, <a href="javascript:savePNG();">save .png</a>, <a href="javascript:saveJSON();">save .json</a>, current color: <div id="currentColor"></div>';
+				info.innerHTML = '<a href="http://github.com/mrdoob/three.js" target="_blank">three.js</a> - voxel painter - webgl'+
+					'<br /><strong>ctrl</strong>: add voxel, <strong>alt</strong>: remove voxel, <strong>ASD keys + click</strong>: Camera move'+
+					'<br/><strong>0 to 9 keys</strong>: change color, <strong>drop json</strong>: load map file, <a href="javascript:savePNG();">save .png</a>, <a href="javascript:saveJSON();">save .json</a>, current color: <div id="currentColor"></div>';
 				container.appendChild( info );
 
-				camera = new THREE.Camera( 30, window.innerWidth / window.innerHeight, 1, 10000 );
+				renderer = new THREE.WebGLRenderer({
+					antialias		: true,
+					preserveDrawingBuffer	: true
+				});
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				container.appendChild( renderer.domElement );
+
+				camera = new THREE.Camera( 60, window.innerWidth / window.innerHeight, 1, 10000 );
 				camera.position.y = 800;
 				camera.target.position.y = 200;
 
+				camera = new THREE.TrackballCamera({
+				
+					fov: 25,
+					aspect: window.innerWidth / window.innerHeight,
+					near: 50,
+					far: 1e7,
+		
+					rotateSpeed: 0.1,
+					zoomSpeed: 1.2,
+					panSpeed: 0.2,
+		
+					noZoom: false,
+					noPan: false,
+		
+					staticMoving: false,
+					dynamicDampingFactor: 0.3,
+		
+					keys: [ 'A'.charCodeAt(0), 'S'.charCodeAt(0), 'D'.charCodeAt(0) ], // [ rotateKey, zoomKey, panKey ],
+		
+					domElement: renderer.domElement,
+		
+				});
+				camera.position.y = 800;
+				camera.position.z = 800;
+
 				scene = new THREE.Scene();
+
+				THREEx.WindowResize(renderer, camera);
 
 				// roll-over helpers
 
@@ -123,15 +159,6 @@
 				directionalLight.position.set(1,1,1).normalize();
 				scene.addLight( directionalLight );
 
-				renderer = new THREE.WebGLRenderer({
-					antialias		: true,
-					preserveDrawingBuffer	: true
-				});
-				renderer.setSize( window.innerWidth, window.innerHeight );
-
-				container.appendChild( renderer.domElement );
-
-				THREEx.WindowResize(renderer, camera);
 
 				stats = new Stats();
 				stats.domElement.style.position = 'absolute';
@@ -139,8 +166,6 @@
 				container.appendChild( stats.domElement );
 
 				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-				document.addEventListener( 'mousedown', onDocumentMouseDown, false );
-				document.addEventListener( 'mouseup', onDocumentMouseUp, false );
 				document.addEventListener( 'keydown', onDocumentKeyDown, false );
 				document.addEventListener( 'keyup', onDocumentKeyUp, false );
 				document.addEventListener( 'drop', onDrop, false);
@@ -201,8 +226,10 @@
 			var lastPutDelDate	= Date.now();
 			function putDelVoxel(){
 				
+				if( !isAltDown && !isCtrlDown )	return;
+				
 				// rate limiter for the painting
-				if( Date.now() - lastPutDelDate < 0.3 * 1000 )	return;
+				if( Date.now() - lastPutDelDate < 0.5 * 1000 )	return;
 				lastPutDelDate	= Date.now();
 
 				var intersects = ray.intersectScene( scene );
@@ -223,7 +250,7 @@
 
 					// create cube
 
-					} else {
+					} else if( isCtrlDown ){
 
 						intersector = getRealIntersector( intersects );
 						setVoxelPosition( intersector );
@@ -242,28 +269,10 @@
 
 			function onDocumentMouseMove( event ) {
 
-				event.preventDefault();
+				//event.preventDefault();
 
 				mouse2D.x = ( event.clientX / window.innerWidth ) * 2 - 1;
 				mouse2D.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-
-				if( isMouseDown )	putDelVoxel();
-
-			}
-
-			function onDocumentMouseDown( event ) {
-
-				event.preventDefault();
-				
-				isMouseDown	= true;
-				
-				putDelVoxel();
-
-			}
-
-			function onDocumentMouseUp( event ) {
-
-				isMouseDown	= false;
 
 			}
 			
@@ -272,6 +281,27 @@
 				cubeType = type;
 
 				document.getElementById("currentColor").style.backgroundColor	= cubeColors[cubeType].getContextStyle();
+
+			}
+			
+			function translateCubes(dx, dy, dz){
+console.log("translateCubes", dx, dy, dz)
+				var children	= scene.children;
+				var voxels	= [];
+
+				for( var i = 0; i < children.length; i++ ) {
+					var child	= children[i];
+
+					if( child instanceof THREE.Mesh === false )			continue;
+					if( child.geometry instanceof THREE.CubeGeometry === false )	continue;
+					if( child === rollOverMesh )					continue;
+
+					child.position.x	+= dx * 50;
+					child.position.y	+= dy * 50;
+					child.position.z	+= dz * 50;
+
+					child.updateMatrix();
+				}
 
 			}
 			
@@ -335,10 +365,10 @@
 			}
 
 			function onDocumentKeyDown( event ) {
-
+				
 				switch( event.keyCode ) {
 
-					case 16: isShiftDown = true; break;
+					case 17: isCtrlDown = true; break;
 					case 18: isAltDown = true; break;
 
 					case '0'.charCodeAt(0): setCubeType(0);	break;
@@ -351,6 +381,9 @@
 					case '7'.charCodeAt(0): setCubeType(7);	break;
 					case '8'.charCodeAt(0): setCubeType(8);	break;
 					case '9'.charCodeAt(0): setCubeType(9);	break;
+					
+					case 'I'.charCodeAt(0): translateCubes(0, +1, 0);	break;
+					case 'K'.charCodeAt(0): translateCubes(0, -1, 0);	break;
 
 				}
 
@@ -360,7 +393,7 @@
 
 				switch( event.keyCode ) {
 
-					case 16: isShiftDown = false; break;
+					case 17: isCtrlDown = false; break;
 					case 18: isAltDown = false; break;
 
 				}
@@ -385,12 +418,9 @@
 
 			function render() {
 
-				if ( isShiftDown ) {
-
-					theta += mouse2D.x * 3;
-
-				}
-
+				putDelVoxel();
+				
+				// handle rollOverMesh
 				mouse3D = projector.unprojectVector( mouse2D.clone(), camera );
 				ray.direction = mouse3D.subSelf( camera.position ).normalize();
 
@@ -407,9 +437,6 @@
 					}
 
 				}
-
-				camera.position.x = 1400 * Math.sin( theta * Math.PI / 360 );
-				camera.position.z = 1400 * Math.cos( theta * Math.PI / 360 );
 
 				renderer.render( scene, camera );
 
