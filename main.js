@@ -79,6 +79,8 @@ function animate() {
 // ## Render the 3D Scene
 function render() {
 
+	physicsWorld.update();
+
 	// world .tick()
 	world.tick();
 	
