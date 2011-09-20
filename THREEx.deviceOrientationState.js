@@ -34,19 +34,19 @@ THREEx.DeviceOrientationState.prototype._onDeviceOrientation	= function(event)
 
 THREEx.DeviceOrientationState.prototype.alpha	= function()
 {
-	if( this._state.alpha === undefined )	return 0;
+	if( !this._state.alpha )	return 0;
 	return this._state.alpha * Math.PI / 180;
 }
 
 THREEx.DeviceOrientationState.prototype.angleX	= function()
 {
-	if( this._state.beta === undefined )	return 0;
+	if( !this._state.beta )		return 0;
 	return this._state.beta * Math.PI / 180;
 }
 
 THREEx.DeviceOrientationState.prototype.angleZ	= function()
 {
-	if( this._state.gamma === undefined )	return 0;
+	if( !this._state.gamma )	return 0;
 	return this._state.gamma * Math.PI / 180;
 }
 
