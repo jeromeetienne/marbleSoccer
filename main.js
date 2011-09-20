@@ -7,6 +7,7 @@
 var startTime	= Date.now();
 var container;
 var keyboard, devOrientation, world;
+var physicsWorld;
 var camera, scene, renderer, stats;
 var skyboxMesh;
 
@@ -55,6 +56,8 @@ function init() {
 	directionalLight.position.set( 0, 0, 1 ).normalize();
 	scene.addLight( directionalLight );
 	
+	physicsWorld	= new MarblePhysics.World();
+
 	world	= new Marble.World({
 		scene	: scene
 	});
