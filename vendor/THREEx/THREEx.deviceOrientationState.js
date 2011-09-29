@@ -1,5 +1,5 @@
 /** @namespace */
-var THREEx	= THREEx 		|| {};
+var THREEx	= THREEx || {};
 
 THREEx.DeviceOrientationState	= function()
 {
