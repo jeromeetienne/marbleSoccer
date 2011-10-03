@@ -46,12 +46,10 @@ function init() {
 	stats.domElement.style.bottom	= '0px';
 	container.appendChild( stats.domElement );
 
-	// init THREEx.Microphysics
-	microphysics	= new THREEx.Microphysics().start();
 
 	// create the Scene
 	scene = new THREE.Scene();
-	
+
 	var ambient	= new THREE.AmbientLight( 0xFFFFFF );
 	scene.addLight( ambient );
 
@@ -59,6 +57,27 @@ function init() {
 	directionalLight.position.set( 0, 0, 1 ).normalize();
 	scene.addLight( directionalLight );
 	
+	// init THREEx.Microphysics
+	microphysics	= new THREEx.Microphysics().start();
+	// add gravity in microphysics
+	microphysics.world().add(new vphy.LinearAccelerator({
+		x	: 0, 
+		y	: -9.8  * Marble.tileSize,
+		z	: 0
+	}));
+
+if( true ){
+	// outter cube - testin microphysics.js
+	var geometry	= new THREE.CubeGeometry(1200,80,2500, 10, 10, 10);
+	var material	= [new THREE.MeshBasicMaterial( { color: 0xffaa00, wireframe: true } ),new THREE.MeshNormalMaterial()];
+	var mesh	= new THREE.Mesh(geometry, material);
+	mesh.position.y	= -40;
+	scene.addChild(mesh);
+	microphysics.addMesh(mesh, {
+		restitution	: 1.0
+	});
+}
+
 	world	= new Marble.World({
 		scene	: scene
 	});
@@ -67,7 +86,7 @@ function init() {
 }
 
 // ## Animate and Display the Scene
-function animate() {
+function animate(){
 	// render the 3D scene
 	render();
 	// relaunch the 'timer' 
@@ -75,7 +94,6 @@ function animate() {
 	// update the stats
 	stats.update();
 }
-
 
 // ## Render the 3D Scene
 function render() {

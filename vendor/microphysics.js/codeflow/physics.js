@@ -421,6 +421,7 @@
                         width: 1, height: 1, depth: 1,
                     },
                 }, args);
+console.log("aabox", JSON.stringify(params));
                 this.size = params.size;
                 this.init(params);
             },
@@ -484,6 +485,7 @@
                     radius: 1,
                 }, args);
                 this.radius = params.radius;
+console.log("sphere", JSON.stringify(params));
                 this.init(params);
             },
             computeMass: function(){

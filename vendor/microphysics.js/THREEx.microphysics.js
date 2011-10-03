@@ -32,8 +32,10 @@ THREEx.Microphysics.prototype.update	= function(scene)
 		if( typeof mesh === THREE.Mesh )	return;
 		if( ! mesh._vphyBody )			return;
 
+
 		var body	= mesh._vphyBody;
 		var bodyPosition= body.getPosition(actualTime);
+//console.log("bodyPosition", bodyPosition)
 		mesh.position.x	= bodyPosition[0];
 		mesh.position.y	= bodyPosition[1];
 		mesh.position.z	= bodyPosition[2];
@@ -43,9 +45,10 @@ THREEx.Microphysics.prototype.update	= function(scene)
 
 THREEx.Microphysics.prototype.addMesh	= function(mesh, opts)
 {
-	if( mesh.geometry instanceof THREE.SphereGeometry ){
+	var geometry	= opts.geometry	|| mesh.geometry;
+	if( geometry instanceof THREE.SphereGeometry ){
 		return this._addSphere( mesh, opts );
-	}else if( mesh.geometry instanceof THREE.CubeGeometry ){
+	}else if( geometry instanceof THREE.CubeGeometry ){
 		return this._addCube( mesh, opts );
 	}else	console.assert(false);
 	return this;
@@ -53,18 +56,20 @@ THREEx.Microphysics.prototype.addMesh	= function(mesh, opts)
 
 THREEx.Microphysics.prototype._addCube	= function(mesh, opts)
 {
-	console.assert( mesh.geometry instanceof THREE.CubeGeometry );
 	opts		= opts	|| {};
+	var geometry	= opts.geometry		|| mesh.geometry;
 	var restitution	= opts.restitution	? opts.restitution	: 0.6;
 	var flipped	= 'flipped' in opts	? opts.flipped		: false;
-	var bodyClass	= flipped ? vphy.AABB : vphy.AABox;
+	var bodyClass	= flipped 		? vphy.AABB : vphy.AABox;
 
-	mesh.geometry.computeBoundingBox();
+	console.assert( geometry instanceof THREE.CubeGeometry );
+
+	geometry.computeBoundingBox();
 	mesh._vphyBody	= new bodyClass({
 		size	: {
-			width	: mesh.geometry.boundingBox.x[1] - mesh.geometry.boundingBox.x[0],
-			height	: mesh.geometry.boundingBox.y[1] - mesh.geometry.boundingBox.y[0],
-			depth	: mesh.geometry.boundingBox.z[1] - mesh.geometry.boundingBox.z[0]
+			width	: geometry.boundingBox.x[1] - geometry.boundingBox.x[0],
+			height	: geometry.boundingBox.y[1] - geometry.boundingBox.y[0],
+			depth	: geometry.boundingBox.z[1] - geometry.boundingBox.z[0]
 		},
 		x		: mesh.position.x,
 		y		: mesh.position.y,
@@ -78,20 +83,20 @@ THREEx.Microphysics.prototype._addCube	= function(mesh, opts)
 
 THREEx.Microphysics.prototype._addSphere	= function(mesh, opts)
 {
-	console.assert( mesh.geometry instanceof THREE.SphereGeometry );
-
-	opts		= opts	|| {};
+	opts		= opts			|| {};
+	var geometry	= opts.geometry		|| mesh.geometry;
 	var restitution	= opts.restitution	? opts.restitution	: 0.6;
 
-	mesh.geometry.computeBoundingBox();
+	console.assert( geometry instanceof THREE.SphereGeometry );
+
+	geometry.computeBoundingBox();
 	mesh._vphyBody	= new vphy.Sphere({
 		restitution	: restitution,
-		radius		: (mesh.geometry.boundingBox.x[1] - mesh.geometry.boundingBox.x[0])/2,
+		radius		: (geometry.boundingBox.x[1] - geometry.boundingBox.x[0])/2,
 		x		: mesh.position.x,
 		y		: mesh.position.y,
 		z		: mesh.position.z
 	});
-	
 	this._world.add(mesh._vphyBody);
 
 	return this;
