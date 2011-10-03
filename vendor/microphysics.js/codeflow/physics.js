@@ -125,6 +125,14 @@
             this.py = this.y - y;
             this.pz = this.z - z;
         },
+        // jme- added
+        getVelocity: function(x, y, z){
+            return {
+                x   : this.x - this.px,
+                y   : this.y - this.py,
+                z   : this.z - this.pz
+            };
+        },
         getPosition: function(){
             var u = this.world.u;
             return [
