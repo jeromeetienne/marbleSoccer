@@ -56,8 +56,6 @@ function init() {
 	directionalLight.position.set( 0, 0, 1 ).normalize();
 	scene.addLight( directionalLight );
 	
-	physicsWorld	= new MarblePhysics.World();
-
 	world	= new Marble.World({
 		scene	: scene
 	});
@@ -78,8 +76,6 @@ function animate() {
 
 // ## Render the 3D Scene
 function render() {
-
-	physicsWorld.update();
 
 	// world .tick()
 	world.tick();

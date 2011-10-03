@@ -1,4 +1,0 @@
-/**
- * @namespace
-*/
-var MarblePhysics	= {};
