@@ -7,7 +7,7 @@
 var startTime	= Date.now();
 var container;
 var keyboard, devOrientation, world;
-var physicsWorld;
+var microphysics;
 var camera, scene, renderer, stats;
 var skyboxMesh;
 
@@ -46,6 +46,9 @@ function init() {
 	stats.domElement.style.bottom	= '0px';
 	container.appendChild( stats.domElement );
 
+	// init THREEx.Microphysics
+	microphysics	= new THREEx.Microphysics().start();
+
 	// create the Scene
 	scene = new THREE.Scene();
 	
@@ -76,6 +79,9 @@ function animate() {
 
 // ## Render the 3D Scene
 function render() {
+
+	// update THREEx.Microphysics
+	microphysics.update(scene);
 
 	// world .tick()
 	world.tick();
