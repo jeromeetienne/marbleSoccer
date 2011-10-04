@@ -46,7 +46,6 @@ function init() {
 	stats.domElement.style.bottom	= '0px';
 	container.appendChild( stats.domElement );
 
-
 	// create the Scene
 	scene = new THREE.Scene();
 
@@ -59,26 +58,8 @@ function init() {
 	
 	// init THREEx.Microphysics
 	microphysics	= new THREEx.Microphysics().start();
-	// add gravity in microphysics
-	microphysics.world().add(new vphy.LinearAccelerator({
-		x	: 0, 
-		y	: -9.8  * Marble.tileSize,
-		z	: 0
-	}));
 
-if( true ){
-	// outter cube - testin microphysics.js
-	var geometry	= new THREE.CubeGeometry(1200,80,2500, 10, 10, 10);
-	var material	= [new THREE.MeshBasicMaterial( { color: 0xffaa00, wireframe: true } ),new THREE.MeshNormalMaterial()];
-	var mesh	= new THREE.Mesh(geometry, material);
-	mesh.position.y	= -40;
-	scene.addChild(mesh);
-	microphysics.addMesh(mesh, {
-		restitution	: 1.0
-	});
-}
-
-	world	= new Marble.World({
+	world		= new Marble.World({
 		scene	: scene
 	});
 
