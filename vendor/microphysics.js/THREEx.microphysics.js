@@ -37,7 +37,7 @@ THREEx.Microphysics.prototype.update	= function(scene)
 		mesh.position.x	= bodyPosition[0];
 		mesh.position.y	= bodyPosition[1];
 		mesh.position.z	= bodyPosition[2];
-// still this bug i dont get.
+
 if( body instanceof vphy.AABox ){
 	mesh.position.y	+= body.size.height/2;
 }
