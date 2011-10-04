@@ -125,7 +125,7 @@
             this.py = this.y - y;
             this.pz = this.z - z;
         },
-        // jme- added
+        // jme- added __doc__
         getVelocity: function(x, y, z){
             return {
                 x   : this.x - this.px,

@@ -32,19 +32,22 @@ THREEx.Microphysics.prototype.update	= function(scene)
 		if( typeof mesh === THREE.Mesh )	return;
 		if( ! mesh._vphyBody )			return;
 
-
 		var body	= mesh._vphyBody;
 		var bodyPosition= body.getPosition(actualTime);
-//console.log("bodyPosition", bodyPosition)
 		mesh.position.x	= bodyPosition[0];
 		mesh.position.y	= bodyPosition[1];
 		mesh.position.z	= bodyPosition[2];
+// still this bug i dont get.
+if( body instanceof vphy.AABox ){
+	mesh.position.y	+= body.size.height/2;
+}
 	})
 	return this;
 }
 
 THREEx.Microphysics.prototype.addMesh	= function(mesh, opts)
 {
+	opts		= opts	|| {};
 	var geometry	= opts.geometry	|| mesh.geometry;
 	if( geometry instanceof THREE.SphereGeometry ){
 		return this._addSphere( mesh, opts );
@@ -65,18 +68,21 @@ THREEx.Microphysics.prototype._addCube	= function(mesh, opts)
 	console.assert( geometry instanceof THREE.CubeGeometry );
 
 	geometry.computeBoundingBox();
+	var width	= geometry.boundingBox.x[1] - geometry.boundingBox.x[0];
+	var height	= geometry.boundingBox.y[1] - geometry.boundingBox.y[0];
+	var depth	= geometry.boundingBox.z[1] - geometry.boundingBox.z[0];
 	mesh._vphyBody	= new bodyClass({
 		size	: {
-			width	: geometry.boundingBox.x[1] - geometry.boundingBox.x[0],
-			height	: geometry.boundingBox.y[1] - geometry.boundingBox.y[0],
-			depth	: geometry.boundingBox.z[1] - geometry.boundingBox.z[0]
+			width	: width,
+			height	: height,
+			depth	: depth
 		},
 		x		: mesh.position.x,
-		y		: mesh.position.y,
+		y		: mesh.position.y-height/2,	// __doc__ this height/2 seems like a bug ?
 		z		: mesh.position.z,
 		restitution	: restitution
 	});
-	
+console.log("cube", mesh._vphyBody)
 	this._world.add(mesh._vphyBody);
 	return this;
 }
