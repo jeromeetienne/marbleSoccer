@@ -82,7 +82,7 @@ THREEx.Microphysics.prototype._addCube	= function(mesh, opts)
 		z		: mesh.position.z,
 		restitution	: restitution
 	});
-console.log("cube", mesh._vphyBody)
+//console.log("cube", mesh._vphyBody)
 	this._world.add(mesh._vphyBody);
 	return this;
 }
