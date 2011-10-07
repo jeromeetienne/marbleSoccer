@@ -1,0 +1,13 @@
+{
+	"name"		: "Marble Soccer",
+	"description"	: "Play Soccer with a Marble. It is fun and free",
+	"version"	: "1.0.0",
+	"app"		: {
+		"launch": {
+			"web_url": "http://marblesoccer.com"
+		}
+	},
+	"icons"	: {
+		"128": "smiley128.png"
+	}
+}
