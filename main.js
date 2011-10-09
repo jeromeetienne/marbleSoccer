@@ -11,6 +11,7 @@ var microphysics;
 var camera, scene, renderer, stats;
 var skyboxMesh;
 
+
 // ## bootstrap functions
 if ( ! Detector.webgl ){
 	// test if webgl is supported
