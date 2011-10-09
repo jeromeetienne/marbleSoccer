@@ -37,8 +37,9 @@ THREEx.Microphysics.prototype.update	= function(scene)
 		mesh.position.x	= bodyPosition[0];
 		mesh.position.y	= bodyPosition[1];
 		mesh.position.z	= bodyPosition[2];
-if( body instanceof vphy.AABB ){
-	mesh.position.y	+= body.height/2;
+
+if( body instanceof vphy.AABox ){
+	mesh.position.y	+= body.size.height/2;
 }
 	})
 	return this;
@@ -58,13 +59,11 @@ THREEx.Microphysics.prototype.addMesh	= function(mesh, opts)
 
 THREEx.Microphysics.prototype._addCube	= function(mesh, opts)
 {
-	console.assert( mesh.geometry instanceof THREE.CubeGeometry );
 	opts		= opts	|| {};
 	var geometry	= opts.geometry		|| mesh.geometry;
 	var restitution	= opts.restitution	? opts.restitution	: 0.6;
-
-// backward compatibility
-console.assert(opts.flipped !== true);
+	var flipped	= 'flipped' in opts	? opts.flipped		: false;
+	var bodyClass	= flipped 		? vphy.AABB : vphy.AABox;
 
 	console.assert( geometry instanceof THREE.CubeGeometry );
 
@@ -72,16 +71,18 @@ console.assert(opts.flipped !== true);
 	var width	= geometry.boundingBox.x[1] - geometry.boundingBox.x[0];
 	var height	= geometry.boundingBox.y[1] - geometry.boundingBox.y[0];
 	var depth	= geometry.boundingBox.z[1] - geometry.boundingBox.z[0];
-	mesh._vphyBody	= new vphy.AABB({
-		width		: width,
-		height		: height,
-		depth		: depth,
+	mesh._vphyBody	= new bodyClass({
+		size	: {
+			width	: width,
+			height	: height,
+			depth	: depth
+		},
 		x		: mesh.position.x,
 		y		: mesh.position.y-height/2,	// __doc__ this height/2 seems like a bug ?
 		z		: mesh.position.z,
 		restitution	: restitution
 	});
-	
+//console.log("cube", mesh._vphyBody)
 	this._world.add(mesh._vphyBody);
 	return this;
 }
