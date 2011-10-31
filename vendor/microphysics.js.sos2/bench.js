@@ -22,7 +22,7 @@ world.add(new vphy.AABB({
 
 // spheres
 var spheres	= [];
-for(var i = 0; i < 300; i++){
+for(var i = 0; i < 100; i++){
 	var sphere	= new vphy.Sphere({
 		restitution	: 1,
 		radius		: 2,
@@ -30,7 +30,7 @@ for(var i = 0; i < 300; i++){
 		y		: 50 * (Math.random()*2-1),
 		z		: 50 * (Math.random()*2-1)
 	});
-	spheres.push(sphere); 
+	spheres.push(sphere);
 
 	world.add(sphere);
 }
@@ -38,7 +38,7 @@ for(var i = 0; i < 300; i++){
 console.log("")
 var startTime	= Date.now()/1000;
 var virtualTime = Date.now()/1000;
-var nbSteps	= 20*60;
+var nbSteps	= 10*60;
 for( var i = 0; i < nbSteps; i++, virtualTime += 1/60){
 	world.step(1/60, virtualTime);	
 }

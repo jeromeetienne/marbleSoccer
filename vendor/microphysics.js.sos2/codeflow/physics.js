@@ -144,7 +144,6 @@
             this.restitution = params.restitution;
             this.hardness = params.hardness;
             this.density = params.density;
-            // __doc__ is this .mass==0 ok ? there is a param.mass || in the else
             if(params.mass == 0 || this.dynamic == false){
                 this.mass = 0;
                 this.inv_mass = 0;
@@ -246,7 +245,6 @@
     });
 
     vphy = {
-        // TODO export Class it help create custom accelerator
         types: {
             AABB            : AABB,
             SPHERE          : SPHERE,
@@ -272,13 +270,6 @@
                     }
                 }
                 return this;
-            },
-            // added __doc__
-            remove: function(obj){
-                for(var i=0; i<arguments.length; i++){
-                    var obj = arguments[i];
-                    obj.remove();
-                }
             },
             onContact: function(body1, body2){
                 this.events.trigger('contact', body1, body2);
@@ -344,7 +335,7 @@
             },
             onestep: function(delta){
                 this.time += delta;
-                this.accelerate(delta);     // __doc__ passing delta to accelerator.perform()
+                this.accelerate();
                 this.applyAcceleration(delta);
                 this.collide(false);
                 this.momentum();
@@ -373,7 +364,7 @@
                 var bodies = this.bodies;
                 var accelerators = this.accelerators;
                 for(var i=0, accelerator; accelerator=accelerators[i++];){
-                    accelerator.perform(bodies, delta); // __doc__ passing delta to perform() thus accelerator may accelerate independantly of delta 
+                    accelerator.perform(bodies);
                 }
             },
         }),

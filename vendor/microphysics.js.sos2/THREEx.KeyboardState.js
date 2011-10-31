@@ -41,9 +41,8 @@ THREEx.KeyboardState	= function()
 	this.modifiers	= {};
 	
 	// create callback to bind/unbind keyboard events
-	var self	= this;
-	this._onKeyDown	= function(event){ self._onKeyChange(event, true); };
-	this._onKeyUp	= function(event){ self._onKeyChange(event, false);};
+	this._onKeyDown	= function(event){ this._onKeyChange(event, true); }.bind(this);
+	this._onKeyUp	= function(event){ this._onKeyChange(event, false);}.bind(this);
 
 	// bind keyEvents
 	document.addEventListener("keydown", this._onKeyDown, false);
@@ -66,7 +65,6 @@ THREEx.KeyboardState.ALIAS	= {
 	'up'		: 38,
 	'right'		: 39,
 	'down'		: 40,
-	'space'		: 32,
 	'pageup'	: 33,
 	'pagedown'	: 34,
 	'tab'		: 9
