@@ -57,7 +57,6 @@
 
             var l = listeners.length;
             if(!l) return;
-
             var obj = this.obj;
             for(var i=0, listener; listener=listeners[i++];){
                 listener.apply(obj, arguments);
