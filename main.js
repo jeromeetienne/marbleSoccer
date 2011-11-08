@@ -65,6 +65,16 @@ function init() {
 	});
 
 	THREEx.WindowResize(renderer, world.camera().object());
+
+// TODO to remove - only there as experimentation
+	var soundRenderer	= new SoundRenderer();
+	soundRenderer.bind("ready", function(){
+		console.log("soundRenderer is ready");
+	});
+	soundRenderer.bind("unsupported", function(){
+		alert("soundManager2 unsupported");
+		console.assert(false);
+	});
 }
 
 // ## Animate and Display the Scene
