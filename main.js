@@ -57,8 +57,8 @@ function init() {
 	directionalLight.position.set( 0, 0, 1 ).normalize();
 	scene.addLight( directionalLight );
 	
-	//var mesh	= new THREE.Mesh( new THREE.SphereGeometry(75,50,50), new THREE.MeshNormalMaterial() );
-	//scene.addObject(mesh);	
+	var mesh	= new THREE.Mesh( new THREE.SphereGeometry(75,16,8), new THREE.MeshNormalMaterial() );
+	scene.addObject(mesh);	
 	
 	// init THREEx.Microphysics
 	microphysics	= new THREEx.Microphysics().start();
