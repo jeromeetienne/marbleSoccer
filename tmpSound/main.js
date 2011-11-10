@@ -23,8 +23,6 @@ soundTrack.bind('loaded', function(){
 
 /////////////////////////////////////////////////////
 
-this._mapVoxels	= [{x:0,y:0,z:0,t:0}, {x:-1,y:0,z:1,t:0}];
-
 /**
  * return the index of the voxel equal to (x,y,z,t). return -1 if not found
 */
@@ -92,3 +90,6 @@ function growBox(arr, x, y, z, t)
 		maxX : maxX, maxY : maxY, maxZ : maxZ
 	};
 }
+
+this._mapVoxels	= [{x:0,y:0,z:0,t:0}, {x:-1,y:0,z:1,t:0}];
+
