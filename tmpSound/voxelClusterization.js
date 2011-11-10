@@ -88,6 +88,10 @@ var mapVoxels	= [
 //	{x:-1,y:1,z:0,t:0},
 //];
 
+// TODO
+// - move this + Marble.Map.prototype._computeHeightMap	+ Marble.Map.prototype._computeBoundingBox
+//   in a voxelMap.js class
+
 console.assert( indexOf(mapVoxels, 0, 0, 0, 0) !== -1 );
 console.assert( indexOf(mapVoxels, 0, 0, 0, 1) === -1 );
 var box	= growBox(mapVoxels, 0, 0, 0, 0);
