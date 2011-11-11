@@ -30,7 +30,8 @@ function init() {
 
 	// init the WebGL renderer and append it to the Dom
 	renderer = new THREE.WebGLRenderer({
-		antialias	: true
+		antialias		: true,
+		preserveDrawingBuffer	: true 
 	});
 	renderer.setSize( window.innerWidth, window.innerHeight );
 	container.appendChild( renderer.domElement );

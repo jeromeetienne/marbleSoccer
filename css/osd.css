@@ -11,6 +11,18 @@
 	font-weight	: bolder;
 }
 
+#osdContainer .button {
+	cursor		: pointer;
+}
+#osdContainer .button img {
+	padding		: 15px;
+}
+
+#osdContainer .button img:hover {
+	background-color: #444;
+	border-radius: 0.5em;
+}
+
 #osdContainer .sidebarLeft {
 	position	: absolute;
 	top		: 10px;
