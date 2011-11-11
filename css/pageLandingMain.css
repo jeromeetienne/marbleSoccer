@@ -1,0 +1,70 @@
+#pageLandingContainer {
+	width		: 100%;
+	position	: absolute;
+	top		: 0px;
+	left		: 0;
+
+}
+
+#pageLandingContainer .pageTitle {
+	text-align	: center;
+	font-family	: arial;
+	font-weight	: bold;
+	text-shadow	: 0 0 0.2em #F88, 0 0 1em red;
+	font-size	: 400%;
+}
+
+#pageLandingContainer .pageTitle a {
+	color		: red;
+	text-decoration	: none;
+}
+
+#pageLandingContainer .jqmWindow {
+	left	: 50%;
+	top	: 50%;
+}
+
+
+#pageLandingContainer .jqmWindow h3 {
+	text-align	: center;
+}
+
+#pageLandingContainer .jqmWindow a {
+	text-decoration	: none;
+}
+
+#pageLandingContainer .jqmWindow a:hover {
+	text-decoration	: underline;
+}
+
+#pageLandingContainer .menuDialog {
+	width	: 30em;
+	height	: 22em;
+	margin	: -11em 0 0 -15em;
+}
+
+#pageLandingContainer .menuDialog div.button {
+	width		: 100%;
+	font-size	: 300%;
+	margin-top	: 0.2em;
+	border-style	: solid;
+	border-width	: 5px;
+	border-radius	: 5em;
+	text-align	: center;
+}
+
+#pageLandingContainer .menuDialog div.button:hover {
+	background	: red;
+}
+
+#pageLandingContainer .tutorialDialog {
+	width	: 20em;
+	height	: 12em;
+	margin	: -6em 0 0 -10em;
+}
+
+#pageLandingContainer .aboutDialog {
+	width	: 20em;
+	height	: 12em;
+	margin	: -6em 0 0 -10em;
+}

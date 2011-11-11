@@ -18,13 +18,12 @@ if ( ! Detector.webgl ){
 	Detector.addGetWebGLMessage();
 }else{
 	// initialiaze everything
-	init();
-	// make it move			
-	animate();	
+	//init();
+	new Marble.PageLandingMain();
 }
 
 // ## Initialize everything
-function init() {
+function init(){
 	// create the container element
 	container = document.getElementById( 'canvasContainer' );
 
@@ -68,6 +67,8 @@ function init() {
 	});
 
 	THREEx.WindowResize(renderer, world.camera().object());
+	
+	animate();
 }
 
 // ## Animate and Display the Scene

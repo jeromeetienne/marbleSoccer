@@ -1,7 +1,14 @@
 #osdContainer {
 	width		: 100%;
+	position	: absolute;
+	top		: 0px;
+	left		: 0;
+}
+
+#osdContainer .subContainer {
 	position	: relative;
 }
+
 
 #osdContainer .menuLine {
 	font-size	: 300%;
@@ -20,9 +27,9 @@
 }
 
 #osdContainer .button img:hover {
-	background-color	: #888;
-	border-radius		: 0.5em;
-	opacity			: 0.9;
+	background-color: #888;
+	border-radius	: 0.5em;
+	opacity		: 0.9;
 }
 
 #osdContainer .sidebarLeft {
@@ -49,5 +56,4 @@
 	left	: 50%;
 	top	: 50%;
 	margin	: -6em 0 0 -10em;
-
 }
