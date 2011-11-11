@@ -35,14 +35,15 @@ Marble.OsdLayer.prototype._screenshotButtonOnClick	= function()
 
 	var canvas	= renderer.domElement;
 	try {
-		var img = canvas.toDataURL('image/jpeg', 0.7).split(',')[1];
+		var url = canvas.toDataURL('image/jpeg', 0.7);
 	} catch(e) {
-		var img = canvas.toDataURL().split(',')[1];
+		var url = canvas.toDataURL();
 	}
-	
+
 	var winHtml	= jQuery('#osdContainer .screenshotWindow').html();
 	var win		= window.open();
 	win.document.write(winHtml);
+	jQuery('img', win.document).attr('src', url);
 
 	// upload to imgur using jquery/CORS
 	// https://developer.mozilla.org/En/HTTP_access_control
@@ -54,12 +55,13 @@ Marble.OsdLayer.prototype._screenshotButtonOnClick	= function()
 			// get your key here, quick and fast http://imgur.com/register/api_anon
 			key	: 'a25f210e5e6f682fb052d63b19987a56',
 			name	: 'marblesoccer-screenshot.jpg',
-			title	: 'Fun time with Marble Soccer',
-			caption	: 'Screenshot of http://marblesoccer.com',
-			image	: img
+			title	: 'Fun time with Marble Soccer http://marblesoccer.com',
+			caption	: 'Screenshot of a good game',
+			image	: url.split(',')[1]
 		},
 		dataType	: 'json'
 	}).success(function(data) {
+		console.log("result data", data)
 		win.location.href = data['upload']['links']['imgur_page'];
 	}).error(function() {
 		alert('Could not reach api.imgur.com. Sorry :(');

@@ -18,8 +18,8 @@ if ( ! Detector.webgl ){
 	Detector.addGetWebGLMessage();
 }else{
 	// initialiaze everything
-	//init();
-	new Marble.PageLandingMain();
+	init();
+	//new Marble.PageLandingMain();
 }
 
 // ## Initialize everything

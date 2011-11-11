@@ -10,6 +10,22 @@
 }
 
 
+#osdContainer .info {
+	color		: #f0f0f0;
+	text-align	: center;
+	z-index		: 1;
+	position	: absolute;
+	top		: 0px;
+	width		: 100%;
+	padding-top	: 5px;
+	font-weight	: bolder;
+} 
+
+#osdContainer .info a {
+	color: #80F0bb;
+}
+
+
 #osdContainer .menuLine {
 	font-size	: 300%;
 
