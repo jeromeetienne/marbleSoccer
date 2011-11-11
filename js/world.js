@@ -34,7 +34,7 @@ Marble.World	= function(opts)
 
 	// create all the enemies
 	this._enemies	= [];
-	for(var i = 0; i < 0; i++){
+	for(var i = 0; i < 2; i++){
 		var enemy	= new Marble.Enemy();
 		this._enemies.push( enemy );
 		scene.addObject( enemy.mesh() );		
