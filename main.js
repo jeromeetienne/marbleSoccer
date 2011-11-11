@@ -26,8 +26,7 @@ if ( ! Detector.webgl ){
 // ## Initialize everything
 function init() {
 	// create the container element
-	container = document.createElement( 'div' );
-	document.body.appendChild( container );
+	container = document.getElementById( 'canvasContainer' );
 
 	// init the WebGL renderer and append it to the Dom
 	renderer = new THREE.WebGLRenderer({

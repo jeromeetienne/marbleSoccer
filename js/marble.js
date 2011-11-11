@@ -96,7 +96,7 @@ Marble.Marble.prototype.tick	= function()
 */
 Marble.Marble.prototype._updateSphere	= function()
 {
-	var body	= this._mesh._vphyBody;
+	var body	= microphysics.body(this._mesh);
 	var speed	= body.getVelocity();
 
 	var perimeter	= 2 * Math.PI * this._radius;

@@ -1,0 +1,25 @@
+body {
+	background-color: #000000;
+	margin		: 0px;
+	overflow	: hidden;
+
+	font-family	: arial;
+	
+	-moz-user-select	: none;
+	-webkit-user-select	: none;
+}
+
+#info {
+	color		: #f0f0f0;
+	text-align	: center;
+	z-index		: 1;
+	position	: absolute;
+	top		: 0px;
+	width		: 100%;
+	padding-top	: 5px;
+	font-weight	: bolder;
+} 
+
+a {
+	color: #80F0bb;
+}

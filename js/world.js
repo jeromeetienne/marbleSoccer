@@ -17,6 +17,8 @@ Marble.World	= function(opts)
 	this._scene.addObject( this._map.mesh() );
 
 	this._camera	= new Marble.Camera();
+	
+	this._osdLayer	= new Marble.OsdLayer();
 
 	if( true ){
 		var skybox	= new Marble.Skymap();
@@ -62,6 +64,7 @@ Marble.World.prototype.player	= function(){	return this._player;	}
 Marble.World.prototype.map	= function(){	return this._map;	}
 Marble.World.prototype.camera	= function(){	return this._camera;	}
 Marble.World.prototype.sounds	= function(){	return this._sounds;	}
+Marble.World.prototype.osdLayer	= function(){	return this._osdLayer;	}
 
 Marble.World.prototype.tick	= function()
 {
@@ -70,6 +73,8 @@ Marble.World.prototype.tick	= function()
 	this._enemies.forEach(function(enemy){
 		enemy.tick();
 	});
+	
+	this._osdLayer.update();
 
 	this._map.tick();
 	this._camera.tick();

@@ -1,27 +1,6 @@
 <body>
 	<head>
-		<style type="text/css">
-			body {
-				background-color: #000000;
-				margin: 0px;
-				overflow: hidden;
-			}
-			#info {
-				color		: #f0f0f0;
-				text-align	: center;
-				z-index		: 1;
-				position	: absolute;
-				top		: 0px;
-				width		: 100%;
-				padding-top	: 5px;
-				font-weight	: bolder;
-			} 
-			a {
-				color: #80F0bb;
-			}
-		</style>
 		<script type="text/javascript">
-		
 		  var _gaq = _gaq || [];
 		  _gaq.push(['_setAccount', 'UA-4037844-20']);
 		  _gaq.push(['_trackPageview']);
@@ -30,15 +9,27 @@
 		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
 		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
 		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-		  })();
-		
+		  })();		
 		</script>
+
 		<link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/cfbcdiidnfncmcomhfnfbpcpfikjemie">
+
+		<link href="css/main.css" rel='stylesheet'/>
+		<link href="css/osd.css" rel='stylesheet'/>
 	</head>
 	<body>
 		<div id="info"><a href="http://learningthreejs.com/blog/categories/tutorial3dgame/" target="_blank">LearningThree.js</a> - Lets make a 3D Game - Use Arrow keys to move</div> 
+		<div id="canvasContainer"></div>
+		<div id="osdContainer">
+			<div class="score">
+				<span class="label">Score : </span>
+				<span class="value">999</span>
+			</div>
+		</div> 
 
 		<!-- include javascript files -->
+		<script src="vendor/jquery/jquery.min.js"></script>
+
 		<script src="vendor/three.js/build/Three.js"></script>
 		<script src="vendor/three.js/examples/js/RequestAnimationFrame.js"></script>
 		<script src="vendor/three.js/examples/js/Detector.js"></script>
@@ -58,23 +49,24 @@
 		<script src='vendor/THREEx/THREEx.deviceOrientationState.js'></script>
 
 		<script src='vendor/soundmanager2/script/soundmanager2.js'></script>
-		<script src='lib/soundmanager2Config.js'></script>
+		<script src='js/soundmanager2Config.js'></script>
 
 		<script src='../vendor/microevent.js/microevent.js'></script>
 
-		<script src="lib/core.js"></script>
-		<script src="lib/map.js"></script>
-		<script src="lib/voxel.js"></script>
-		<script src="lib/voxelMap.js"></script>
-		<script src="lib/voxelMapTest.js"></script>
-		<script src="lib/skymap.js"></script>
-		<script src="lib/marble.js"></script>
-		<script src="lib/player.js"></script>
-		<script src="lib/enemy.js"></script>
-		<script src="lib/ball.js"></script>
-		<script src="lib/camera.js"></script>
-		<script src="lib/sound.js"></script>
-		<script src="lib/world.js"></script>
+		<script src="js/core.js"></script>
+		<script src="js/map.js"></script>
+		<script src="js/voxel.js"></script>
+		<script src="js/voxelMap.js"></script>
+		<script src="js/voxelMapTest.js"></script>
+		<script src="js/skymap.js"></script>
+		<script src="js/marble.js"></script>
+		<script src="js/player.js"></script>
+		<script src="js/enemy.js"></script>
+		<script src="js/ball.js"></script>
+		<script src="js/camera.js"></script>
+		<script src="js/sound.js"></script>
+		<script src="js/world.js"></script>
+		<script src="js/osdLayer.js"></script>
 		<script src="main.js"></script>
 
 	</body>
