@@ -2,6 +2,22 @@ Marble.OsdLayer	= function()
 {
 	this._score	= 0;
 	this._scoreDirty= true;
+	
+	// bind .helpButton
+	this._$helpButtonOnClick	= this._helpButtonOnClick.bind(this);
+	jQuery("#osdContainer .helpButton").bind('click', this._$helpButtonOnClick);	
+}
+
+Marble.OsdLayer.prototype.destroy	= function()
+{
+	jQuery("#osdContainer .helpButton").unbind('click', this._$helpButtonOnClick);	
+}
+
+Marble.OsdLayer.prototype._helpButtonOnClick	= function()
+{
+	var dialogSel	= '#osdContainer .helpDialog';
+	jQuery(dialogSel).jqm();
+	jQuery(dialogSel).jqmShow();
 }
 
 Marble.OsdLayer.prototype.scoreChange	= function(delta)

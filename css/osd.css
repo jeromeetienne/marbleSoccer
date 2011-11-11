@@ -1,20 +1,33 @@
 #osdContainer {
+	position	: relative;
+}
+
+#osdContainer .menuLine {
 	font-size	: 300%;
 
 	color		: #EEE;
 	text-shadow	: 0 0 0.2em #44A, 0 0 1em #A66;
 
 	font-weight	: bolder;
-	
-	position	: absolute;
-	top		: 0px;
-	left		: 0px;
-
 }
 
-#osdContainer .score {
+#osdContainer .sidebarLeft {
 	position	: absolute;
 	top		: 10px;
 	left		: 10px;
-	width		: 30em;
+	width		: 40em;
+}
+
+#osdContainer .jqmWindow h3 {
+	text-align	: center;
+}
+
+#osdContainer .helpDialog {
+	width	: 20em;
+	height	: 12em;
+
+	left	: 50%;
+	top	: 50%;
+	margin	: -6em 0 0 -10em;
+
 }
