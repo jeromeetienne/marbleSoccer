@@ -18,19 +18,27 @@
 		<link href="css/osd.css" rel='stylesheet'/>
 	</head>
 	<body>
-		<div id="info"><a href="http://learningthreejs.com/blog/categories/tutorial3dgame/" target="_blank">
-			LearningThree.js</a> - Lets make a 3D Game
-			<br/>
-			Use Arrow keys to move - push yellow ball on red squares
-		</div> 
+		<!-- *****************************************************************************
+			canvasContainer
+		******************************************************************************** -->
 		<div id="canvasContainer"></div>
-		<div style="position: absolute; top: 0px; left: 0;">
+		<!-- *****************************************************************************
+			OsdContainer
+		******************************************************************************** -->
+		<div style="position: absolute; top: 0px; left: 0; width:100%">
 			<div id="osdContainer">
+				<div id="info"><a href="http://learningthreejs.com/blog/categories/tutorial3dgame/" target="_blank">
+					LearningThree.js</a> - Lets make a 3D Game
+					<br/>
+					Use Arrow keys to move - push yellow ball on red squares
+				</div> 
 				<div class="sidebarLeft">
 					<div class="score menuLine">
 						<span class="label">Score:</span>
 						<span class="value"></span>
 					</div>
+				</div>
+				<div class="sidebarRight">
 					<div class="menuLine button">
 						<a class="helpButton" title="Display Help"><img src="images/thenounproject/help.png" alt='Help'/></a>
 					</div>
