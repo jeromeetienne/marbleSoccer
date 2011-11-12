@@ -18,12 +18,27 @@ Marble.PageGameRound	= function()
 		this._init();	
 		this._animate();
 	}
+	
+	setTimeout(function(){
+		this.destroy();
+		new Marble.PageLandingMain();
+	}.bind(this), 5*1000)
 }
 Marble.PageGameRound.prototype.destroy	= function()
 {
 	if( this._winResize )	this._winResize.stop();
 
-	if( this._stats )	this._stats.domElement.parentNode.removeChild(stats.domElement);
+	if( this._stats )	this._stats.domElement.parentNode.removeChild(this._stats.domElement);
+
+	renderer	= null;
+
+	keyboard.destroy();
+	keyboard	= null;
+
+	devOrientation.destroy();
+	devOrientation	= null;
+
+	if( this._requestAnimId	)	cancelRequestAnimationFrame( this._requestAnimId );
 }
 
 Marble.PageGameRound.prototype._init	= function(){
@@ -48,7 +63,7 @@ Marble.PageGameRound.prototype._init	= function(){
 	this._stats	= new Stats();
 	this._stats.domElement.style.position = 'absolute';
 	this._stats.domElement.style.bottom	= '0px';
-	container.appendChild( stats.domElement );
+	container.appendChild( this._stats.domElement );
 
 	// create the Scene
 	scene = new THREE.Scene();
@@ -78,7 +93,7 @@ Marble.PageGameRound.prototype._animate	= function(){
 	// render the 3D scene
 	this._render();
 	// relaunch the 'timer' 
-	requestAnimationFrame( this._animate.bind(this) );
+	this._requestAnimId	= requestAnimationFrame( this._animate.bind(this) );
 	// update the stats
 	this._stats.update();
 }
