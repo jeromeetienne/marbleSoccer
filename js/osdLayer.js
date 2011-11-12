@@ -1,5 +1,10 @@
 Marble.OsdLayer	= function()
 {
+	this._pageSel	= '#osdContainer';
+
+	// show the page
+	jQuery(this._pageSel).show();
+
 	this._score	= 0;
 	this._scoreDirty= true;
 	
@@ -14,6 +19,8 @@ Marble.OsdLayer	= function()
 
 Marble.OsdLayer.prototype.destroy	= function()
 {
+	// hide the page
+	jQuery(this._pageSel).show();
 	// unbind .helpButton
 	jQuery("#osdContainer .helpButton").unbind('click', this._$helpButtonOnClick);	
 	// unbind .screenshotButton

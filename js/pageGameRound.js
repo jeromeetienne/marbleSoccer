@@ -21,7 +21,9 @@ Marble.PageGameRound	= function()
 }
 Marble.PageGameRound.prototype.destroy	= function()
 {
-	
+	if( this._winResize )	this._winResize.stop();
+
+	if( this._stats )	this._stats.domElement.parentNode.removeChild(stats.domElement);
 }
 
 Marble.PageGameRound.prototype._init	= function(){
@@ -38,13 +40,14 @@ Marble.PageGameRound.prototype._init	= function(){
 	
 	keyboard	= new THREEx.KeyboardState();
 	devOrientation	= new THREEx.DeviceOrientationState();
+
 	// create the renderer cache
 	renderer._microCache	= new MicroCache();
 
 	// init the Stats and append it to the Dom - performance vuemeter
-	stats	= new Stats();
-	stats.domElement.style.position = 'absolute';
-	stats.domElement.style.bottom	= '0px';
+	this._stats	= new Stats();
+	this._stats.domElement.style.position = 'absolute';
+	this._stats.domElement.style.bottom	= '0px';
 	container.appendChild( stats.domElement );
 
 	// create the Scene
@@ -67,7 +70,7 @@ Marble.PageGameRound.prototype._init	= function(){
 		scene	: scene
 	});
 
-	THREEx.WindowResize(renderer, world.camera().object());
+	this._winResize	= THREEx.WindowResize(renderer, world.camera().object());
 }
 
 // ## Animate and Display the Scene
@@ -77,7 +80,7 @@ Marble.PageGameRound.prototype._animate	= function(){
 	// relaunch the 'timer' 
 	requestAnimationFrame( this._animate.bind(this) );
 	// update the stats
-	stats.update();
+	this._stats.update();
 }
 
 // ## Render the 3D Scene
