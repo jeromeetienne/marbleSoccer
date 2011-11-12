@@ -86,7 +86,6 @@ Marble.PageLandingMain.prototype._pageGameMainDtor	= function()
 
 Marble.PageLandingMain.prototype._pageGameMainOnCompleted	= function()
 {
-	console.log("slota")
 	this._pageGameMainDtor();
 	jQuery(this._pageSel).show();
 }

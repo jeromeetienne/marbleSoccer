@@ -8,6 +8,9 @@ Marble.OsdLayer	= function()
 	this._score	= 0;
 	this._scoreDirty= true;
 	
+	this._lives	= 0;
+	this._livesDirty= true;
+	
 	// bind .helpButton
 	this._$helpButtonOnClick	= this._helpButtonOnClick.bind(this);
 	jQuery("#osdContainer .helpButton").bind('click', this._$helpButtonOnClick);	
@@ -82,10 +85,21 @@ Marble.OsdLayer.prototype.scoreChange	= function(delta)
 	this._scoreDirty= true;
 }
 
+Marble.OsdLayer.prototype.livesSet	= function(newValue)
+{
+	if( newValue === this._lives )	return;
+	this._lives	= newValue;
+	this._livesDirty= true;
+}
+
 Marble.OsdLayer.prototype.update	= function()
 {
 	if( this._scoreDirty ){
 		jQuery("#osdContainer .score .value").html(this._score);
 		this._scoreDirty	= false;
+	}
+	if( this._livesDirty ){
+		jQuery("#osdContainer .lives .value").html(this._lives);
+		this._livesDirty	= false;
 	}
 }

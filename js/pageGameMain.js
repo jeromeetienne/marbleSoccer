@@ -1,6 +1,11 @@
+var osdLayer;
+
 Marble.PageGameMain	= function()
 {
 	this._playerLives	= 3;
+
+	osdLayer	= new Marble.OsdLayer();
+	osdLayer.livesSet( this._playerLives );
 
 	this._gameRoundCtor();
 }
@@ -8,10 +13,14 @@ Marble.PageGameMain	= function()
 Marble.PageGameMain.prototype.destroy	= function()
 {
 	this._gameRoundDtor();
+
+	osdLayer	&& osdLayer.destroy();
+	osdLayer	= null;
 }
 
 // mixin MicroEvent
 MicroEvent.mixin(Marble.PageGameMain);
+
 
 //////////////////////////////////////////////////////////////////////////////////
 //		pageGameRound							//
@@ -38,16 +47,15 @@ Marble.PageGameMain.prototype._gameRoundDtor	= function()
 }
 Marble.PageGameMain.prototype._gameRoundOnCompleted	= function()
 {
-	console.log("completed", this._playerLives)
-	
-	this._gameRoundDtor();
-	
-	this._playerLives--;
+	this._gameRoundDtor();	
 
 	if( this._playerLives === 0 ){
 		this.trigger('completed');
 		return;
 	}
+
+	this._playerLives--;
+	osdLayer.livesSet( this._playerLives );
 	
 	this._gameRoundCtor();
 }

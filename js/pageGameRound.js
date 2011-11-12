@@ -18,7 +18,7 @@ Marble.PageGameRound	= function()
 	console.assert( Detector.webgl, "WebGL isnt supported" );
 
 	this._requestAnimId	= null;
-	
+
 	// initialiaze everything
 	this._init();
 	this._animate();

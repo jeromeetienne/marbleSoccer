@@ -105,7 +105,7 @@ Marble.Player.prototype._acceleratorDeviceOrientation	= function()
 
 Marble.Player.prototype.scoreChange	= function(delta)
 {
-	world.osdLayer().scoreChange(delta);
+	osdLayer.scoreChange(delta);
 }
 
 Marble.Player.prototype.tick	= function()
