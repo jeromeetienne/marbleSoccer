@@ -1,8 +1,3 @@
-// This source is the javascript needed to build a sky box in **three.js**
-// It is the source about this [blog post](/blog/2011/08/15/lets-do-a-sky/).
-
-// ## Now lets start
-
 // declare a bunch of variable we will need later
 var startTime	= Date.now();
 var container;
@@ -12,18 +7,24 @@ var camera, scene, renderer, stats;
 var skyboxMesh;
 
 
-// ## bootstrap functions
-if ( ! Detector.webgl ){
-	// test if webgl is supported
-	Detector.addGetWebGLMessage();
-}else{
-	// initialiaze everything
-	init();
-	//new Marble.PageLandingMain();
+Marble.PageGameRound	= function()
+{
+	// bootstrap functions
+	if ( ! Detector.webgl ){
+		// test if webgl is supported
+		Detector.addGetWebGLMessage();
+	}else{
+		// initialiaze everything
+		this._init();	
+		this._animate();
+	}
+}
+Marble.PageGameRound.prototype.destroy	= function()
+{
+	
 }
 
-// ## Initialize everything
-function init(){
+Marble.PageGameRound.prototype._init	= function(){
 	// create the container element
 	container = document.getElementById( 'canvasContainer' );
 
@@ -67,23 +68,20 @@ function init(){
 	});
 
 	THREEx.WindowResize(renderer, world.camera().object());
-	
-	animate();
 }
 
 // ## Animate and Display the Scene
-function animate(){
+Marble.PageGameRound.prototype._animate	= function(){
 	// render the 3D scene
-	render();
+	this._render();
 	// relaunch the 'timer' 
-	requestAnimationFrame( animate );
+	requestAnimationFrame( this._animate.bind(this) );
 	// update the stats
 	stats.update();
 }
 
 // ## Render the 3D Scene
-function render() {
-
+Marble.PageGameRound.prototype._render = function(){
 	// update THREEx.Microphysics
 	microphysics.update(scene);
 
