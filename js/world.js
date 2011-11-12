@@ -22,8 +22,7 @@ Marble.World	= function(opts)
 
 	if( true ){
 		var skybox	= new Marble.Skymap();
-		skyboxMesh	= skybox.mesh();
-		scene.addObject( skyboxMesh );
+		scene.addObject( skybox.mesh() );
 	}
 
 	this._sounds	= {};
@@ -39,6 +38,11 @@ Marble.World	= function(opts)
 		this._enemies.push( enemy );
 		scene.addObject( enemy.mesh() );		
 	}
+}
+
+Marble.World.prototype.destroy	= function()
+{
+	if( this._osdLayer )	this._osdLayer.destroy();
 }
 
 /**

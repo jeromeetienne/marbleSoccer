@@ -20,7 +20,7 @@ Marble.OsdLayer	= function()
 Marble.OsdLayer.prototype.destroy	= function()
 {
 	// hide the page
-	jQuery(this._pageSel).show();
+	jQuery(this._pageSel).hide();
 	// unbind .helpButton
 	jQuery("#osdContainer .helpButton").unbind('click', this._$helpButtonOnClick);	
 	// unbind .screenshotButton

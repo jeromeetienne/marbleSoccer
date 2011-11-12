@@ -1,34 +1,42 @@
-// declare a bunch of variable we will need later
-var startTime	= Date.now();
-var container;
-var keyboard, devOrientation, world;
+// TODO reduce the amount of global
+var keyboard, devOrientation;
+var world;
 var microphysics;
-var camera, scene, renderer, stats;
-var skyboxMesh;
+var camera, scene, renderer;
 
+//////////////////////////////////////////////////////////////////////////////////
+//		ctor/dtor							//
+//////////////////////////////////////////////////////////////////////////////////
 
 Marble.PageGameRound	= function()
 {
-	// bootstrap functions
-	if ( ! Detector.webgl ){
-		// test if webgl is supported
-		Detector.addGetWebGLMessage();
-	}else{
-		// initialiaze everything
-		this._init();	
-		this._animate();
-	}
+	this._containerSel	= '#canvasContainer';
+
+	console.log("enter PageGameRound")
+
+	// test if webgl is supported
+	console.assert( Detector.webgl, "WebGL isnt supported" );
+
+	this._requestAnimId	= null;
 	
+	// initialiaze everything
+	this._init();
+	this._animate();
+
 	setTimeout(function(){
-		this.destroy();
-		new Marble.PageLandingMain();
+		console.log("kill by timeout")
+		this.trigger('completed', 'timeout')
 	}.bind(this), 5*1000)
 }
+
 Marble.PageGameRound.prototype.destroy	= function()
 {
 	if( this._winResize )	this._winResize.stop();
 
 	if( this._stats )	this._stats.domElement.parentNode.removeChild(this._stats.domElement);
+
+	world.destroy();
+	world	= null;
 
 	renderer	= null;
 
@@ -39,17 +47,28 @@ Marble.PageGameRound.prototype.destroy	= function()
 	devOrientation	= null;
 
 	if( this._requestAnimId	)	cancelRequestAnimationFrame( this._requestAnimId );
+
+	jQuery(this._containerSel).empty();
 }
+
+// mixin MicroEvent
+MicroEvent.mixin(Marble.PageGameRound);
+
+
+//////////////////////////////////////////////////////////////////////////////////
+//		misc								//
+//////////////////////////////////////////////////////////////////////////////////
 
 Marble.PageGameRound.prototype._init	= function(){
 	// create the container element
-	container = document.getElementById( 'canvasContainer' );
+	var container = jQuery(this._containerSel).get(0);
 
 	// init the WebGL renderer and append it to the Dom
 	renderer = new THREE.WebGLRenderer({
 		antialias		: true,
 		preserveDrawingBuffer	: true 
 	});
+
 	renderer.setSize( window.innerWidth, window.innerHeight );
 	container.appendChild( renderer.domElement );
 	
