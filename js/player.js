@@ -7,6 +7,7 @@ Marble.Player	= function()
 	this.parent.init.call(this, {
 		material	: Marble.PoolBallUtils.ballMaterial('cue'),
 		position	: new THREE.Vector3(0,Marble.tileSize*2.5,0)
+		//maxSpeed	: 0.9*Marble.tileSize
 	});
 	
 	this._devOrientationEnable	= false;
@@ -28,24 +29,21 @@ Marble.Player.prototype			= new Marble.Marble();
 Marble.Player.prototype.constructor	= Marble.Marble;
 Marble.Player.prototype.parent		= Marble.Marble.prototype;
 
+// mixin MicroEvent
+MicroEvent.mixin(Marble.Player);
+
 Marble.Player.prototype.onContactVoxel	= function(voxelType)
 {
 	var body	= microphysics.body( this.mesh() );
-return;
+//return;
 // experimentation on what is possible to do with the 
-	if( voxelType === 1 ){
-		// this push the player to the left
-		var velocity	= body.getVelocity();
-		var speed	= new THREE.Vector3(velocity[0],velocity[1],velocity[2]);
-		//speed.x	+= 0.8;
-		speed.multiplyScalar(0.8)
-		body.setVelocity(speed.x, speed.y, speed.z);
-	}else if( voxelType === 0 ){
-		// this put the object in the center
-		var velocity	= body.getVelocity();
-		var speed	= new THREE.Vector3(velocity[0],velocity[1],velocity[2]);
-		speed.z -= 10;
-		body.setVelocity(speed.x, speed.y, speed.z);
+	if( voxelType === 0 ){
+		// TODO vphy.Body.setPosition
+		body.x	= body.z = 0;
+		body.y	= Marble.tileSize;
+		body.setVelocity(0,0,0);
+		world.sounds()['die'].play();
+		pageGameRound.triggerGameOver('dead');
 	}
 }
 
@@ -65,7 +63,7 @@ Marble.Player.prototype._acceleratorKeyboard	= function()
 		down	: keyboard.pressed('down')
 	};
 	var body	= this.mesh()._vphyBody;
-	var acc		= 15*Marble.tileSize;
+	var acc		= 8*Marble.tileSize;
 	if( key.right )	body.accelerate(+acc,0,0);
 	if( key.left )	body.accelerate(-acc,0,0);
 	if( key.up )	body.accelerate(0,0,-acc);

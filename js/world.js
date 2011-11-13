@@ -21,13 +21,16 @@ Marble.World	= function(opts)
 
 	this._sounds	= {};
 	this._sounds['goal']	= new Marble.Sound({
+		urls	: ['sounds/pacman/eatghost.mp3']
+	});
+	this._sounds['die']	= new Marble.Sound({
 		urls	: ['sounds/pacman/die.mp3']
 	});
 
 
 	// create all the balls
 	this._balls	= [];
-	for(var i = 0; i < 8; i++){
+	for(var i = 0; i < 1; i++){
 		var ball	= new Marble.Ball({
 			ballDesc	: String(i+1)
 		});

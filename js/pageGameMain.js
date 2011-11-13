@@ -1,4 +1,5 @@
 var osdLayer;
+var pageGameRound;
 
 Marble.PageGameMain	= function()
 {
@@ -34,6 +35,9 @@ Marble.PageGameMain.prototype._gameRoundCtor	= function()
 
 	this._$gameRoundOnCompleted	= this._gameRoundOnCompleted.bind(this);
 	this._gameRound.bind("completed", this._$gameRoundOnCompleted);
+
+	// export as a global
+	pageGameRound	= this._gameRound;
 }
 
 Marble.PageGameMain.prototype._gameRoundDtor	= function()
@@ -43,7 +47,10 @@ Marble.PageGameMain.prototype._gameRoundDtor	= function()
 	this._gameRound.unbind("completed", this._$gameRoundOnCompleted);
 
 	this._gameRound	&& this._gameRound.destroy();
-	this._gameRound	= null;	
+	this._gameRound	= null;
+	
+	// export as a global
+	pageGameRound	= this._gameRound;
 }
 Marble.PageGameMain.prototype._gameRoundOnCompleted	= function()
 {

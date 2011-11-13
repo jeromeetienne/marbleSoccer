@@ -17,7 +17,7 @@ Marble.PageLandingMain	= function()
 	jQuery(this._pageSel+" .menuDialog .button.about").bind('click'		, this._$aboutButtonClick);
 
 // go directly to pageGameMain
-this._pageGameMainCtor();
+//this._pageGameMainCtor();
 
 }
 
