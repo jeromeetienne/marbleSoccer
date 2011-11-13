@@ -74,6 +74,7 @@
 		<!-- *****************************************************************************
 			LandingContainer
 		******************************************************************************** -->
+<canvas id="test" width='256px' height='256px' style="width: 256px; height: 256px;"></canvas>
 		<div id="pageLandingContainer" style="display: none;"><div class="subContainer">
 			<div class="pageTitle">
 				<a href="http://learningthreejs.com/blog/categories/tutorial3dgame/" target='_blank'>Marble Soccer</a>
@@ -141,9 +142,11 @@
 		<script src='vendor/soundmanager2/script/soundmanager2.js'></script>
 		<script src='js/soundmanager2Config.js'></script>
 
-		<script src='../vendor/microevent.js/microevent.js'></script>
+		<script src='./vendor/microevent.js/microevent.js'></script>
+		<script src='./vendor/excanvas.js'></script>
 
 		<script src='./js/THREEx.chromeWebStoreInstall.js'></script>
+		<script src='./js/THREEx.texturePoolBall.js'></script>
 
 		<script src="js/core.js"></script>
 		<script src="js/map.js"></script>
@@ -167,6 +170,10 @@
 		<script>
 			//new Marble.PageGameRound();
 			new Marble.PageLandingMain();
+			//var canvas	= jQuery("#test").get(0);
+			//console.log("canvas", canvas)
+			//THREEx.Texture.PoolBall.textOnBack(canvas, '1');
+
 		</script>
 	</body>
 </body>

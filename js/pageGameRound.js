@@ -91,7 +91,7 @@ Marble.PageGameRound.prototype._init	= function(){
 	scene.addLight( ambient );
 
 	var directionalLight = new THREE.DirectionalLight( 0xffffff );
-	directionalLight.position.set( 0, 0, 1 ).normalize();
+	directionalLight.position.set( 1, 0, 1 ).normalize();
 	scene.addLight( directionalLight );
 	
 	var mesh	= new THREE.Mesh( new THREE.SphereGeometry(75,16,8), new THREE.MeshNormalMaterial() );

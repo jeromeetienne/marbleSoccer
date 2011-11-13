@@ -14,11 +14,20 @@ Marble.Marble.prototype.init	= function(opts)
 	this._marbleId	= opts.marbleId || "marbleId-"+Math.floor(Math.random()*9999999).toString(36);
 
 	// build this._ballMesh
-	var geometry	= new THREE.SphereGeometry(this._radius, 32, 32);
+	var geometry	= new THREE.SphereGeometry(this._radius, 32, 16);
 	var texture	= renderer._microCache.getSet('marbleSphereTexture', function(){
-		return THREE.ImageUtils.loadTexture( "images/planets/moon_1024.jpg" );
+		return THREEx.Texture.PoolBall.ballTexture("8", true, new THREE.Color(0x000000), 256);
+		//return THREEx.Texture.PoolBall.ballTexture("4", true, new THREE.Color(0xFF0000), 256);
 	});
-	var material	= new THREE.MeshLambertMaterial( { color: color, map: texture } );
+	var material	= new THREE.MeshPhongMaterial( { color: color, map: texture } );
+	var material	= new THREE.MeshPhongMaterial( {
+		ambient: 0x444444,
+		color: color,
+		map: texture,
+		specular: 0x009900,
+		shininess: 10,
+		shading: THREE.SmoothShading
+	} );
 	this._ballMesh	= new THREE.Mesh(geometry, material);
 	this._ballMesh.position.y	= this._radius;
 	this._ballMesh.matrixAutoUpdate = false;
