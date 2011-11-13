@@ -5,7 +5,6 @@ Marble.Enemy	= function()
 	// call parent class constructor
 	this.parent.constructor.call(this)
 	this.parent.init.call(this, {
-		color	: 0x6666AA,
 		position: new THREE.Vector3(75+Math.random()*100, Math.random()*100, 75+Math.random()*100)
 	});
 

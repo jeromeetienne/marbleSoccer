@@ -5,9 +5,8 @@ Marble.Player	= function()
 	// call parent class constructor
 	this.parent.constructor.call(this);
 	this.parent.init.call(this, {
-		color	: 0xAAAAAA,
-		//maxSpeed: 1.2*Marble.tileSize,
-		position: new THREE.Vector3(0,Marble.tileSize*2.5,0)
+		material	: Marble.PoolBallUtils.ballMaterial('cue'),
+		position	: new THREE.Vector3(0,Marble.tileSize*2.5,0)
 	});
 	
 	this._devOrientationEnable	= false;

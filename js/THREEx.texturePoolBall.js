@@ -20,8 +20,6 @@ THREEx.Texture.PoolBall	= {
 		var w		= canvas.width;
 		var h		= canvas.height;
 		
-		
-		console.log("textData", textData)
 		// base color is white
 		ctx.save();
 		ctx.fillStyle	= "#FFFFFF";

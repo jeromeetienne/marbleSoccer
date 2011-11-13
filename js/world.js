@@ -9,10 +9,6 @@ Marble.World	= function(opts)
 	this._player	= new Marble.Player();
 	this._scene.addObject( this._player.mesh() );
 
-	// create the ball
-	this._ball	= new Marble.Ball();
-	this._scene.addObject( this._ball.mesh() );
-
 	this._map	= new Marble.Map();
 	this._scene.addObject( this._map.mesh() );
 
@@ -29,9 +25,19 @@ Marble.World	= function(opts)
 	});
 
 
+	// create all the balls
+	this._balls	= [];
+	for(var i = 0; i < 8; i++){
+		var ball	= new Marble.Ball({
+			ballDesc	: String(i+1)
+		});
+		this._balls.push( ball );
+		scene.addObject( ball.mesh() );		
+	}
+
 	// create all the enemies
 	this._enemies	= [];
-	for(var i = 0; i < 2; i++){
+	for(var i = 0; i < 0; i++){
 		var enemy	= new Marble.Enemy();
 		this._enemies.push( enemy );
 		scene.addObject( enemy.mesh() );		
@@ -49,8 +55,11 @@ Marble.World.prototype.onContactMarbleVoxel	= function(marbleId, voxelType)
 {
 	// handle player
 	if( this._player.marbleId() === marbleId )	return this._player.onContactVoxel(voxelType);
-	// handle ball
-	if( this._ball.marbleId() === marbleId )	return this._ball.onContactVoxel(voxelType);
+	// handle this._balls
+	for( var i = 0; i < this._balls.length; i++ ){
+		var ball	= this._balls[i];
+		if( ball.marbleId() === marbleId )	return ball.onContactVoxel(voxelType);
+	}
 	// handle this._enemies
 	for( var i = 0; i < this._enemies.length; i++ ){
 		var enemy	= this._enemies[i];
@@ -69,7 +78,9 @@ Marble.World.prototype.sounds	= function(){	return this._sounds;	}
 Marble.World.prototype.tick	= function()
 {
 	this._player.tick();
-	this._ball.tick();
+	this._balls.forEach(function(ball){
+		ball.tick();
+	});
 	this._enemies.forEach(function(enemy){
 		enemy.tick();
 	});

@@ -87,11 +87,15 @@ Marble.PageGameRound.prototype._init	= function(){
 	// create the Scene
 	scene = new THREE.Scene();
 
-	var ambient	= new THREE.AmbientLight( 0xFFFFFF );
+	var ambient	= new THREE.AmbientLight( 0xAAAAAA );
 	scene.addLight( ambient );
 
-	var directionalLight = new THREE.DirectionalLight( 0xffffff );
-	directionalLight.position.set( 1, 0, 1 ).normalize();
+	var directionalLight = new THREE.DirectionalLight( 0xcccccc );
+	directionalLight.position.set( 10, 10, 5 ).normalize();
+	scene.addLight( directionalLight );
+
+	var directionalLight = new THREE.DirectionalLight( 0x880000 );
+	directionalLight.position.set( -1, 0, 1 ).normalize();
 	scene.addLight( directionalLight );
 	
 	var mesh	= new THREE.Mesh( new THREE.SphereGeometry(75,16,8), new THREE.MeshNormalMaterial() );

@@ -13,7 +13,7 @@ THREEx.ChromeWebStoreInstall	= THREEx.ChromeWebStoreInstall	|| {};
 
 THREEx.ChromeWebStoreInstall.apiAvailable	= function()
 {
-	var available	= chrome && chrome.webstore && chrome.webstore.install;
+	var available	= typeof chrome !== 'undefined' && chrome.webstore && chrome.webstore.install;
 	return available ? true : false;
 }
 

@@ -6,28 +6,15 @@ Marble.Marble.prototype.init	= function(opts)
 {
 	// get parameters from opts
 	opts		= opts	|| {};
-	var color	= 'color' in opts	? opts.color	: 0xFF69B4;
 	this._radius	= 'radius' in opts	? opts.radius	: Marble.tileSize/2;
 	this._maxSpeed	= 'maxSpeed' in opts	? opts.maxSpeed	: 0.2*Marble.tileSize;
 	var position	= opts.position		? opts.position	: new THREE.Vector3();
 	var friction	= 'friction' in opts	? opts.friction	: 0.985;
-	this._marbleId	= opts.marbleId || "marbleId-"+Math.floor(Math.random()*9999999).toString(36);
+	this._marbleId	= opts.marbleId 	|| "marbleId-"+Math.floor(Math.random()*9999999).toString(36);
+	var material	= opts.material		|| Marble.PoolBallUtils.ballMaterial("8");
 
 	// build this._ballMesh
 	var geometry	= new THREE.SphereGeometry(this._radius, 32, 16);
-	var texture	= renderer._microCache.getSet('marbleSphereTexture', function(){
-		return THREEx.Texture.PoolBall.ballTexture("8", true, new THREE.Color(0x000000), 256);
-		//return THREEx.Texture.PoolBall.ballTexture("4", true, new THREE.Color(0xFF0000), 256);
-	});
-	var material	= new THREE.MeshPhongMaterial( { color: color, map: texture } );
-	var material	= new THREE.MeshPhongMaterial( {
-		ambient: 0x444444,
-		color: color,
-		map: texture,
-		specular: 0x009900,
-		shininess: 10,
-		shading: THREE.SmoothShading
-	} );
 	this._ballMesh	= new THREE.Mesh(geometry, material);
 	this._ballMesh.position.y	= this._radius;
 	this._ballMesh.matrixAutoUpdate = false;

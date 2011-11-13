@@ -16,9 +16,9 @@ Marble.PageLandingMain	= function()
 	jQuery(this._pageSel+" .menuDialog .button.tutorial").bind('click'	, this._$tutorialButtonClick);
 	jQuery(this._pageSel+" .menuDialog .button.about").bind('click'		, this._$aboutButtonClick);
 
-jQuery(function(){
-	console.log("chrome", chrome, chrome.webstore, chrome.webstore.install, chrome.app.isInstalled)
-});
+// go directly to pageGameMain
+this._pageGameMainCtor();
+
 }
 
 Marble.PageLandingMain.prototype.destroy	= function()

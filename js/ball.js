@@ -1,14 +1,15 @@
 /**
 */
-Marble.Ball	= function()
+Marble.Ball	= function(opts)
 {
+	var ballDesc	= opts.ballDesc	|| "8";
+
 	// call parent class constructor
 	this.parent.constructor.call(this)
 	this.parent.init.call(this, {
-		color	: 0xFFAA00,
-		//radius	: 2*Marble.tileSize/3,
-		//radius	: 2*Marble.tileSize,
-		position: new THREE.Vector3(75+Math.random()*100, Marble.tileSize, 75+Math.random()*100)
+		color		: 0xFFAA00,
+		material	: Marble.PoolBallUtils.ballMaterial(ballDesc),
+		position	: new THREE.Vector3(75+Math.random()*100, Marble.tileSize, 75+Math.random()*100)
 	});
 }
 
@@ -25,7 +26,7 @@ Marble.Ball.prototype.onContactVoxel	= function(voxelType)
 		body.x	= body.z = 0;
 		body.y	= Marble.tileSize;
 		body.setVelocity(0,0,0);
-		
+
 		world.player().scoreChange(20);
 		world.sounds()['goal'].play();
 	}
