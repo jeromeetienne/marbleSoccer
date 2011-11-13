@@ -19,6 +19,7 @@ Marble.World	= function(opts)
 		scene.addObject( skybox.mesh() );
 	}
 
+// TODO sound should be at pageGameMain level
 	this._sounds	= {};
 	this._sounds['goal']	= new Marble.Sound({
 		urls	: ['sounds/pacman/eatghost.mp3']
@@ -30,7 +31,7 @@ Marble.World	= function(opts)
 
 	// create all the balls
 	this._balls	= [];
-	for(var i = 0; i < 9; i++){
+	for(var i = 0; i < 8; i++){
 		var ball	= new Marble.Ball({
 			ballDesc	: String(i+1)
 		});
