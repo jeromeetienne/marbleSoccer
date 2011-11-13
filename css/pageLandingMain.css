@@ -1,10 +1,52 @@
 #pageLandingContainer {
 	width		: 100%;
+	height		: 100%;
+
 	position	: absolute;
 	top		: 0px;
-	left		: 0;
+	left		: 0px;
+	
+	color		: white;
+}
+
+#pageLandingContainer .subContainer {
+	position	: relative;
+	width		: 100%;
+	height		: 100%;
+}
+
+
+/********************************************************************************/
+/*		.pageTitle							*/
+/********************************************************************************/
+
+#pageLandingContainer .chromeWebstoreInstall {
+	position	: absolute;
+	bottom		: 0px;
+	right		: 0px;
+
+	background-color	: #CCC;
+	font-weight		: bolder;
+	padding			: 8px;
+	border-top-left-radius	: 5px;
 
 }
+
+#pageLandingContainer .chromeWebstoreInstall.installed {
+	color	: #222;	
+}
+
+#pageLandingContainer .chromeWebstoreInstall.toInstall {
+	color	: #f22;
+}
+
+#pageLandingContainer .chromeWebstoreInstall:hover {
+	cursor	: pointer;
+}
+
+/********************************************************************************/
+/*		.pageTitle							*/
+/********************************************************************************/
 
 #pageLandingContainer .pageTitle {
 	text-align	: center;
@@ -18,6 +60,10 @@
 	color		: red;
 	text-decoration	: none;
 }
+
+/********************************************************************************/
+/*		.jqmWindow							*/
+/********************************************************************************/
 
 #pageLandingContainer .jqmWindow {
 	left	: 50%;
@@ -36,6 +82,10 @@
 #pageLandingContainer .jqmWindow a:hover {
 	text-decoration	: underline;
 }
+
+/********************************************************************************/
+/*		.menuDialog							*/
+/********************************************************************************/
 
 #pageLandingContainer .menuDialog {
 	width	: 30em;
@@ -56,6 +106,10 @@
 #pageLandingContainer .menuDialog div.button:hover {
 	background	: red;
 }
+
+/********************************************************************************/
+/*		.tutorialDialog							*/
+/********************************************************************************/
 
 #pageLandingContainer .tutorialDialog {
 	width	: 20em;

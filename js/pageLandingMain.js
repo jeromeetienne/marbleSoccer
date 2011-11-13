@@ -7,6 +7,7 @@ Marble.PageLandingMain	= function()
 	jQuery(this._pageSel).show();
 	
 	this._menuShow();
+	this._chromeWebStoreCtor();
 	
 	this._$playButtonClick		= this._playClick.bind(this);
 	this._$tutorialButtonClick	= this._tutorialShow.bind(this);
@@ -14,6 +15,10 @@ Marble.PageLandingMain	= function()
 	jQuery(this._pageSel+" .menuDialog .button.play").bind('click'		, this._$playButtonClick);
 	jQuery(this._pageSel+" .menuDialog .button.tutorial").bind('click'	, this._$tutorialButtonClick);
 	jQuery(this._pageSel+" .menuDialog .button.about").bind('click'		, this._$aboutButtonClick);
+
+jQuery(function(){
+	console.log("chrome", chrome, chrome.webstore, chrome.webstore.install, chrome.app.isInstalled)
+});
 }
 
 Marble.PageLandingMain.prototype.destroy	= function()
@@ -59,6 +64,37 @@ Marble.PageLandingMain.prototype._aboutShow	= function()
 	jQuery(dialogSel).jqmShow();
 }
 
+//////////////////////////////////////////////////////////////////////////////////
+//		chromeWebStore							//
+//////////////////////////////////////////////////////////////////////////////////
+
+Marble.PageLandingMain.prototype._chromeWebStoreCtor	= function()
+{
+	var domSelector	= this._pageSel + ' .chromeWebStoreInstall';
+
+	var isAvailable	= THREEx.ChromeWebStoreInstall.apiAvailable()
+	if( isAvailable === false )	return;
+
+	var isInstalled	= THREEx.ChromeWebStoreInstall.isInstalled();
+	if( isInstalled ){
+		jQuery(domSelector+" .value").text('Installed');
+		jQuery(domSelector).addClass("installed");
+	}else{
+		jQuery(domSelector+" .value").text('Available');
+		jQuery(domSelector).addClass("toInstall");
+		jQuery(domSelector).bind('click', function(event){
+			event.preventDefault();
+			THREEx.ChromeWebStoreInstall.install();
+		}.bind(this));
+	}
+	jQuery(domSelector).show();
+}
+
+Marble.PageLandingMain.prototype._chromeWebStoreDtor	= function()
+{
+	var domSelector	= this._pageSel + ' .chromeWebStoreInstall';
+	jQuery(domSelector).hide();
+}
 //////////////////////////////////////////////////////////////////////////////////
 //		pageGameMain							//
 //////////////////////////////////////////////////////////////////////////////////

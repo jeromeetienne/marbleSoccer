@@ -23,10 +23,10 @@ Marble.PageGameRound	= function()
 	this._init();
 	this._animate();
 
-	setTimeout(function(){
-		console.log("kill by timeout")
-		this.trigger('completed', 'timeout')
-	}.bind(this), 5*1000)
+	//setTimeout(function(){
+	//	console.log("kill by timeout")
+	//	this.trigger('completed', 'timeout')
+	//}.bind(this), 5*1000)
 }
 
 Marble.PageGameRound.prototype.destroy	= function()

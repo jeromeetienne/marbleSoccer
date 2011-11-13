@@ -1,23 +1,23 @@
+<head>
+	<link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/cfbcdiidnfncmcomhfnfbpcpfikjemie"/>
+
+	<link rel='stylesheet' href="css/main.css"		/>
+	<link rel='stylesheet' href="css/osd.css"		/>
+	<link rel='stylesheet' href="css/pageLandingMain.css"	/>
+
+	<script type="text/javascript">
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-4037844-20']);
+	  _gaq.push(['_trackPageview']);
+	
+	  (function() {
+	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();		
+	</script>
+</head>
 <body>
-	<head>
-		<script type="text/javascript">
-		  var _gaq = _gaq || [];
-		  _gaq.push(['_setAccount', 'UA-4037844-20']);
-		  _gaq.push(['_trackPageview']);
-		
-		  (function() {
-		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-		  })();		
-		</script>
-
-		<link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/cfbcdiidnfncmcomhfnfbpcpfikjemie">
-
-		<link rel='stylesheet' href="css/main.css"		/>
-		<link rel='stylesheet' href="css/osd.css"		/>
-		<link rel='stylesheet' href="css/pageLandingMain.css"	/>
-	</head>
 	<body>
 		<!-- *****************************************************************************
 			canvasContainer
@@ -74,9 +74,12 @@
 		<!-- *****************************************************************************
 			LandingContainer
 		******************************************************************************** -->
-		<div id="pageLandingContainer" style="display: none;">
+		<div id="pageLandingContainer" style="display: none;"><div class="subContainer">
 			<div class="pageTitle">
 				<a href="http://learningthreejs.com/blog/categories/tutorial3dgame/" target='_blank'>Marble Soccer</a>
+			</div>
+			<div class="chromeWebstoreInstall" style="display:none;">
+				Chrome Web App <span class="value"></span>
 			</div>
 			<!-- ******** menuDialog ******** -->
 			<div class="menuDialog jqmWindow">
@@ -106,7 +109,7 @@
 					blog.
 				</p>
 			</div>
-		</div>
+		</div></div>
 
 		<!-- include javascript files -->
 		<script src="vendor/jquery/jquery.min.js"></script>
@@ -139,6 +142,8 @@
 		<script src='js/soundmanager2Config.js'></script>
 
 		<script src='../vendor/microevent.js/microevent.js'></script>
+
+		<script src='./js/THREEx.chromeWebStoreInstall.js'></script>
 
 		<script src="js/core.js"></script>
 		<script src="js/map.js"></script>
