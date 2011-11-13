@@ -30,7 +30,7 @@ Marble.World	= function(opts)
 
 	// create all the balls
 	this._balls	= [];
-	for(var i = 0; i < 1; i++){
+	for(var i = 0; i < 9; i++){
 		var ball	= new Marble.Ball({
 			ballDesc	: String(i+1)
 		});

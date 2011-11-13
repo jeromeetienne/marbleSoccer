@@ -49,7 +49,7 @@ Marble.PoolBallUtils.ballMaterial	= function(ballDesc)
 	}
 	return new THREE.MeshPhongMaterial({
 		color		: 0xAAAAAA,
-		//ambient		: 0x222222,
+		ambient		: 0x030303,
 		//specular	: 0x000104,
 		shininess	: 20,
 		//shading		: THREE.SmoothShading,
