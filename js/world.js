@@ -49,7 +49,18 @@ Marble.World	= function(opts)
 
 Marble.World.prototype.destroy	= function()
 {
+	this._player	&& this._player.destroy();
+	this._balls	.forEach(function(item){ item.destroy(); });
+	this._enemies	.forEach(function(item){ item.destroy(); });
+	Object.keys(this._sounds).forEach(function(key){
+		this._sounds[key].destroy();
+	}.bind(this));
 }
+
+//////////////////////////////////////////////////////////////////////////////////
+//										//
+//////////////////////////////////////////////////////////////////////////////////
+
 
 /**
  * callback when a contact event occors between a voxel and a marble

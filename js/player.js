@@ -1,3 +1,7 @@
+//////////////////////////////////////////////////////////////////////////////////
+//										//
+//////////////////////////////////////////////////////////////////////////////////
+
 /**
 */
 Marble.Player	= function()
@@ -12,7 +16,8 @@ Marble.Player	= function()
 	
 	this._devOrientationEnable	= false;
 
-	// accelerator for keyboard control	
+	// accelerator for keyboard control
+// TODO those accelerator are NEVER removed
 	microphysics.world().add({
 		type	: vphy.types.ACCELERATOR,
 		perform	: this._acceleratorKeyboard.bind(this)
@@ -31,6 +36,14 @@ Marble.Player.prototype.parent		= Marble.Marble.prototype;
 
 // mixin MicroEvent
 MicroEvent.mixin(Marble.Player);
+
+Marble.Player.prototype.destroy	= function(){
+	
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+//										//
+//////////////////////////////////////////////////////////////////////////////////
 
 Marble.Player.prototype.onContactVoxel	= function(voxelType)
 {
@@ -99,6 +112,10 @@ Marble.Player.prototype._acceleratorDeviceOrientation	= function()
 	var body	= this.mesh()._vphyBody;
 	body.accelerate(accelZ, 0, accelX);
 }
+
+//////////////////////////////////////////////////////////////////////////////////
+//										//
+//////////////////////////////////////////////////////////////////////////////////
 
 Marble.Player.prototype.scoreChange	= function(delta)
 {
