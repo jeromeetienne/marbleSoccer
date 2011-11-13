@@ -17,18 +17,43 @@ Marble.PoolBallUtils.colorPerNumber	= {
 
 Marble.PoolBallUtils.ballMaterial	= function(ballDesc)
 {
-	return new THREE.MeshPhongMaterial({
-		color		: 0xFFFFFF,
-		ambient		: 0x000000,
-		specular	: 0x040404,
-		shininess	: 4,
-		shading		: THREE.SmoothShading,
-		map		: renderer._microCache.getSet('poolBallTexture-'+ballDesc, function(){
+	var buildTextureFlat	= function(){
+		return renderer._microCache.getSet('poolBallTexture-'+ballDesc, function(){
 			if( ballDesc === 'cue' ){
-				return THREEx.Texture.PoolBall.ballTexture(" ", false, new THREE.Color(0xFFFFFF), 64);
+				return THREEx.Texture.PoolBall.ballTexture(" ", true, new THREE.Color(0xFFFFFF), 64);
 			}
 			var color	= Marble.PoolBallUtils.colorPerNumber[ballDesc];
 			return THREEx.Texture.PoolBall.ballTexture(ballDesc, true, new THREE.Color(color), 128);
-		})
-	});	
+		});
+	}
+	var buildTextureStone	= function(){
+		var texture	= buildTextureFlat();
+		var canvas	= texture.image;
+		console.assert( canvas instanceof HTMLCanvasElement);
+
+		var image	= new Image()
+		image.onload	= function(){
+			var ctx	= canvas.getContext('2d');
+			ctx.save();
+			ctx.globalAlpha	= 0.2;
+			ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+			ctx.restore();
+			texture.needsUpdate = true;
+		};
+		image.crossOrigin = '';
+		//image.src	= "images/MarbleWhite0035_2_thumbhuge.jpg";
+		//image.src	= "images/MarbleWhite0040_2_thumbhuge.jpg";
+		image.src	= "images/planets/moon_1024.jpg";
+
+		return texture;
+	}
+	return new THREE.MeshPhongMaterial({
+		color		: 0xAAAAAA,
+		//ambient		: 0x222222,
+		//specular	: 0x000104,
+		shininess	: 20,
+		//shading		: THREE.SmoothShading,
+		//map		: buildTextureFlat()
+		map		: buildTextureStone()
+	});
 }

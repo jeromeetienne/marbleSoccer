@@ -11,6 +11,9 @@ Marble.OsdLayer	= function()
 	this._lives	= 0;
 	this._livesDirty= true;
 	
+	this._timeout		= '';
+	this._timeoutDirty	= true;
+
 	// bind .helpButton
 	this._$helpButtonOnClick	= this._helpButtonOnClick.bind(this);
 	jQuery("#osdContainer .helpButton").bind('click', this._$helpButtonOnClick);	
@@ -92,6 +95,13 @@ Marble.OsdLayer.prototype.livesSet	= function(newValue)
 	this._livesDirty= true;
 }
 
+Marble.OsdLayer.prototype.timeoutSet	= function(newValue)
+{
+	if( newValue === this._timeout )	return;
+	this._timeout		= newValue;
+	this._timeoutDirty	= true;
+}
+
 Marble.OsdLayer.prototype.update	= function()
 {
 	if( this._scoreDirty ){
@@ -101,5 +111,9 @@ Marble.OsdLayer.prototype.update	= function()
 	if( this._livesDirty ){
 		jQuery("#osdContainer .lives .value").html(this._lives);
 		this._livesDirty	= false;
+	}
+	if( this._timeoutDirty ){
+		jQuery("#osdContainer .timeout .value").html(this._timeout);
+		this._timeoutDirty	= false;
 	}
 }

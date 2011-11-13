@@ -22,11 +22,6 @@ Marble.PageGameRound	= function()
 	// initialiaze everything
 	this._init();
 	this._animate();
-
-	//setTimeout(function(){
-	//	console.log("kill by timeout")
-	//	this.trigger('completed', 'timeout')
-	//}.bind(this), 5*1000)
 }
 
 Marble.PageGameRound.prototype.destroy	= function()
@@ -96,15 +91,15 @@ Marble.PageGameRound.prototype._init	= function(){
 	// create the Scene
 	scene = new THREE.Scene();
 
-	var ambient	= new THREE.AmbientLight( 0xAAAAAA );
+	var ambient	= new THREE.AmbientLight( 0xAAAAAA, 2 );
 	scene.addLight( ambient );
 
-	var directionalLight = new THREE.DirectionalLight( 0xcccccc );
-	directionalLight.position.set( 10, 10, 5 ).normalize();
+	var directionalLight = new THREE.DirectionalLight( 0xcccccc, 1 );
+	directionalLight.position.set( -10, 10, 5 ).normalize();
 	scene.addLight( directionalLight );
 
-	var directionalLight = new THREE.DirectionalLight( 0x880000 );
-	directionalLight.position.set( -1, 0, 1 ).normalize();
+	var directionalLight = new THREE.DirectionalLight( 0x004400, 0.3 );
+	directionalLight.position.set( 5, 5, -2 ).normalize();
 	scene.addLight( directionalLight );
 	
 	var mesh	= new THREE.Mesh( new THREE.SphereGeometry(75,16,8), new THREE.MeshNormalMaterial() );

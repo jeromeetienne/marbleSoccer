@@ -1,5 +1,5 @@
 var osdLayer;
-var pageGameRound;
+var pageGameMain;
 
 Marble.PageGameMain	= function()
 {
@@ -9,11 +9,14 @@ Marble.PageGameMain	= function()
 	osdLayer.livesSet( this._playerLives );
 
 	this._gameRoundCtor();
+
+	this._timeoutCtor();
 }
 
 Marble.PageGameMain.prototype.destroy	= function()
 {
 	this._gameRoundDtor();
+	this._timeoutDtor();
 
 	osdLayer	&& osdLayer.destroy();
 	osdLayer	= null;
@@ -65,4 +68,34 @@ Marble.PageGameMain.prototype._gameRoundOnCompleted	= function()
 	osdLayer.livesSet( this._playerLives );
 	
 	this._gameRoundCtor();
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////
+//		timeoutCtor							//
+//////////////////////////////////////////////////////////////////////////////////
+
+Marble.PageGameMain.prototype._timeoutCtor	= function()
+{
+	console.assert( !this._timeoutId )
+	this._timeoutId	= setTimeout(this._timeoutCallback.bind(this), 1*1000);
+	this._timeout	= 120;
+}
+Marble.PageGameMain.prototype._timeoutDtor	= function()
+{
+	if( !this._timeoutId )	return;
+	clearTimeout(this._timeoutId);
+	this._timeoutId	= null;
+}
+
+Marble.PageGameMain.prototype._timeoutCallback	= function()
+{
+	if( this._timeout < 0 ){
+		this.trigger('completed', 'timeout');
+		return;
+	}
+	osdLayer.timeoutSet(this._timeout+'s');
+	
+	this._timeout--;
+	this._timeoutId	= setTimeout(this._timeoutCallback.bind(this), 1*1000);
 }

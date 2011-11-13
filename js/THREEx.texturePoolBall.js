@@ -15,7 +15,7 @@ THREEx.Texture.PoolBall	= {
 	 *
 	 * @param {canvasElement} the canvas where we draw
 	*/
-	textOnBack	: function(canvas, textData, stripped, color){
+	draw	: function(canvas, textData, stripped, color){
 		var ctx		= canvas.getContext( '2d' );
 		var w		= canvas.width;
 		var h		= canvas.height;
@@ -57,7 +57,7 @@ THREEx.Texture.PoolBall	= {
 	
 	ballTexture: function( textData, stripped, color, canvasW, mapping, callback ) {
 		var canvasDrawer	= function(canvas){
-			THREEx.Texture.PoolBall.textOnBack(canvas, textData, stripped, color);
+			THREEx.Texture.PoolBall.draw(canvas, textData, stripped, color);
 		}
 		return THREEx.Texture.PoolBall._buildTexture( canvasW, mapping, callback, canvasDrawer );
 	},
