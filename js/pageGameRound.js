@@ -25,11 +25,15 @@ Marble.PageGameRound	= function()
 
 Marble.PageGameRound.prototype.destroy	= function()
 {
-	if( this._requestAnimId	)	cancelRequestAnimationFrame( this._requestAnimId );
+	this._fxLightNormal	&& this._fxLightNormal.destroy();
+	this._fxLightNormal	= null;
+	
+	this._requestAnimId	&& cancelRequestAnimationFrame( this._requestAnimId );
+	this._requestAnimId	= null;
+	
+	this._winResize 	&& this._winResize.stop();
 
-	if( this._winResize )	this._winResize.stop();
-
-	if( this._stats )	this._stats.domElement.parentNode.removeChild(this._stats.domElement);
+	this._stats 		&& this._stats.domElement.parentNode.removeChild(this._stats.domElement);
 
 	world.destroy();
 	world	= null;
@@ -81,16 +85,7 @@ Marble.PageGameRound.prototype._init	= function(){
 	// create the Scene
 	scene = new THREE.Scene();
 
-	var ambient	= new THREE.AmbientLight( 0xAAAAAA, 2 );
-	scene.addLight( ambient );
-
-	var directionalLight = new THREE.DirectionalLight( 0xcccccc, 1 );
-	directionalLight.position.set( -10, 10, 5 ).normalize();
-	scene.addLight( directionalLight );
-
-	var directionalLight = new THREE.DirectionalLight( 0x004400, 0.3 );
-	directionalLight.position.set( 5, 5, -2 ).normalize();
-	scene.addLight( directionalLight );
+	this._fxLightNormal	= new Marble.FxLightNormal();
 	
 	// for debug
 	var mesh	= new THREE.Mesh( new THREE.SphereGeometry(75,16,8), new THREE.MeshNormalMaterial() );

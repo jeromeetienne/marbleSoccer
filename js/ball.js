@@ -53,7 +53,7 @@ Marble.Ball.prototype.invisible	= function()
 
 Marble.Ball.prototype.tick	= function()
 {
-	if( this.invisible() && false ){
+	if( this.invisible() && false ){	// TODO somehow this crash the physics ???
 		var body	= microphysics.body( this.mesh() );
 		body.setPosition(0, 0, +99999);
 		body.setVelocity(0,0,0);
