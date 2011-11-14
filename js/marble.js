@@ -11,7 +11,7 @@ Marble.Marble.prototype.init	= function(opts)
 	var position	= opts.position		? opts.position	: new THREE.Vector3();
 	var friction	= 'friction' in opts	? opts.friction	: 0.985;
 	this._marbleId	= opts.marbleId 	|| "marbleId-"+Math.floor(Math.random()*9999999).toString(36);
-	var material	= opts.material		|| Marble.PoolBallUtils.ballMaterial("8");
+	var material	= opts.material		|| new THREE.MeshNormalMaterial();
 
 	// build this._ballMesh
 	var geometry	= new THREE.SphereGeometry(this._radius, 32, 16);

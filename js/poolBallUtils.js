@@ -40,7 +40,7 @@ Marble.PoolBallUtils.ballMaterial	= function(ballDesc)
 		image.onload	= function(){
 			var ctx	= canvas.getContext('2d');
 			ctx.save();
-			ctx.globalAlpha	= 0.5;
+			ctx.globalAlpha	= 0.3;
 			ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 			ctx.restore();
 			texture.needsUpdate = true;
@@ -48,7 +48,9 @@ Marble.PoolBallUtils.ballMaterial	= function(ballDesc)
 		image.crossOrigin = '';
 		//image.src	= "images/MarbleWhite0035_2_thumbhuge.jpg";
 		//image.src	= "images/MarbleWhite0040_2_thumbhuge.jpg";
-		image.src	= "images/planets/moon_1024.jpg";
+		//image.src	= "images/PlywoodOld0022_11_thumbhuge.jpg";
+		image.src	= "images/MetalGalvanized0046_5_thumbhuge.jpg";
+		//image.src	= "images/planets/moon_1024.jpg";
 
 		return texture;
 	}
@@ -58,7 +60,7 @@ Marble.PoolBallUtils.ballMaterial	= function(ballDesc)
 		//specular	: 0x000104,
 		shininess	: 20,
 		//shading		: THREE.SmoothShading,
-		map		: buildTextureFlat()
-		//map		: buildTextureStone()
+		//map		: buildTextureFlat()
+		map		: buildTextureStone()
 	});
 }

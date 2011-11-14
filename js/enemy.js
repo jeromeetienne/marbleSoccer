@@ -55,13 +55,3 @@ Marble.Enemy.prototype._acceleratorToPlayer	= function()
 		body.setVelocity(speed[0]*surFriction, speed[1]*surFriction, speed[2]*surFriction);
 	}
 }
-
-//////////////////////////////////////////////////////////////////////////////////
-//										//
-//////////////////////////////////////////////////////////////////////////////////
-
-Marble.Enemy.prototype.tick	= function()
-{
-	// call the parent class .tick()
-	this.parent.tick.call(this);
-}

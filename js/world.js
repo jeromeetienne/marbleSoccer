@@ -1,17 +1,14 @@
 /**
 */
-Marble.World	= function(opts)
+Marble.World	= function()
 {
-	this._scene	= opts.scene	|| console.assert(false);
-	console.assert(this._scene instanceof THREE.Scene);
-
 	// create the player
 	this._player	= new Marble.Player();
-	this._scene.addObject( this._player.mesh() );
+	scene.addObject( this._player.mesh() );
 
 // TODO do the add scene inside the objet
 	this._map	= new Marble.Map();
-	this._scene.addObject( this._map.mesh() );
+	scene.addObject( this._map.mesh() );
 
 	this._camera	= new Marble.Camera();
 	
@@ -80,12 +77,8 @@ Marble.World.prototype.camera	= function(){	return this._camera;	}
 Marble.World.prototype.tick	= function()
 {
 	this._player.tick();
-	this._balls.forEach(function(ball){
-		ball.tick();
-	});
-	this._enemies.forEach(function(enemy){
-		enemy.tick();
-	});
+	this._balls  .forEach(	function(item){ item.tick(); });
+	this._enemies.forEach(	function(item){	item.tick(); });
 	
 	osdLayer.update();
 

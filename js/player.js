@@ -45,7 +45,8 @@ MicroEvent.mixin(Marble.Player);
 Marble.Player.prototype.destroy	= function()
 {
 	microphysics.world().remove(this._keyboardAcc);
-	this._keyboardAcc	= null;	
+	this._keyboardAcc	= null;
+	
 	microphysics.world().remove(this._devOrientAcc);
 	this._devOrientAcc	= null;	
 }
