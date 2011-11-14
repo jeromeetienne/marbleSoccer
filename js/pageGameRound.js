@@ -1,5 +1,4 @@
 // TODO reduce the amount of global
-var keyboard, devOrientation;
 var world;
 var microphysics;
 var camera, scene, renderer;
@@ -26,6 +25,8 @@ Marble.PageGameRound	= function()
 
 Marble.PageGameRound.prototype.destroy	= function()
 {
+	if( this._requestAnimId	)	cancelRequestAnimationFrame( this._requestAnimId );
+
 	if( this._winResize )	this._winResize.stop();
 
 	if( this._stats )	this._stats.domElement.parentNode.removeChild(this._stats.domElement);
@@ -34,14 +35,6 @@ Marble.PageGameRound.prototype.destroy	= function()
 	world	= null;
 
 	renderer	= null;
-
-	keyboard.destroy();
-	keyboard	= null;
-
-	devOrientation.destroy();
-	devOrientation	= null;
-
-	if( this._requestAnimId	)	cancelRequestAnimationFrame( this._requestAnimId );
 
 	jQuery(this._containerSel).empty();
 }
@@ -76,9 +69,6 @@ Marble.PageGameRound.prototype._init	= function(){
 	renderer.setSize( window.innerWidth, window.innerHeight );
 	container.appendChild( renderer.domElement );
 	
-	keyboard	= new THREEx.KeyboardState();
-	devOrientation	= new THREEx.DeviceOrientationState();
-
 	// create the renderer cache
 	renderer._microCache	= new MicroCache();
 
@@ -102,10 +92,12 @@ Marble.PageGameRound.prototype._init	= function(){
 	directionalLight.position.set( 5, 5, -2 ).normalize();
 	scene.addLight( directionalLight );
 	
+	// for debug
 	var mesh	= new THREE.Mesh( new THREE.SphereGeometry(75,16,8), new THREE.MeshNormalMaterial() );
 	scene.addObject(mesh);	
 	
 	// init THREEx.Microphysics
+	// - move that world ?
 	microphysics	= new THREEx.Microphysics().start();
 
 	world		= new Marble.World({

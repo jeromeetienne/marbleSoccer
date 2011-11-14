@@ -1,5 +1,6 @@
 var pageGameMain;
 var soundPool;
+var keyboard, devOrientation;
 
 Marble.PageLandingMain	= function()
 {
@@ -16,6 +17,8 @@ Marble.PageLandingMain	= function()
 	// export in global
 	soundPool	= this._soundPool;
 
+	keyboard	= new THREEx.KeyboardState();
+	devOrientation	= new THREEx.DeviceOrientationState();
 	
 	this._pageGameMain	= null;
 
@@ -39,6 +42,12 @@ this._pageGameMainCtor();
 Marble.PageLandingMain.prototype.destroy	= function()
 {
 	this._pageGameMainDtor();
+
+	keyboard.destroy();
+	keyboard	= null;
+
+	devOrientation.destroy();
+	devOrientation	= null;
 
 	this._soundPool && this._soundPool.destroy();
 	this._soundPool	= null;

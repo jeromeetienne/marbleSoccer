@@ -9,6 +9,7 @@ Marble.World	= function(opts)
 	this._player	= new Marble.Player();
 	this._scene.addObject( this._player.mesh() );
 
+// TODO do the add scene inside the objet
 	this._map	= new Marble.Map();
 	this._scene.addObject( this._map.mesh() );
 
