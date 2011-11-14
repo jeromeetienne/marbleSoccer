@@ -5,7 +5,14 @@ Marble.PageLandingMain	= function()
 {
 	this._pageSel		= "#pageLandingContainer";
 
+	// create Marble.SoundPool
 	this._soundPool	= new Marble.SoundPool();
+	this._soundPool.insert('goal', new Marble.Sound({
+		urls	: ['sounds/pacman/eatghost.mp3']
+	}));
+	this._soundPool.insert('die', new Marble.Sound({
+		urls	: ['sounds/pacman/die.mp3']
+	}));	
 	// export in global
 	soundPool	= this._soundPool;
 
