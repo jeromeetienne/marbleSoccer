@@ -18,15 +18,20 @@ Marble.Player	= function()
 
 	// accelerator for keyboard control
 // TODO those accelerator are NEVER removed
-	microphysics.world().add({
+	this._keyboardAcc	= {
 		type	: vphy.types.ACCELERATOR,
+		remove	: function(){ this.to_remove	= true;	},	// TODO this SHOULD be in microphysic
 		perform	: this._acceleratorKeyboard.bind(this)
-	});
+	};
+	microphysics.world().add(this._keyboardAcc);
+
 	// accelerator for deviceOrientation
-	microphysics.world().add({
+	this._devOrientAcc	= {
 		type	: vphy.types.ACCELERATOR,
+		remove	: function(){ this.to_remove	= true;	},	// TODO this SHOULD be in microphysic
 		perform	: this._acceleratorDeviceOrientation.bind(this)
-	});		
+	};		
+	microphysics.world().add(this._devOrientAcc);
 }
 
 // inherit from Marble.Marble methods
@@ -37,8 +42,12 @@ Marble.Player.prototype.parent		= Marble.Marble.prototype;
 // mixin MicroEvent
 MicroEvent.mixin(Marble.Player);
 
-Marble.Player.prototype.destroy	= function(){
-	
+Marble.Player.prototype.destroy	= function()
+{
+	microphysics.world().remove(this._keyboardAcc);
+	this._keyboardAcc	= null;	
+	microphysics.world().remove(this._devOrientAcc);
+	this._devOrientAcc	= null;	
 }
 
 //////////////////////////////////////////////////////////////////////////////////
