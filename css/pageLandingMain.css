@@ -111,6 +111,13 @@
 /*		.tutorialDialog							*/
 /********************************************************************************/
 
+
+#pageLandingContainer .nowebglDialog {
+	width	: 30em;
+	height	: 25em;
+	margin	: -12.5em 0 0 -15em;
+}
+
 #pageLandingContainer .tutorialDialog {
 	width	: 20em;
 	height	: 12em;

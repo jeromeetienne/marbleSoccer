@@ -24,7 +24,8 @@ Marble.PageLandingMain	= function()
 
 	jQuery(this._pageSel).show();
 	
-	this._menuShow();
+	if( Detector.webgl )	this._menuShow();
+	else			this._nowebglShow();
 	this._chromeWebStoreCtor();
 	
 	this._$playButtonClick		= this._playClick.bind(this);
@@ -35,7 +36,7 @@ Marble.PageLandingMain	= function()
 	jQuery(this._pageSel+" .menuDialog .button.about").bind('click'		, this._$aboutButtonClick);
 
 // go directly to pageGameMain
-this._pageGameMainCtor();
+//this._pageGameMainCtor();
 
 }
 
@@ -63,9 +64,19 @@ Marble.PageLandingMain.prototype.destroy	= function()
 Marble.PageLandingMain.prototype._menuShow	= function()
 {
 	var dialogSel	= this._pageSel+' .menuDialog';
-	jQuery(dialogSel).jqm({
-		overlay	: 0
-	});
+	jQuery(dialogSel).jqm( {overlay : 0} );
+	jQuery(dialogSel).jqmShow();
+}
+
+Marble.PageLandingMain.prototype._nowebglShow	= function()
+{
+	var dialogSel	= this._pageSel+' .nowebglDialog';
+
+	var youtubeUrl	= 'http://www.youtube.com/embed/kW4oHaHCilo';
+	var youtubeHtml	= '<iframe width="560" height="315" src="'+youtubeUrl+'" frameborder="0" allowfullscreen></iframe>';
+	jQuery(dialogSel+ ' .youtube').html(youtubeHtml);
+	
+	jQuery(dialogSel).jqm( {overlay : 0} );
 	jQuery(dialogSel).jqmShow();
 }
 
