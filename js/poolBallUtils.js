@@ -58,7 +58,7 @@ Marble.PoolBallUtils.ballMaterial	= function(ballDesc)
 		//specular	: 0x000104,
 		shininess	: 20,
 		//shading		: THREE.SmoothShading,
-		//map		: buildTextureFlat()
-		map		: buildTextureStone()
+		map		: buildTextureFlat()
+		//map		: buildTextureStone()
 	});
 }

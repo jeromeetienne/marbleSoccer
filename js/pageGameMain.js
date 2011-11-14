@@ -8,14 +8,6 @@ Marble.PageGameMain	= function()
 	osdLayer	= new Marble.OsdLayer();
 	osdLayer.livesSet( this._playerLives );
 
-	this._sounds	= {};
-	this._sounds['goal']	= new Marble.Sound({
-		urls	: ['sounds/pacman/eatghost.mp3']
-	});
-	this._sounds['die']	= new Marble.Sound({
-		urls	: ['sounds/pacman/die.mp3']
-	});
-
 	this._gameRoundCtor();
 
 	this._timeoutCtor();
@@ -26,18 +18,12 @@ Marble.PageGameMain.prototype.destroy	= function()
 	this._gameRoundDtor();
 	this._timeoutDtor();
 
-	Object.keys(this._sounds).forEach(function(key){
-		this._sounds[key].destroy();
-	}.bind(this));
-
 	osdLayer	&& osdLayer.destroy();
 	osdLayer	= null;
 }
 
 // mixin MicroEvent
 MicroEvent.mixin(Marble.PageGameMain);
-
-Marble.PageGameMain.prototype.sounds	= function(){	return this._sounds;	}
 
 //////////////////////////////////////////////////////////////////////////////////
 //		pageGameRound							//

@@ -1,8 +1,14 @@
 var pageGameMain;
+var soundPool;
 
 Marble.PageLandingMain	= function()
 {
 	this._pageSel		= "#pageLandingContainer";
+
+	this._soundPool	= new Marble.SoundPool();
+	// export in global
+	soundPool	= this._soundPool;
+
 	
 	this._pageGameMain	= null;
 
@@ -26,6 +32,11 @@ this._pageGameMainCtor();
 Marble.PageLandingMain.prototype.destroy	= function()
 {
 	this._pageGameMainDtor();
+
+	this._soundPool && this._soundPool.destroy();
+	this._soundPool	= null;
+	// export in global
+	soundPool	= this._soundPool;
 
 	jQuery(this._pageSel).hide();
 	jQuery(this._pageSel+" .menuDialog .button.play").unbind('click'	, this._$playButtonClick);
