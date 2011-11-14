@@ -188,6 +188,13 @@
                 this.z - this.pz,
             ];
         },
+        setPosition: function(x, y, z){ // __doc__ added this one
+            var velocity    = this.getVelocity();
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.setVelocity(velocity[0], velocity[1], velocity[2]);
+        },
         getPosition: function(){
             var u = this.world.u;
             return [

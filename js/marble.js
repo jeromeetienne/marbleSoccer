@@ -35,6 +35,10 @@ Marble.Marble.prototype.init	= function(opts)
 	this._mesh.addChild(this._ballMesh);
 	this._mesh.addChild(this._shadowMesh);
 
+	
+	scene.addObject( this._mesh );		
+
+
 	// bind the mesh with microphysics.js
 	microphysics.bindMesh(this._mesh, {
 		geometry	: this._ballMesh.geometry,
@@ -69,6 +73,12 @@ Marble.Marble.prototype.init	= function(opts)
 		}.bind(this)
 	});
 }
+
+Marble.Marble.prototype.destroy	= function()
+{	
+	scene.removeObject( this._mesh );
+}
+
 
 Marble.Marble.prototype.mesh		= function(){	return this._mesh;	}
 Marble.Marble.prototype.marbleId	= function(){	return this._marbleId;	}

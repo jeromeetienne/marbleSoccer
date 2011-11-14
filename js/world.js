@@ -2,37 +2,23 @@
 */
 Marble.World	= function()
 {
-	// create the player
 	this._player	= new Marble.Player();
-	scene.addObject( this._player.mesh() );
-
-// TODO do the add scene inside the objet
 	this._map	= new Marble.Map();
-	scene.addObject( this._map.mesh() );
-
 	this._camera	= new Marble.Camera();
-	
-	if( true ){
-		var skybox	= new Marble.Skymap();
-		scene.addObject( skybox.mesh() );
-	}
+	this._skybox	= new Marble.Skymap();
 
 	// create all the balls
 	this._balls	= [];
 	for(var i = 0; i < 8; i++){
-		var ball	= new Marble.Ball({
+		this._balls.push(new Marble.Ball({
 			ballDesc	: String(i+1)
-		});
-		this._balls.push( ball );
-		scene.addObject( ball.mesh() );		
+		}));
 	}
 
 	// create all the enemies
 	this._enemies	= [];
 	for(var i = 0; i < 0; i++){
-		var enemy	= new Marble.Enemy();
-		this._enemies.push( enemy );
-		scene.addObject( enemy.mesh() );		
+		this._enemies.push( new Marble.Enemy() );
 	}
 }
 
@@ -41,6 +27,7 @@ Marble.World.prototype.destroy	= function()
 	this._player	&& this._player.destroy();
 	this._balls	.forEach(function(item){ item.destroy(); });
 	this._enemies	.forEach(function(item){ item.destroy(); });
+	this._skybox.destroy();
 }
 
 //////////////////////////////////////////////////////////////////////////////////

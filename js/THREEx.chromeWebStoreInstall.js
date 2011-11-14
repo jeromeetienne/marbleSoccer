@@ -1,7 +1,7 @@
 // This THREEx helper makes it easy to handle chrome.webstore.install API.
 // * api description http://code.google.com/chrome/webstore/docs/inline_installation.html 
 // * paul kinlan post on g+ https://plus.google.com/116059998563577101552/posts/c9zYiA9RdC5
-//
+// 
 // # Code
 
 //

@@ -61,9 +61,7 @@ Marble.Player.prototype.onContactVoxel	= function(voxelType)
 //return;
 // experimentation on what is possible to do with the 
 	if( voxelType === 0 ){
-		// TODO vphy.Body.setPosition
-		body.x	= body.z = 0;
-		body.y	= Marble.tileSize;
+		body.setPosition(0, Marble.tileSize, 0);
 		body.setVelocity(0,0,0);
 		soundPool.get('die').play();
 		pageGameRound.triggerGameOver('dead');

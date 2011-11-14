@@ -14,6 +14,13 @@ Marble.Map	= function()
 		this._buildMesh();
 		this._bindPhysics();
 	}
+	
+	scene.addObject( this._mesh );
+}
+
+Marble.Map.prototype.destroy	= function()
+{
+	scene.removeObject( this._mesh );
 }
 
 Marble.Map.prototype._bindPhysicsContact	= function(body, voxelType)
@@ -185,10 +192,6 @@ Marble.Map.prototype._buildMesh	= function()
 	this._mesh	= mesh;
 }
 
-/**
- * return the three.js object for the map
-*/
-Marble.Map.prototype.mesh	= function(){	return this._mesh;	}
 
 /**
  * return true if there is a voxel at this coordinate, false otherwise
