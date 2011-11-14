@@ -13,6 +13,7 @@ Marble.PoolBallUtils.colorPerNumber	= {
 	'6'	: 0x348017,	// Green
 	'7'	: 0xA52A2A,	// Brown or burgundy (tan in some ball sets)
 	'8'	: 0x000000,	// Black
+	'9'	: 0xFDD017,	// Yellow
 }
 
 Marble.PoolBallUtils.ballMaterial	= function(ballDesc)
@@ -20,6 +21,10 @@ Marble.PoolBallUtils.ballMaterial	= function(ballDesc)
 	var buildTextureFlat	= function(){
 		return renderer._microCache.getSet('poolBallTexture-'+ballDesc, function(){
 			if( ballDesc === 'cue' ){
+				// display nine-ball http://en.wikipedia.org/wiki/Nine-ball
+				var color	= Marble.PoolBallUtils.colorPerNumber['1'];
+				return THREEx.Texture.PoolBall.ballTexture('9', true, new THREE.Color(color), 128);
+				// display white ball
 				return THREEx.Texture.PoolBall.ballTexture(" ", true, new THREE.Color(0xFFFFFF), 64);
 			}
 			var color	= Marble.PoolBallUtils.colorPerNumber[ballDesc];
@@ -35,7 +40,7 @@ Marble.PoolBallUtils.ballMaterial	= function(ballDesc)
 		image.onload	= function(){
 			var ctx	= canvas.getContext('2d');
 			ctx.save();
-			ctx.globalAlpha	= 0.2;
+			ctx.globalAlpha	= 0.5;
 			ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 			ctx.restore();
 			texture.needsUpdate = true;

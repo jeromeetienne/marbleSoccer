@@ -1,3 +1,5 @@
+var pageGameMain;
+
 Marble.PageLandingMain	= function()
 {
 	this._pageSel		= "#pageLandingContainer";
@@ -104,11 +106,14 @@ Marble.PageLandingMain.prototype._pageGameMainCtor	= function()
 	console.assert( !this._pageGameMain );
 	
 	this._pageGameMain	= new Marble.PageGameMain();
-	
+
 	this._$pageGameMainOnCompleted	= this._pageGameMainOnCompleted.bind(this);
 	this._pageGameMain.bind('completed', this._$pageGameMainOnCompleted);
 
 	jQuery(this._pageSel).hide();
+
+	// export as a global
+	pageGameMain	= this._pageGameMain;
 }
 
 Marble.PageLandingMain.prototype._pageGameMainDtor	= function()
@@ -118,6 +123,9 @@ Marble.PageLandingMain.prototype._pageGameMainDtor	= function()
 	this._pageGameMain.unbind('completed', this._$pageGameMainOnCompleted);
 	this._pageGameMain.destroy();
 	this._pageGameMain	= null;
+
+	// export as a global
+	pageGameMain	= this._pageGameMain;
 }
 
 Marble.PageLandingMain.prototype._pageGameMainOnCompleted	= function()

@@ -4,6 +4,12 @@ Marble.Voxel	= function(opts)
 	var type	= this._type	= opts.type	|| 0;
 	var tileSize	= Marble.tileSize;
 	var texture	= renderer._microCache.getSet('voxelTexture', function(){
+		//return THREE.ImageUtils.loadTexture( "images/MetalBare0144_1_thumbhuge.jpg")
+		return THREE.ImageUtils.loadTexture( "images/MetalBare0141_2_thumbhuge.jpg")
+		return THREE.ImageUtils.loadTexture( "images/MetalGalvanized0046_5_thumbhuge.jpg")
+		return THREE.ImageUtils.loadTexture( "images/WoodRough0021_2_thumbhuge.jpg")
+		return THREE.ImageUtils.loadTexture( "images/PlywoodOld0022_11_thumbhuge.jpg")
+		return THREE.ImageUtils.loadTexture( "images/PlywoodOld0024_23_thumbhuge.jpg")
 		return THREE.ImageUtils.loadTexture( "images/square-outline-textured.png" );
 	});
 	var material	= renderer._microCache.getSet('voxelMaterial_'+type, function(){

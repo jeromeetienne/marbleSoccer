@@ -19,16 +19,6 @@ Marble.World	= function(opts)
 		scene.addObject( skybox.mesh() );
 	}
 
-// TODO sound should be at pageGameMain level
-	this._sounds	= {};
-	this._sounds['goal']	= new Marble.Sound({
-		urls	: ['sounds/pacman/eatghost.mp3']
-	});
-	this._sounds['die']	= new Marble.Sound({
-		urls	: ['sounds/pacman/die.mp3']
-	});
-
-
 	// create all the balls
 	this._balls	= [];
 	for(var i = 0; i < 8; i++){
@@ -53,9 +43,6 @@ Marble.World.prototype.destroy	= function()
 	this._player	&& this._player.destroy();
 	this._balls	.forEach(function(item){ item.destroy(); });
 	this._enemies	.forEach(function(item){ item.destroy(); });
-	Object.keys(this._sounds).forEach(function(key){
-		this._sounds[key].destroy();
-	}.bind(this));
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -88,7 +75,6 @@ Marble.World.prototype.onContactMarbleVoxel	= function(marbleId, voxelType)
 Marble.World.prototype.player	= function(){	return this._player;	}
 Marble.World.prototype.map	= function(){	return this._map;	}
 Marble.World.prototype.camera	= function(){	return this._camera;	}
-Marble.World.prototype.sounds	= function(){	return this._sounds;	}
 
 Marble.World.prototype.tick	= function()
 {

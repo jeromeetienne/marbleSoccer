@@ -40,7 +40,7 @@ Marble.Ball.prototype.onContactVoxel	= function(voxelType)
 		body.setVelocity(0,0,0);
 
 		world.player().scoreChange(20);
-		world.sounds()['goal'].play();
+		pageGameMain.sounds()['goal'].play();
 	}
 }
 
