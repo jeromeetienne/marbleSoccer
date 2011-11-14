@@ -2,10 +2,11 @@
 */
 Marble.World	= function()
 {
-	this._player	= new Marble.Player();
-	this._map	= new Marble.Map();
-	this._camera	= new Marble.Camera();
-	this._skybox	= new Marble.Skymap();
+	this._player		= new Marble.Player();
+	this._map		= new Marble.Map();
+	this._camera		= new Marble.Camera();
+	this._skybox		= new Marble.Skymap();
+	this._fxLightNormal	= new Marble.FxLightNormal();
 
 	// create all the balls
 	this._balls	= [];
@@ -27,7 +28,11 @@ Marble.World.prototype.destroy	= function()
 	this._player	&& this._player.destroy();
 	this._balls	.forEach(function(item){ item.destroy(); });
 	this._enemies	.forEach(function(item){ item.destroy(); });
+
 	this._skybox.destroy();
+
+	this._fxLightNormal	&& this._fxLightNormal.destroy();
+	this._fxLightNormal	= null;
 }
 
 //////////////////////////////////////////////////////////////////////////////////

@@ -17,12 +17,11 @@ Marble.Player	= function()
 	this._devOrientationEnable	= false;
 
 	// accelerator for keyboard control
-// TODO those accelerator are NEVER removed
-	this._keyboardAcc	= {
-		type	: vphy.types.ACCELERATOR,
-		remove	: function(){ this.to_remove	= true;	},	// TODO this SHOULD be in microphysic
-		perform	: this._acceleratorKeyboard.bind(this)
-	};
+	this._keyboardAcc	= new Marble.Player._keyboardAccelerator({
+		bodies		: [microphysics.body(this.mesh())],
+		acceleration	: 8*Marble.tileSize,
+		keyboard	: keyboard
+	})
 	microphysics.world().add(this._keyboardAcc);
 
 	// accelerator for deviceOrientation
@@ -44,10 +43,10 @@ MicroEvent.mixin(Marble.Player);
 
 Marble.Player.prototype.destroy	= function()
 {
-	microphysics.world().remove(this._keyboardAcc);
+	this._keyboardAcc	&& microphysics.world().remove(this._keyboardAcc);
 	this._keyboardAcc	= null;
 	
-	microphysics.world().remove(this._devOrientAcc);
+	this._devOrientAcc	&& microphysics.world().remove(this._devOrientAcc);
 	this._devOrientAcc	= null;	
 }
 
@@ -68,28 +67,42 @@ Marble.Player.prototype.onContactVoxel	= function(voxelType)
 	}
 }
 
-
-Marble.Player.prototype._acceleratorKeyboard	= function()
-{
-	var key		= {
-		left	: keyboard.pressed('A') || keyboard.pressed('J') || keyboard.pressed('left') 	|| keyboard.pressed('Q') ,
-		right	: keyboard.pressed('D') || keyboard.pressed('L') || keyboard.pressed('right'),
-		up	: keyboard.pressed('W') || keyboard.pressed('I') || keyboard.pressed('up')	 || keyboard.pressed('Z') ,
-		down	: keyboard.pressed('S') || keyboard.pressed('K') || keyboard.pressed('down')
-	};
-	var key		= {
-		left	: keyboard.pressed('left'),
-		right	: keyboard.pressed('right'),
-		up	: keyboard.pressed('up'),
-		down	: keyboard.pressed('down')
-	};
-	var body	= this.mesh()._vphyBody;
-	var acc		= 8*Marble.tileSize;
-	if( key.right )	body.accelerate(+acc,0,0);
-	if( key.left )	body.accelerate(-acc,0,0);
-	if( key.up )	body.accelerate(0,0,-acc);
-	if( key.down )	body.accelerate(0,0,+acc);
-}
+/**
+ * TODO put that elsewhere
+*/
+Marble.Player._keyboardAccelerator	= vphy.Class({
+	__extends__	: vphy.Accelerator,
+	__init__	: function(args){
+		var params = vphy.extend({
+		}, args);
+		this.bodies		= params.bodies;
+		this.acceleration	= params.acceleration;
+		this.keyboard		= params.keyboard;
+	},
+	perform		: function(){
+		var keyboard	= this.keyboard;
+		var acc		= this.acceleration;
+		var key		= {
+			left	: keyboard.pressed('A') || keyboard.pressed('J') || keyboard.pressed('left') 	|| keyboard.pressed('Q') ,
+			right	: keyboard.pressed('D') || keyboard.pressed('L') || keyboard.pressed('right'),
+			up	: keyboard.pressed('W') || keyboard.pressed('I') || keyboard.pressed('up')	 || keyboard.pressed('Z') ,
+			down	: keyboard.pressed('S') || keyboard.pressed('K') || keyboard.pressed('down')
+		};
+		var key		= {
+			left	: keyboard.pressed('left'),
+			right	: keyboard.pressed('right'),
+			up	: keyboard.pressed('up'),
+			down	: keyboard.pressed('down')
+		};
+		for(var i = 0; i < this.bodies.length; i++){
+			var body	= this.bodies[i];
+			if( key.right )	body.accelerate(+acc,0,0);
+			if( key.left )	body.accelerate(-acc,0,0);
+			if( key.up )	body.accelerate(0,0,-acc);
+			if( key.down )	body.accelerate(0,0,+acc);
+		}
+	}
+});
 
 Marble.Player.prototype._acceleratorDeviceOrientation	= function()
 {

@@ -252,12 +252,16 @@
     });
 
     vphy = {
-        // TODO export Class it help create custom accelerator
         types: {
             AABB            : AABB,
             SPHERE          : SPHERE,
             ACCELERATOR     : ACCELERATOR,
         },
+        // expose extend+Class in namespace
+        extend      : extend,   // __doc__ added this
+        Class       : Class,
+        Accelerator : Accelerator,
+        
         World: Class({
             __init__: function(){
                 this.u = 0;

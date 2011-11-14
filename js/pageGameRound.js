@@ -24,10 +24,7 @@ Marble.PageGameRound	= function()
 }
 
 Marble.PageGameRound.prototype.destroy	= function()
-{
-	this._fxLightNormal	&& this._fxLightNormal.destroy();
-	this._fxLightNormal	= null;
-	
+{	
 	this._requestAnimId	&& cancelRequestAnimationFrame( this._requestAnimId );
 	this._requestAnimId	= null;
 	
@@ -85,12 +82,10 @@ Marble.PageGameRound.prototype._init	= function(){
 	// create the Scene
 	scene = new THREE.Scene();
 
-	this._fxLightNormal	= new Marble.FxLightNormal();
-	
 	// for debug
 	var mesh	= new THREE.Mesh( new THREE.SphereGeometry(75,16,8), new THREE.MeshNormalMaterial() );
 	scene.addObject(mesh);	
-	
+		
 	// init THREEx.Microphysics
 	// - move that world ?
 	microphysics	= new THREEx.Microphysics().start();

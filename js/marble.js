@@ -35,9 +35,7 @@ Marble.Marble.prototype.init	= function(opts)
 	this._mesh.addChild(this._ballMesh);
 	this._mesh.addChild(this._shadowMesh);
 
-	
 	scene.addObject( this._mesh );		
-
 
 	// bind the mesh with microphysics.js
 	microphysics.bindMesh(this._mesh, {
@@ -47,36 +45,33 @@ Marble.Marble.prototype.init	= function(opts)
 		}
 	});
 	microphysics.body(this._mesh)._marbleId	= this._marbleId;
+
 	// apply friction
-	microphysics.world().add({
-		type: vphy.types.ACCELERATOR,
-		perform: function(){
-			var body	= this._mesh._vphyBody;
-			var speed	= body.getVelocity();
-			// - apply friction in y too ? NO
-			// - apply friction even when not in touch with the ground ? YES
-			body.setVelocity(speed[0]*friction, speed[1], speed[2]*friction)
-			//body.setVelocity(speed[0]*friction, speed[1]*friction, speed[2]*friction)
-		}.bind(this)
+	this._frictionAccelerator	= new vphy.FrictionAccelerator({
+		bodies	: [microphysics.body(this._mesh)],
+		x	: friction,
+		y	: 1,
+		z	: friction
 	});
-	// apply this._maxspeed
-	microphysics.world().add({
-		type: vphy.types.ACCELERATOR,
-		perform: function(){
-			var body	= microphysics.body(this._mesh);
-			var velocity	= body.getVelocity();
-			var speed	= new THREE.Vector3(velocity[0], velocity[1], velocity[2]);
-			if( speed.length() > this._maxSpeed){
-				speed.normalize().multiplyScalar(this._maxSpeed);
-				body.setVelocity(speed.x, speed.y, speed.z);
-			}
-		}.bind(this)
+	microphysics.world().add(this._frictionAccelerator);
+
+	// apply maxSpeed
+	this._maxSpeedAccelerator	= new vphy.MaxSpeedAccelerator({
+		bodies	: [microphysics.body(this._mesh)],
+		maxSpeed: this._maxSpeed
 	});
+	microphysics.world().add(this._maxSpeedAccelerator);
 }
 
 Marble.Marble.prototype.destroy	= function()
 {	
 	scene.removeObject( this._mesh );
+
+	this._frictionAccelerator && microphysics.world().remove(this._frictionAccelerator);
+	this._frictionAccelerator	= null;
+
+	this._maxSpeedAccelerator && microphysics.world().remove(this._maxSpeedAccelerator);
+	this._maxSpeedAccelerator	= null;
 }
 
 

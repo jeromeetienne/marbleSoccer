@@ -93,6 +93,8 @@ THREEx.Microphysics	= function(opts)
 	return this;
 }
 
+THREEx.Microphysics.vphy	= vphy;
+
 // start the physics immediatly
 THREEx.Microphysics.prototype.start	= function()
 {
