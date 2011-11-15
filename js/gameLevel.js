@@ -9,15 +9,12 @@ Marble.GameLevel	= function()
 
 	this._visualFxs		= [];
 
-	this.visualFxAdd(new Marble.VisualFxLightRed());
+	this.visualFxAdd(new Marble.VisualFxLightNormal());
 	
 	// create all the balls
 	this._balls	= [];
-	for(var i = 0; i < 8; i++){
-		this._balls.push(new Marble.Ball({
-			ballDesc	: String(i+1)
-		}));
-	}
+	this._build9ballRack();
+	
 
 	// create all the enemies
 	this._enemies	= [];
@@ -103,12 +100,49 @@ Marble.GameLevel.prototype.camera	= function(){	return this._camera;	}
 
 Marble.GameLevel.prototype.tick	= function()
 {
+	this._map.tick();
+
 	this._player.tick();
 	this._balls  .forEach(	function(item){ item.tick(); });
 	this._enemies.forEach(	function(item){	item.tick(); });
 	
 	osdLayer.update();
-
-	this._map.tick();
 	this._camera.tick();
+}
+
+
+Marble.GameLevel.prototype._build9ballRack	= function(){
+	var radius	= Marble.tileSize;
+	var rack	= new THREE.Vector3(0,0, -3 * radius);
+	var offset;
+	var addBall	= function(arr, offset){
+		arr.forEach(function(ballDesc, index){
+			this._balls.push(new Marble.Ball({
+				ballDesc	: ballDesc,
+				position	: new THREE.Vector3(index * radius,0,0).addSelf(offset)
+			}));
+		}.bind(this));
+	}.bind(this);
+	// in a rack, ball are touching => equilateral triangle between 3 balls => all angles = Math.PI/3
+	var offsetY	= Math.sin(Math.PI/3);
+
+	// front line
+	offset	= rack.clone().addSelf(new THREE.Vector3(0,0,0));
+	addBall(['1'], offset)
+
+	// second line
+	offset	= rack.clone().addSelf(new THREE.Vector3(-0.5*radius,0, -1 * offsetY * radius));
+	addBall(['2', '3'], offset);
+
+	// third line
+	offset	= rack.clone().addSelf(new THREE.Vector3(-1*radius,0, -2 * offsetY * radius));
+	addBall(['4', '9', '5'], offset);
+
+	// forth line
+	offset	= rack.clone().addSelf(new THREE.Vector3(-0.5*radius,0, -3 * offsetY * radius));
+	addBall(['6', '7'], offset);
+
+	// fitth line
+	offset	= rack.clone().addSelf(new THREE.Vector3(0,0, -4 * offsetY * radius));
+	addBall(['8'], offset);
 }

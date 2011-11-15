@@ -7,13 +7,14 @@
 Marble.Ball	= function(opts)
 {
 	var ballDesc	= opts.ballDesc	|| "8";
+	var position	= opts.position	|| new THREE.Vector3(75+Math.random()*100, Marble.tileSize, 75+Math.random()*100);
 
 	// call parent class constructor
 	this.parent.constructor.call(this)
 	this.parent.init.call(this, {
-		color		: 0xFFAA00,
 		material	: Marble.PoolBallUtils.ballMaterial(ballDesc),
-		position	: new THREE.Vector3(75+Math.random()*100, Marble.tileSize, 75+Math.random()*100)
+		position	: position,
+		rotation	: new THREE.Vector3(-Math.PI/2, Math.PI/2, 0)
 	});
 }
 

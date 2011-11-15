@@ -8,8 +8,9 @@ Marble.Marble.prototype.init	= function(opts)
 	opts		= opts	|| {};
 	this._radius	= 'radius' in opts	? opts.radius	: Marble.tileSize/2;
 	this._maxSpeed	= 'maxSpeed' in opts	? opts.maxSpeed	: 0.2*Marble.tileSize;
-	var position	= opts.position		? opts.position	: new THREE.Vector3();
-	var friction	= 'friction' in opts	? opts.friction	: 0.985;
+	var position	= opts.position		|| new THREE.Vector3();
+	var rotation	= opts.rotation		|| new THREE.Vector3();
+	var friction	= 'friction' in opts	? opts.friction	: 0.99;
 	this._marbleId	= opts.marbleId 	|| "marbleId-"+Math.floor(Math.random()*9999999).toString(36);
 	var material	= opts.material		|| new THREE.MeshNormalMaterial();
 
@@ -17,6 +18,7 @@ Marble.Marble.prototype.init	= function(opts)
 	var geometry	= new THREE.SphereGeometry(this._radius, 32, 16);
 	this._ballMesh	= new THREE.Mesh(geometry, material);
 	this._ballMesh.position.y	= this._radius;
+	this._ballMesh.rotation.copy(rotation);
 	this._ballMesh.matrixAutoUpdate = false;
 	this._ballMesh.updateMatrix();
 

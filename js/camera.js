@@ -16,6 +16,7 @@ Marble.Camera.prototype.object	= function()
 
 Marble.Camera.prototype.tick	= function()
 {
+	// TODO should i use mesh or body ?
 	var camera	= this._object;
 	var player	= world.player();
 	

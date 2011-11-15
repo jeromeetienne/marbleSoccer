@@ -2,7 +2,9 @@ Marble.VisualFxLightRed	= function()
 {
 	// call parent class constructor
 	this.parent.constructor.call(this);
-	this.parent.init.call(this, {});
+	this.parent.init.call(this, {
+		timeout	: 5*1000
+	});
 
 	var light	= new THREE.AmbientLight( 0xAA0101, 2 );
 	scene.addLight( light );
