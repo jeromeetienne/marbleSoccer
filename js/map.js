@@ -133,26 +133,6 @@ Marble.Map.prototype._bindPhysics2	= function()
 		microphysics.world().add(body);
 		
 		this._bindPhysicsContact(body, item.t);
-
-
-		if( false ){			
-			console.log("**************");
-			console.log("item", JSON.stringify(item), Marble.Voxel._type2colors[item.t].getHex())
-			console.log("box", JSON.stringify(box))
-			console.log("vphyOpts", JSON.stringify(vphyOpts))
-		}
-
-		if( false ){
-			var geometry	= new THREE.CubeGeometry(width, height, depth);
-			var material	= [
-				//new THREE.MeshNormalMaterial(),
-				new THREE.MeshBasicMaterial( { color: Marble.Voxel._type2colors[item.t].getHex() } ),
-				new THREE.MeshBasicMaterial( { color: 0x000000, wireframe: true } )
-			];
-			var mesh	= new THREE.Mesh(new THREE.CubeGeometry(width, height, depth), material);
-			mesh.position.set(positionX, positionY, positionZ);
-			scene.addObject(mesh);			
-		}
 	}
 }
 

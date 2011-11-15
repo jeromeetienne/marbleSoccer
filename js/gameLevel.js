@@ -13,9 +13,8 @@ Marble.GameLevel	= function()
 	
 	// create all the balls
 	this._balls	= [];
-	this._build9ballRack();
+	this._ballBuild9Rack();
 	
-
 	// create all the enemies
 	this._enemies	= [];
 	for(var i = 0; i < 0; i++){
@@ -52,7 +51,7 @@ Marble.GameLevel.prototype.visualFxAdd	= function(visualFx)
 	this._visualFxs.push(visualFx);
 
 	visualFx.bind('autodestroy', function(){
-		console.log("autodetroy")
+		console.log("autodetroy");
 		visualFx.destroy();
 		this.visualFxRemove(visualFx);
 	}.bind(this));
@@ -111,16 +110,38 @@ Marble.GameLevel.prototype.tick	= function()
 }
 
 
-Marble.GameLevel.prototype._build9ballRack	= function(){
+Marble.GameLevel.prototype._ballCtor	= function(ballOpts)
+{
+	var ball	= new Marble.Ball(ballOpts);
+
+	this._balls.push(ball);
+
+	ball.bind('goal', function(){
+
+		ball.setInvisible();
+		world.player().scoreChange(20);
+		soundPool.get('goal').play();
+		
+		// FIXME should i do it here ? in the .tick() ?
+		var nbVisible	= 0;
+		this._balls.forEach(function(ball){
+			nbVisible	+= ball.isVisible() ? 1 : 0;
+		});
+		if( nbVisible === 0 )	pageGameRound.triggerGameOver('levelCompleted');
+		
+	}.bind(this));
+}
+
+Marble.GameLevel.prototype._ballBuild9Rack	= function(){
 	var radius	= Marble.tileSize;
 	var rack	= new THREE.Vector3(0,0, -3 * radius);
 	var offset;
 	var addBall	= function(arr, offset){
 		arr.forEach(function(ballDesc, index){
-			this._balls.push(new Marble.Ball({
+			this._ballCtor({
 				ballDesc	: ballDesc,
 				position	: new THREE.Vector3(index * radius,0,0).addSelf(offset)
-			}));
+			});
 		}.bind(this));
 	}.bind(this);
 	// in a rack, ball are touching => equilateral triangle between 3 balls => all angles = Math.PI/3
@@ -129,7 +150,7 @@ Marble.GameLevel.prototype._build9ballRack	= function(){
 	// front line
 	offset	= rack.clone().addSelf(new THREE.Vector3(0,0,0));
 	addBall(['1'], offset)
-
+return;
 	// second line
 	offset	= rack.clone().addSelf(new THREE.Vector3(-0.5*radius,0, -1 * offsetY * radius));
 	addBall(['2', '3'], offset);

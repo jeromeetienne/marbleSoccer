@@ -80,6 +80,7 @@ Marble.PageGameMain.prototype._timeoutCtor	= function()
 	this._timeoutId	= setTimeout(this._timeoutCallback.bind(this), 1*1000);
 	this._timeout	= 120;
 }
+
 Marble.PageGameMain.prototype._timeoutDtor	= function()
 {
 	if( !this._timeoutId )	return;
@@ -98,3 +99,4 @@ Marble.PageGameMain.prototype._timeoutCallback	= function()
 	this._timeout--;
 	this._timeoutId	= setTimeout(this._timeoutCallback.bind(this), 1*1000);
 }
+

@@ -14,10 +14,10 @@
 		</style>
 	</head>
 	<body>
-		<script src="https://raw.github.com/mrdoob/three.js/master/build/Three.js"></script>
-		<script src="https://raw.github.com/mrdoob/three.js/master/examples/js/Detector.js"></script>
-		<script src="https://raw.github.com/mrdoob/three.js/master/examples/js/RequestAnimationFrame.js"></script>
-		<script src="https://raw.github.com/mrdoob/three.js/master/examples/js/Stats.js"></script>
+		<script src="https://raw.github.com/mrdoob/three.js/r44/build/Three.js"></script>
+		<script src="https://raw.github.com/mrdoob/three.js/r44/examples/js/Detector.js"></script>
+		<script src="https://raw.github.com/mrdoob/three.js/r44/examples/js/RequestAnimationFrame.js"></script>
+		<script src="https://raw.github.com/mrdoob/three.js/r44/examples/js/Stats.js"></script>
 
 		<script>
 
@@ -38,17 +38,15 @@
 				container = document.createElement('div');
 				document.body.appendChild(container);
 
-				camera	= new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 5000 );
+				//camera	= new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 5000 );
+				camera	= new THREE.Camera( 60, window.innerWidth / window.innerHeight, 1, 100000 );
 				camera.position.z = 500;
 
 				scene	= new THREE.Scene();
 
 				// here you add you lights
-				var light	= new THREE.AmbientLight( 0xFFFFFF, 1 );
-				scene.addObject( light );
-			
 				var light	= new THREE.DirectionalLight( 0xFFFFFF, 1 );
-				light.position.set( -10, 10, 5 ).normalize();
+				light.position.set( 0, 0, 5 ).normalize();
 				scene.addObject( light );
 							
 				// here you add your objects
@@ -100,7 +98,7 @@
 				var radgrad5 = ctx.createRadialGradient(canvasW/2, 0, canvasW/4,canvasW/2, 0, canvasW/2);  
 				radgrad5.addColorStop(0.0, 'rgba(255,255,255,1)');  
 				radgrad4.addColorStop(0.8, 'rgba(192,192,192,0.5)');  
-				radgrad5.addColorStop(1.0, 'rgba(0,0,0,0)');  
+				radgrad5.addColorStop(1.0, 'rgba(0,0,0,0)');   
 
 				ctx.save();
 				ctx.fillStyle	= radgrad5;
@@ -111,29 +109,37 @@
 				
 
 				group = new THREE.Object3D();
-				scene.add(group);
+				scene.addChild(group);
+
+				var mesh	= new THREE.Mesh(new THREE.PlaneGeometry(512, 512), new THREE.MeshBasicMaterial({
+					color	: 0x00FF00
+				}));
+				mesh.position.z	= -256;
+				scene.addChild( mesh );
 				
 				var geometry	= new THREE.PlaneGeometry(64, 512);
-				var material	= new THREE.MeshBasicMaterial({
-					map		: texture,
-					//blending	: THREE.AdditiveBlending,
+				var material	= new THREE.MeshLambertMaterial({
+					map		: THREE.ImageUtils.loadTexture( "../../images/thenounproject/options.png" ),
+					//map		: THREE.ImageUtils.loadTexture( "spot.png" ),
+					//map		: texture,
+					blending	: THREE.AdditiveBlending,
 					transparent	: true
 				});
 				var mesh	= new THREE.Mesh(geometry, material);
 				mesh.doubleSided= true;
 				mesh.rotation.y	= 0*Math.PI/3;
-				mesh.position.y	= -256;
-				group.add( mesh );
+				mesh.position.y	= 256;
+				group.addChild( mesh );
 				var mesh	= new THREE.Mesh(geometry, material);
 				mesh.doubleSided= true;
 				mesh.rotation.y	= 1*Math.PI/3;
-				mesh.position.y	= -256;
-				group.add( mesh );
+				mesh.position.y	= 256;
+				group.addChild( mesh );
 				var mesh	= new THREE.Mesh(geometry, material);
 				mesh.doubleSided= true;
 				mesh.rotation.y	= 2*Math.PI/3;
-				mesh.position.y	= -256;
-				group.add( mesh );
+				mesh.position.y	= 256;
+				group.addChild( mesh );
 				
 
 
@@ -145,7 +151,10 @@
 				});
 				//scene.add( sprite );
 
-				renderer = new THREE.WebGLRenderer();
+				renderer = new THREE.WebGLRenderer({
+					clearColor	: 0xFF0000,
+					clearAlpha	: 1
+				});
 				renderer.setSize( window.innerWidth, window.innerHeight );
 
 				container.appendChild( renderer.domElement );
@@ -175,9 +184,9 @@
 				
 				// here animate your object 
 				if( true ){
-					group.rotation.x = time * 0.5;
+					//group.rotation.x = time * 0.5;
 					group.rotation.y = time * 0.75;
-					group.rotation.z = time * 1.0;
+					//group.rotation.z = time * 1.0;
 				}
 				
 				time += 0.02;

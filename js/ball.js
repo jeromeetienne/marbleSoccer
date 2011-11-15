@@ -24,6 +24,9 @@ Marble.Ball.prototype			= new Marble.Marble();
 Marble.Ball.prototype.constructor	= Marble.Marble;
 Marble.Ball.prototype.parent		= Marble.Marble.prototype;
 
+// mixin MicroEvent
+MicroEvent.mixin(Marble.Ball);
+
 Marble.Ball.prototype.destroy		= function()
 {
 }
@@ -34,31 +37,28 @@ Marble.Ball.prototype.destroy		= function()
 
 Marble.Ball.prototype.onContactVoxel	= function(voxelType)
 {
-	if( voxelType === 0 ){
-		var body	= microphysics.body( this.mesh() );
-		body.setPosition(0, Marble.tileSize, +99999);
-		//body.setPosition(Marble.tileSize*(Math.random()*2-1)*2, Marble.tileSize*(Math.random()*2)*2, Marble.tileSize*(Math.random()*2-1)*2);
-		body.setVelocity(0,0,0);
-
-		world.player().scoreChange(20);
-		soundPool.get('goal').play();
-	}
+	if( voxelType === 0 )		this.trigger('goal');
 }
 
-Marble.Ball.prototype.invisible	= function()
+Marble.Ball.prototype.setInvisible	= function()
 {
-	var body	= microphysics.body( this.mesh() );
+	var body	= microphysics.body( this._mesh );
+	body.setPosition(0, Marble.tileSize, +99999);
+	//body.setPosition(Marble.tileSize*(Math.random()*2-1)*2, Marble.tileSize*(Math.random()*2)*2, Marble.tileSize*(Math.random()*2-1)*2);
+	body.setVelocity(0,0,0);	
+}
+Marble.Ball.prototype.isVisible	= function()
+{
+	var body	= microphysics.body( this._mesh );
 	var positions	= body.getPosition();
 	var positionZ	= positions[2];
-	return positionZ > 90000 ? true : false;
+	return positionZ < 90000 ? true : false;
 }
 
 Marble.Ball.prototype.tick	= function()
 {
-	if( this.invisible() && false ){	// TODO somehow this crash the physics ???
-		var body	= microphysics.body( this.mesh() );
-		body.setPosition(0, 0, +99999);
-		body.setVelocity(0,0,0);
+	if( this.isVisible() === false && false ){	// TODO somehow this crash the physics ???
+		this.setInvisible();
 	}
 	// call the parent class .tick()
 	this.parent.tick.call(this);
