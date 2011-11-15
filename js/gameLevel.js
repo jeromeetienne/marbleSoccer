@@ -20,10 +20,14 @@ Marble.GameLevel	= function()
 	for(var i = 0; i < 0; i++){
 		this._enemies.push( new Marble.Enemy() );
 	}
+
+	this._timeoutCtor();
 }
 
 Marble.GameLevel.prototype.destroy	= function()
 {
+	this._timeoutDtor();
+
 	this._player	&& this._player.destroy();
 	this._player	= null;
 
@@ -109,6 +113,9 @@ Marble.GameLevel.prototype.tick	= function()
 	this._camera.tick();
 }
 
+//////////////////////////////////////////////////////////////////////////////////
+//		balls								//
+//////////////////////////////////////////////////////////////////////////////////
 
 Marble.GameLevel.prototype._ballCtor	= function(ballOpts)
 {
@@ -167,3 +174,35 @@ return;
 	offset	= rack.clone().addSelf(new THREE.Vector3(0,0, -4 * offsetY * radius));
 	addBall(['8'], offset);
 }
+
+//////////////////////////////////////////////////////////////////////////////////
+//		timeoutCtor							//
+//////////////////////////////////////////////////////////////////////////////////
+
+Marble.GameLevel.prototype._timeoutCtor	= function()
+{
+	console.assert( !this._timeoutId )
+	this._timeoutId	= setTimeout(this._timeoutCallback.bind(this), 1*1000);
+	this._timeout	= 120;
+	this._timeout	= 10;
+}
+
+Marble.GameLevel.prototype._timeoutDtor	= function()
+{
+	if( !this._timeoutId )	return;
+	clearTimeout(this._timeoutId);
+	this._timeoutId	= null;
+}
+
+Marble.GameLevel.prototype._timeoutCallback	= function()
+{
+	if( this._timeout < 0 ){
+		pageGameRound.triggerGameOver('levelTimeout');
+		return;
+	}
+	osdLayer.timeoutSet(this._timeout+'s');
+	
+	this._timeout--;
+	this._timeoutId	= setTimeout(this._timeoutCallback.bind(this), 1*1000);
+}
+
