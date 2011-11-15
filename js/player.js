@@ -11,7 +11,6 @@ Marble.Player	= function()
 	this.parent.init.call(this, {
 		material	: Marble.PoolBallUtils.ballMaterial('cue'),
 		position	: new THREE.Vector3(0,Marble.tileSize*2.5,0)
-		//maxSpeed	: 0.9*Marble.tileSize
 	});
 
 	// accelerator for keyboard control

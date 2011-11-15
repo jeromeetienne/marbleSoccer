@@ -14,7 +14,8 @@ Marble.Ball	= function(opts)
 	this.parent.init.call(this, {
 		material	: Marble.PoolBallUtils.ballMaterial(ballDesc),
 		position	: position,
-		rotation	: new THREE.Vector3(-Math.PI/2, Math.PI/2, 0)
+		//rotation	: new THREE.Vector3(-Math.PI/2, Math.PI/2, 0),
+		rotation	: new THREE.Vector3(Math.random()*Math.PI, Math.random()*Math.PI, Math.random()*Math.PI)
 	});
 }
 
