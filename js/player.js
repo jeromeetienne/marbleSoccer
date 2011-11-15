@@ -19,15 +19,15 @@ Marble.Player	= function()
 		bodies		: [microphysics.body(this.mesh())],
 		acceleration	: 8*Marble.tileSize,
 		keyboard	: keyboard
-	})
+	});
 	microphysics.world().add(this._keyboardAcc);
 
 	// accelerator for deviceOrientation
-	if( true ){
+	if( false ){
 		this._devOrientAcc	= new vphy.ThreexDeviceOrientationAccelerator({
 			bodies			: [microphysics.body(this.mesh())],
 			deviceOrientation	: devOrientation
-		})
+		});
 		microphysics.world().add(this._devOrientAcc);		
 	}
 }
@@ -73,10 +73,4 @@ Marble.Player.prototype.onContactVoxel	= function(voxelType)
 Marble.Player.prototype.scoreChange	= function(delta)
 {
 	osdLayer.scoreChange(delta);
-}
-
-Marble.Player.prototype.tick	= function()
-{
-	// call the parent class .tick()
-	this.parent.tick.call(this);
 }

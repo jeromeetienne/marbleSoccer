@@ -41,7 +41,7 @@ Marble.PoolBallUtils.ballMaterial	= function(ballDesc)
 			var ctx	= canvas.getContext('2d');
 			ctx.save();
 			ctx.globalAlpha	= 0.3;
-			ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+			//ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 			ctx.restore();
 			texture.needsUpdate = true;
 		};

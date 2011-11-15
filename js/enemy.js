@@ -29,6 +29,7 @@ Marble.Enemy.prototype.parent		= Marble.Marble.prototype;
 //										//
 //////////////////////////////////////////////////////////////////////////////////
 
+// FIXME make that a class
 Marble.Enemy.prototype._acceleratorToPlayer	= function()
 {
 	var body	= this.mesh()._vphyBody;

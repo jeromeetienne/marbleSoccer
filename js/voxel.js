@@ -19,7 +19,7 @@ Marble.Voxel	= function(opts)
 		return new THREE.MeshLambertMaterial({
 			color	: Marble.Voxel._type2colors[type].getHex(),
 			shading	: THREE.FlatShading,
-			map	: texture
+			//map	: texture
 		});
 	});
 

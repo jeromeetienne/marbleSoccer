@@ -90,7 +90,7 @@ Marble.PageGameRound.prototype._init	= function(){
 	// - move that world ?
 	microphysics	= new THREEx.Microphysics().start();
 
-	world		= new Marble.World();
+	world		= new Marble.GameLevel();
 
 	this._winResize	= THREEx.WindowResize(renderer, world.camera().object());
 }
