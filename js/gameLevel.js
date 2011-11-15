@@ -9,18 +9,8 @@ Marble.GameLevel	= function()
 
 	this._visualFxs		= [];
 
-	this.visualFxAdd(new Marble.VisualFxLightNormal());
+	this.visualFxAdd(new Marble.VisualFxLightRed());
 	
-	//var visualFx	= new Marble.VisualFxLightNormal();
-	//this._visualFxs.push(visualFx);
-	//setTimeout(function(){
-	//	console.log('change visualfx');
-	//	visualFx.destroy();
-	//
-	//	var visualFx2	= new Marble.VisualFxLightRed();
-	//	this._visualFxs.push(visualFx2);
-	//}.bind(this), 5*1000)
-
 	// create all the balls
 	this._balls	= [];
 	for(var i = 0; i < 8; i++){
@@ -60,6 +50,7 @@ Marble.GameLevel.prototype.destroy	= function()
 
 Marble.GameLevel.prototype.visualFxAdd	= function(visualFx)
 {
+	console.assert( visualFx instanceof Marble.VisualFx );
 	console.assert( this._visualFxs.indexOf(visualFx) === -1, "visualFx MUST NOT be present" );
 	this._visualFxs.push(visualFx);
 
@@ -72,6 +63,7 @@ Marble.GameLevel.prototype.visualFxAdd	= function(visualFx)
 
 Marble.GameLevel.prototype.visualFxRemove	= function(visualFx)
 {
+	console.assert( visualFx instanceof Marble.VisualFx );
 	console.assert( this._visualFxs.indexOf(visualFx) !== -1, "visualFx MUST be present" );
 	this._visualFxs.splice( this._visualFxs.indexOf(visualFx), 1 );
 }

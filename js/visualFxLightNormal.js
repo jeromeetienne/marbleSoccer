@@ -1,11 +1,11 @@
 Marble.VisualFxLightNormal	= function()
 {
-	// put that in a Marble.VisualLight base class and put it in framework
-	this._timeToLive	= 5*1000;
-	this._timeoutId		= setTimeout(function(){
-		this.trigger('autodestroy');
-	}.bind(this), this._timeToLive);
-	
+	// call parent class constructor
+	this.parent.constructor.call(this);
+	this.parent.init.call(this, {
+		timeout	: 5*1000
+	});
+
 	var light	= new THREE.AmbientLight( 0xAAAAAA, 2 );
 	scene.addLight( light );
 	this._ambient	= light;
@@ -21,16 +21,16 @@ Marble.VisualFxLightNormal	= function()
 	this._directional2	= light;
 }
 
-// mixin MicroEvent
-MicroEvent.mixin(Marble.VisualFxLightNormal);
-
+// inherit from Marble.VisualFxLightNormal methods
+Marble.VisualFxLightNormal.prototype			= new Marble.VisualFx();
+Marble.VisualFxLightNormal.prototype.constructor	= Marble.VisualFx;
+Marble.VisualFxLightNormal.prototype.parent		= Marble.VisualFx.prototype;
 
 Marble.VisualFxLightNormal.prototype.destroy	= function()
 {
-	console.log("kk")
-	this._timeoutId		&& clearTimeout(this._timeoutId)
-	this._timeoutId		= null;
-
+	// call parent class destructor
+	this.parent.destroy.call(this);
+	
 	this._ambient		&& scene.removeLight( this._ambient );
 	this._ambient		= null;
 

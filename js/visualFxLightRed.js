@@ -1,6 +1,10 @@
 Marble.VisualFxLightRed	= function()
 {
-	var light	= new THREE.AmbientLight( 0xAA0000, 2 );
+	// call parent class constructor
+	this.parent.constructor.call(this);
+	this.parent.init.call(this, {});
+
+	var light	= new THREE.AmbientLight( 0xAA0101, 2 );
 	scene.addLight( light );
 	this._ambient	= light;
 
@@ -9,14 +13,22 @@ Marble.VisualFxLightRed	= function()
 	scene.addLight( light );
 	this._directional1	= light;
 
-	var light = new THREE.DirectionalLight( 0x004400, 0.3 );
+	var light = new THREE.DirectionalLight( 0x004400, 3 );
 	light.position.set( 5, 5, -2 ).normalize();
 	scene.addLight( light );
 	this._directional2	= light;
 }
 
+// inherit from Marble.VisualFxLightRed methods
+Marble.VisualFxLightRed.prototype		= new Marble.VisualFx();
+Marble.VisualFxLightRed.prototype.constructor	= Marble.VisualFx;
+Marble.VisualFxLightRed.prototype.parent	= Marble.VisualFx.prototype;
+
 Marble.VisualFxLightRed.prototype.destroy	= function()
 {
+	// call parent class destructor
+	this.parent.destroy.call(this);
+
 	scene.removeLight( this._ambient );
 	this._ambient	= null;
 
