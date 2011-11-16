@@ -7,6 +7,7 @@ Marble.PageLandingMain	= function()
 	this._pageSel		= "#pageLandingContainer";
 
 	// create Marble.SoundPool
+	// TODO pass that in a Ctor/Dtor function
 	this._soundPool	= new Marble.SoundPool();
 	this._soundPool.insert('goal', new Marble.Sound({
 		urls	: ['sounds/pacman/eatghost.mp3']
