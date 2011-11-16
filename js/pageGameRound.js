@@ -103,10 +103,8 @@ Marble.PageGameRound.prototype._animate	= function(){
 }
 
 // ## Render the 3D Scene
-Marble.PageGameRound.prototype._render = function(){
-	// update THREEx.Microphysics
-	microphysics.update(scene);
-
+Marble.PageGameRound.prototype._render = function()
+{
 	// gameLevel .tick()
 	gameLevel.tick();
 	

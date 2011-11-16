@@ -111,6 +111,9 @@ Marble.GameLevel.prototype.camera	= function(){	return this._camera;	}
 
 Marble.GameLevel.prototype.tick	= function()
 {
+	// update THREEx.Microphysics
+	microphysics.update(scene);
+
 	this._map.tick();
 
 	this._player.tick();
