@@ -61,7 +61,7 @@ Marble.Player.prototype.onContactVoxel	= function(voxelType)
 		body.setPosition(0, Marble.tileSize, 0);
 		body.setVelocity(0,0,0);
 		soundPool.get('die').play();
-		pageGameRound.triggerGameOver('dead', 'killed');
+		pageGameLife.triggerEndOfLevel('dead', 'killed');
 	}
 }
 

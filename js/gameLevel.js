@@ -129,7 +129,7 @@ Marble.GameLevel.prototype.tick	= function()
 	this._balls.forEach(function(ball){
 		nbVisible	+= ball.isVisible() ? 1 : 0;
 	});
-	if( nbVisible === 0 )	pageGameRound.triggerGameOver('win', 'levelCompleted');
+	if( nbVisible === 0 )	pageGameLife.triggerEndOfLevel('win', 'levelCompleted');
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -208,7 +208,7 @@ Marble.GameLevel.prototype._timeoutDtor	= function()
 Marble.GameLevel.prototype._timeoutCallback	= function()
 {
 	if( this._timeout < 0 ){
-		pageGameRound.triggerGameOver('dead', 'timeout');
+		pageGameLife.triggerEndOfLevel('dead', 'timeout');
 		return;
 	}
 	osdLayer.timeoutSet(this._timeout+'s');

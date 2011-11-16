@@ -13,7 +13,10 @@ Marble.PageLandingMain	= function()
 	}));
 	this._soundPool.insert('die', new Marble.Sound({
 		urls	: ['sounds/pacman/die.mp3']
-	}));	
+	}));
+	this._soundPool.insert('marbleContact', new Marble.Sound({
+		urls	: ['sounds/pacman/eating.short.mp3']
+	}));
 	// export in global
 	soundPool	= this._soundPool;
 

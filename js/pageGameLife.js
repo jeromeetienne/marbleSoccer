@@ -6,11 +6,11 @@ var camera, scene, renderer;
 //		ctor/dtor							//
 //////////////////////////////////////////////////////////////////////////////////
 
-Marble.PageGameRound	= function()
+Marble.PageGameLife	= function()
 {
 	this._containerSel	= '#canvasContainer';
 
-	console.log("enter PageGameRound")
+	console.log("enter PageGameLife")
 
 	// test if webgl is supported
 	console.assert( Detector.webgl, "WebGL isnt supported" );
@@ -22,7 +22,7 @@ Marble.PageGameRound	= function()
 	this._animate();
 }
 
-Marble.PageGameRound.prototype.destroy	= function()
+Marble.PageGameLife.prototype.destroy	= function()
 {	
 	this._requestAnimId	&& cancelRequestAnimationFrame( this._requestAnimId );
 	this._requestAnimId	= null;
@@ -40,13 +40,13 @@ Marble.PageGameRound.prototype.destroy	= function()
 }
 
 // mixin MicroEvent
-MicroEvent.mixin(Marble.PageGameRound);
+MicroEvent.mixin(Marble.PageGameLife);
 
 //////////////////////////////////////////////////////////////////////////////////
 //		misc								//
 //////////////////////////////////////////////////////////////////////////////////
 
-Marble.PageGameRound.prototype.triggerGameOver	= function(result, reason)
+Marble.PageGameLife.prototype.triggerEndOfLevel	= function(result, reason)
 {
 	console.assert( result === 'win' || result === 'dead' );
 	if( result === 'dead' ){
@@ -58,7 +58,7 @@ Marble.PageGameRound.prototype.triggerGameOver	= function(result, reason)
 //		misc								//
 //////////////////////////////////////////////////////////////////////////////////
 
-Marble.PageGameRound.prototype._init	= function(){
+Marble.PageGameLife.prototype._init	= function(){
 	// create the container element
 	var container = jQuery(this._containerSel).get(0);
 
@@ -93,7 +93,7 @@ Marble.PageGameRound.prototype._init	= function(){
 }
 
 // ## Animate and Display the Scene
-Marble.PageGameRound.prototype._animate	= function(){
+Marble.PageGameLife.prototype._animate	= function(){
 	// render the 3D scene
 	this._render();
 	// relaunch the 'timer' 
@@ -103,7 +103,7 @@ Marble.PageGameRound.prototype._animate	= function(){
 }
 
 // ## Render the 3D Scene
-Marble.PageGameRound.prototype._render = function()
+Marble.PageGameLife.prototype._render = function()
 {
 	// gameLevel .tick()
 	gameLevel.tick();

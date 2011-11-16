@@ -43,10 +43,20 @@ Marble.Marble.prototype.init	= function(opts)
 	microphysics.bindMesh(this._mesh, {
 		geometry	: this._ballMesh.geometry,
 		physics		: {
-			restitution	: 0.90
+			restitution	: 0.95
 		}
 	});
 	microphysics.body(this._mesh)._marbleId	= this._marbleId;
+
+	microphysics.body(this._mesh).events.on('contact', function(event, otherBody){
+		// skip if the contact isnt with another Marble
+		if( !otherBody._marbleId )		return;
+		// skip if the contact is with a marble of lower marbleId
+		// - used to have a single contact notification when 2 marbles are in contact
+		if( this._marbleId >= otherBody._marbleId )	return;
+		//console.log("marlbe", this._marbleId, "collide with", otherBody._marbleId)
+		soundPool.get('marbleContact').play();
+	});
 
 	// apply friction
 	this._frictionAccelerator	= new vphy.FrictionAccelerator({

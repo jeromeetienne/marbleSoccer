@@ -1,5 +1,5 @@
 var osdLayer;
-var pageGameRound;
+var pageGameLife;
 
 Marble.PageGameMain	= function()
 {
@@ -23,20 +23,20 @@ Marble.PageGameMain.prototype.destroy	= function()
 MicroEvent.mixin(Marble.PageGameMain);
 
 //////////////////////////////////////////////////////////////////////////////////
-//		pageGameRound							//
+//		pageGameLife							//
 //////////////////////////////////////////////////////////////////////////////////
 
 Marble.PageGameMain.prototype._gameRoundCtor	= function()
 {
 	console.assert(!this._gameRound);
 
-	this._gameRound		= new Marble.PageGameRound();
+	this._gameRound		= new Marble.PageGameLife();
 
 	this._$gameRoundOnCompleted	= this._gameRoundOnCompleted.bind(this);
 	this._gameRound.bind("completed", this._$gameRoundOnCompleted);
 
 	// export as a global
-	pageGameRound	= this._gameRound;
+	pageGameLife	= this._gameRound;
 }
 
 Marble.PageGameMain.prototype._gameRoundDtor	= function()
@@ -49,7 +49,7 @@ Marble.PageGameMain.prototype._gameRoundDtor	= function()
 	this._gameRound	= null;
 	
 	// export as a global
-	pageGameRound	= this._gameRound;
+	pageGameLife	= this._gameRound;
 }
 Marble.PageGameMain.prototype._gameRoundOnCompleted	= function()
 {
