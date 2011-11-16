@@ -125,7 +125,7 @@ Marble.Marble.prototype._updateSphere	= function()
 */
 Marble.Marble.prototype._updateShadow	= function()
 {
-	var height	= world.map().getHeight(this._mesh.position.x, this._mesh.position.z);
+	var height	= gameLevel.map().getHeight(this._mesh.position.x, this._mesh.position.z);
 	if( height !== undefined ){
 		// +0.1 to ensure the map is above the ground
 		this._shadowMesh.position.y	= height - this._mesh.position.y + 0.1;

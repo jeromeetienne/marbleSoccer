@@ -1,6 +1,5 @@
 // TODO reduce the amount of global
-var world;
-var microphysics;
+var gameLevel;
 var camera, scene, renderer;
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -32,8 +31,8 @@ Marble.PageGameRound.prototype.destroy	= function()
 
 	this._stats 		&& this._stats.domElement.parentNode.removeChild(this._stats.domElement);
 
-	world.destroy();
-	world	= null;
+	gameLevel.destroy();
+	gameLevel	= null;
 
 	renderer	= null;
 
@@ -47,9 +46,12 @@ MicroEvent.mixin(Marble.PageGameRound);
 //		misc								//
 //////////////////////////////////////////////////////////////////////////////////
 
-Marble.PageGameRound.prototype.triggerGameOver	= function(reason)
+Marble.PageGameRound.prototype.triggerGameOver	= function(result, reason)
 {
-	this.trigger('completed', reason);
+	console.assert( result === 'win' || result === 'dead' );
+	if( result === 'dead' ){
+		this.trigger('completed', reason);
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -85,13 +87,9 @@ Marble.PageGameRound.prototype._init	= function(){
 	var mesh	= new THREE.Mesh( new THREE.SphereGeometry(75,16,8), new THREE.MeshNormalMaterial() );
 	scene.addObject(mesh);	
 
-	// init THREEx.Microphysics
-	// - move that world ?
-	microphysics	= new THREEx.Microphysics().start();
+	gameLevel	= new Marble.GameLevel();
 
-	world		= new Marble.GameLevel();
-
-	this._winResize	= THREEx.WindowResize(renderer, world.camera().object());
+	this._winResize	= THREEx.WindowResize(renderer, gameLevel.camera().object());
 }
 
 // ## Animate and Display the Scene
@@ -109,9 +107,9 @@ Marble.PageGameRound.prototype._render = function(){
 	// update THREEx.Microphysics
 	microphysics.update(scene);
 
-	// world .tick()
-	world.tick();
+	// gameLevel .tick()
+	gameLevel.tick();
 	
 	// actually display the scene in the Dom element
-	renderer.render( scene, world.camera().object() );
+	renderer.render( scene, gameLevel.camera().object() );
 }

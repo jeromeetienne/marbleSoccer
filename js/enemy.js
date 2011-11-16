@@ -35,7 +35,7 @@ Marble.Enemy.prototype._acceleratorToPlayer	= function()
 	var body	= this.mesh()._vphyBody;
 // TODO should take the position from the body
 	var enemyPos	= this.mesh().position;
-	var playerPos	= world.player().mesh().position;
+	var playerPos	= gameLevel.player().mesh().position;
 
 	var acceleration= 10*Marble.tileSize;
 

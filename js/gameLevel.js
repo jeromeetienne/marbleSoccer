@@ -1,13 +1,19 @@
+var microphysics;
+
 /**
 */
 Marble.GameLevel	= function()
 {
-	this._player		= new Marble.Player();
-	this._map		= new Marble.Map();
-	this._camera		= new Marble.Camera();
-	//this._skybox		= new Marble.Skymap();
+	// init THREEx.Microphysics
+	microphysics	= new THREEx.Microphysics().start();
 
-	this._visualFxs		= [];
+	this._player	= new Marble.Player();
+	this._map	= new Marble.Map();
+	this._camera	= new Marble.Camera();
+	//this._skybox	= new Marble.Skymap();
+
+
+	this._visualFxs	= [];
 
 	this.visualFxAdd(new Marble.VisualFxLightNormal());
 	
@@ -42,6 +48,8 @@ Marble.GameLevel.prototype.destroy	= function()
 
 	this._visualFxs	.forEach(function(item){ item.destroy(); });
 	this._visualFxs	= [];
+	
+	microphysics	= null;
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -111,6 +119,14 @@ Marble.GameLevel.prototype.tick	= function()
 	
 	osdLayer.update();
 	this._camera.tick();
+
+
+	// FIXME should i do it here ? in the .tick() ?
+	var nbVisible	= 0;
+	this._balls.forEach(function(ball){
+		nbVisible	+= ball.isVisible() ? 1 : 0;
+	});
+	if( nbVisible === 0 )	pageGameRound.triggerGameOver('win', 'levelCompleted');
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -124,18 +140,11 @@ Marble.GameLevel.prototype._ballCtor	= function(ballOpts)
 	this._balls.push(ball);
 
 	ball.bind('goal', function(){
-
+		
 		ball.setInvisible();
-		world.player().scoreChange(20);
+		gameLevel.player().scoreChange(20);
 		soundPool.get('goal').play();
-		
-		// FIXME should i do it here ? in the .tick() ?
-		var nbVisible	= 0;
-		this._balls.forEach(function(ball){
-			nbVisible	+= ball.isVisible() ? 1 : 0;
-		});
-		if( nbVisible === 0 )	pageGameRound.triggerGameOver('levelCompleted');
-		
+
 	}.bind(this));
 }
 
@@ -157,7 +166,7 @@ Marble.GameLevel.prototype._ballBuild9Rack	= function(){
 	// front line
 	offset	= rack.clone().addSelf(new THREE.Vector3(0,0,0));
 	addBall(['1'], offset)
-return;
+
 	// second line
 	offset	= rack.clone().addSelf(new THREE.Vector3(-0.5*radius,0, -1 * offsetY * radius));
 	addBall(['2', '3'], offset);
@@ -183,8 +192,7 @@ Marble.GameLevel.prototype._timeoutCtor	= function()
 {
 	console.assert( !this._timeoutId )
 	this._timeoutId	= setTimeout(this._timeoutCallback.bind(this), 1*1000);
-	this._timeout	= 120;
-	this._timeout	= 10;
+	this._timeout	= 60; 
 }
 
 Marble.GameLevel.prototype._timeoutDtor	= function()
@@ -197,7 +205,7 @@ Marble.GameLevel.prototype._timeoutDtor	= function()
 Marble.GameLevel.prototype._timeoutCallback	= function()
 {
 	if( this._timeout < 0 ){
-		pageGameRound.triggerGameOver('levelTimeout');
+		pageGameRound.triggerGameOver('dead', 'timeout');
 		return;
 	}
 	osdLayer.timeoutSet(this._timeout+'s');
