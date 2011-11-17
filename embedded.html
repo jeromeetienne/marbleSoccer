@@ -1,0 +1,22 @@
+<html>
+	<body>
+		<!-- include javascript files -->
+		<script src="vendor/jquery/jquery.min.js"></script>
+
+		<iframe src="index.html" webkitallowfullscreen='true' width='512' height='512'></iframe>
+		<script>
+		jQuery(function(){
+			var element	= document.getElementsByTagName('iframe')[0];
+			element.addEventListener('keypress', function(event){
+				console.log("keypressed");
+			}, false);
+			element.addEventListener('keyup', function(event){
+				console.log("keyup");
+			}, false);
+			element.addEventListener('keydown', function(event){
+				console.log("keydown");
+			}, false);
+		});
+		</script>
+	</body>
+</html>
