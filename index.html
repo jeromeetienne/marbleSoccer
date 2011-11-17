@@ -201,11 +201,18 @@
 		<script src="js/pageGameLife.js"></script>
 
 		<script>
-			//new Marble.PageGameRound();
-			new Marble.PageLandingMain();
-			//var canvas	= jQuery("#test").get(0);
-			//console.log("canvas", canvas)
-			//THREEx.Texture.PoolBall.textOnBack(canvas, '1');
+			jQuery(function(){
+				// prevent default actions for arrow keys
+				// - required if this window.document is embedded in another page as an iframe
+				// - it prevent the hosting page to scroll when you use arrows in the game page
+				document.addEventListener('keydown', function(event){
+					var isArrow	= event.keyCode >= 37 && event.keyCode <= 40;
+					if( !isArrow )	return;
+					event.preventDefault();
+				}, true);
+
+				new Marble.PageLandingMain();				
+			})
 
 		</script>
 	</body>
