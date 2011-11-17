@@ -1,0 +1,11 @@
+/**
+ * embedded.css for embedded version
+*/
+@media screen and (max-width: 640px) {
+	body {
+		font-size	: 60%;
+	}
+	#osdContainer .button img {
+		width	: 48px;
+	}
+}
