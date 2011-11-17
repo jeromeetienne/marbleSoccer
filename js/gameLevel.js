@@ -19,6 +19,7 @@ Marble.GameLevel	= function()
 	
 	// create all the balls
 	this._balls	= [];
+	//for(var i = 0; i < 1; i++)	this._ballCtor('8');
 	this._ballBuild9Rack();
 	
 	// create all the enemies
@@ -121,10 +122,11 @@ Marble.GameLevel.prototype.tick	= function()
 	this._enemies.forEach(	function(item){	item.tick(); });
 	
 	osdLayer.update();
+
 	this._camera.tick();
 
-
-	// FIXME should i do it here ? in the .tick() ?
+	// check if the level is completed
+	// - count the amount of visible balls
 	var nbVisible	= 0;
 	this._balls.forEach(function(ball){
 		nbVisible	+= ball.isVisible() ? 1 : 0;

@@ -7,19 +7,7 @@ Marble.PageLandingMain	= function()
 	this._pageSel		= "#pageLandingContainer";
 
 	// create Marble.SoundPool
-	// TODO pass that in a Ctor/Dtor function
-	this._soundPool	= new Marble.SoundPool();
-	this._soundPool.insert('goal', new Marble.Sound({
-		urls	: ['sounds/pacman/eatghost.mp3']
-	}));
-	this._soundPool.insert('die', new Marble.Sound({
-		urls	: ['sounds/pacman/die.mp3']
-	}));
-	this._soundPool.insert('marbleContact', new Marble.Sound({
-		urls	: ['sounds/pacman/eating.short.mp3']
-	}));
-	// export in global
-	soundPool	= this._soundPool;
+	this._soundsCtor();
 
 	keyboard	= new THREEx.KeyboardState();
 	devOrientation	= new THREEx.DeviceOrientationState();
@@ -48,6 +36,8 @@ Marble.PageLandingMain.prototype.destroy	= function()
 {
 	this._pageGameMainDtor();
 
+	this._soundsDtor();
+
 	keyboard.destroy();
 	keyboard	= null;
 
@@ -64,6 +54,10 @@ Marble.PageLandingMain.prototype.destroy	= function()
 	jQuery(this._pageSel+" .menuDialog .button.tutorial").unbind('click'	, this._$tutorialButtonClick);
 	jQuery(this._pageSel+" .menuDialog .button.about").unbind('click'	, this._$aboutButtonClick);
 }
+
+//////////////////////////////////////////////////////////////////////////////////
+//										//
+//////////////////////////////////////////////////////////////////////////////////
 
 Marble.PageLandingMain.prototype._menuShow	= function()
 {
@@ -106,6 +100,35 @@ Marble.PageLandingMain.prototype._aboutShow	= function()
 	var dialogSel	= this._pageSel+' .aboutDialog';
 	jQuery(dialogSel).jqm();
 	jQuery(dialogSel).jqmShow();
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+//		sounds								//
+//////////////////////////////////////////////////////////////////////////////////
+
+Marble.PageLandingMain.prototype._soundsCtor	= function()
+{
+	console.assert( !this._soundPool );
+	
+	this._soundPool	= new Marble.SoundPool();
+	this._soundPool.insert('goal', new Marble.Sound({
+		urls	: ['sounds/pacman/eatghost.mp3']
+	}));
+	this._soundPool.insert('die', new Marble.Sound({
+		urls	: ['sounds/pacman/die.mp3']
+	}));
+	this._soundPool.insert('marbleContact', new Marble.Sound({
+		urls	: ['sounds/pacman/eating.short.mp3']
+	}));
+
+	// export in global
+	soundPool	= this._soundPool;
+}
+
+Marble.PageLandingMain.prototype._soundsDtor	= function()
+{
+	this._soundPool.destroy();
+	this._soundPool	= null;
 }
 
 //////////////////////////////////////////////////////////////////////////////////

@@ -40,6 +40,9 @@ Marble.Ball.prototype.onContactVoxel	= function(voxelType)
 	if( voxelType === 0 )		this.trigger('goal');
 }
 
+/**
+ * ugly kludge to make it invisible, maybe do it better
+*/
 Marble.Ball.prototype.setInvisible	= function()
 {
 	var body	= microphysics.body( this._mesh );
