@@ -1,7 +1,11 @@
 // This THREEx helper makes it easy to handle the fullscreen API
 // * it hides the prefix for each browser
 // * it hides the little discrepencies of the various vendor API
-// * TODO add links
+// * at the time of this writing (nov 2011) it is available in 
+//   [firefox nightly](http://blog.pearce.org.nz/2011/11/firefoxs-html-full-screen-api-enabled.html),
+//   [webkit nightly](http://peter.sh/2011/01/javascript-full-screen-api-navigation-timing-and-repeating-css-gradients/) and
+//   [chrome stable](http://updates.html5rocks.com/2011/10/Let-Your-Content-Do-the-Talking-Fullscreen-API).
+
 // 
 // # Code
 
@@ -67,16 +71,7 @@ THREEx.FullScreen.cancel	= function()
 	}
 }
 
-/**
- * toggle fullscreen state
-*/
-THREEx.FullScreen.toggleFullScreen	= function()
-{
-	if( this.activated() )	this.cancel();
-	else			this.request();
-}
-
 // internal functions to know which fullscreen API implementation is available
-THREEx.FullScreen._hasWebkitFullScreen	= 'webkitCancelFullScreen' in document ? true : false;	
-THREEx.FullScreen._hasMozFullScreen	= 'mozCancelFullScreen' in document ? true : false;	
+THREEx.FullScreen._hasWebkitFullScreen	= 'webkitCancelFullScreen' in document	? true : false;	
+THREEx.FullScreen._hasMozFullScreen	= 'mozCancelFullScreen' in document	? true : false;	
 

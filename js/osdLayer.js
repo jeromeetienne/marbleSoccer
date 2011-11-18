@@ -100,23 +100,10 @@ Marble.OsdLayer.prototype._screenshotButtonOnClick	= function()
 
 Marble.OsdLayer.prototype._fullscreenButtonOnClick	= function()
 {
-	THREEx.FullScreen.toggleFullScreen();
-return
-
-	if( 'webkitIsFullScreen' in document ){
-		if( document.webkitIsFullScreen ){
-			document.webkitCancelFullScreen();		
-		}else{
-			document.body.webkitRequestFullScreen();
-		}
-	}else if( 'mozFullScreen' in document ){
-		if( document.mozFullScreen ){
-			document.mozCancelFullScreen();		
-		}else{
-			document.body.mozRequestFullScreen();
-		}		
+	if( THREEx.FullScreen.activated() ){
+		THREEx.FullScreen.cancel();
 	}else{
-		console.log("FullScreen API not supported")
+		THREEx.FullScreen.request();
 	}
 }
 
