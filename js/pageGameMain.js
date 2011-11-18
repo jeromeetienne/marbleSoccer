@@ -8,12 +8,12 @@ Marble.PageGameMain	= function()
 	osdLayer	= new Marble.OsdLayer();
 	osdLayer.livesSet( this._playerLives );
 
-	this._gameRoundCtor();
+	this._gameLifeCtor();
 }
 
 Marble.PageGameMain.prototype.destroy	= function()
 {
-	this._gameRoundDtor();
+	this._gameLifeDtor();
 
 	osdLayer	&& osdLayer.destroy();
 	osdLayer	= null;
@@ -26,34 +26,34 @@ MicroEvent.mixin(Marble.PageGameMain);
 //		pageGameLife							//
 //////////////////////////////////////////////////////////////////////////////////
 
-Marble.PageGameMain.prototype._gameRoundCtor	= function()
+Marble.PageGameMain.prototype._gameLifeCtor	= function()
 {
-	console.assert(!this._gameRound);
+	console.assert(!this._gameLife);
 
-	this._gameRound		= new Marble.PageGameLife();
+	this._gameLife		= new Marble.PageGameLife();
 
-	this._$gameRoundOnCompleted	= this._gameRoundOnCompleted.bind(this);
-	this._gameRound.bind("completed", this._$gameRoundOnCompleted);
+	this._$gameLifeOnCompleted	= this._gameLifeOnCompleted.bind(this);
+	this._gameLife.bind("completed", this._$gameLifeOnCompleted);
 
 	// export as a global
-	pageGameLife	= this._gameRound;
+	pageGameLife	= this._gameLife;
 }
 
-Marble.PageGameMain.prototype._gameRoundDtor	= function()
+Marble.PageGameMain.prototype._gameLifeDtor	= function()
 {
-	if( !this._gameRound )	return;
+	if( !this._gameLife )	return;
 	
-	this._gameRound.unbind("completed", this._$gameRoundOnCompleted);
+	this._gameLife.unbind("completed", this._$gameLifeOnCompleted);
 
-	this._gameRound	&& this._gameRound.destroy();
-	this._gameRound	= null;
+	this._gameLife	&& this._gameLife.destroy();
+	this._gameLife	= null;
 	
 	// export as a global
-	pageGameLife	= this._gameRound;
+	pageGameLife	= this._gameLife;
 }
-Marble.PageGameMain.prototype._gameRoundOnCompleted	= function()
+Marble.PageGameMain.prototype._gameLifeOnCompleted	= function()
 {
-	this._gameRoundDtor();	
+	this._gameLifeDtor();	
 
 	if( this._playerLives === 0 ){
 		this.trigger('completed');
@@ -63,7 +63,7 @@ Marble.PageGameMain.prototype._gameRoundOnCompleted	= function()
 	this._playerLives--;
 	osdLayer.livesSet( this._playerLives );
 	
-	this._gameRoundCtor();
+	this._gameLifeCtor();
 }
 
 
