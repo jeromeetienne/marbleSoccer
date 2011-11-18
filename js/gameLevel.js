@@ -197,7 +197,7 @@ Marble.GameLevel.prototype._timeoutCtor	= function()
 {
 	console.assert( !this._timeoutId )
 	this._timeoutId	= setTimeout(this._timeoutCallback.bind(this), 1*1000);
-	this._timeout	= 60; 
+	this._timeout	= 120; 
 }
 
 Marble.GameLevel.prototype._timeoutDtor	= function()
