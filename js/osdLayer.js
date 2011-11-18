@@ -23,8 +23,12 @@ Marble.OsdLayer	= function()
 	jQuery("#osdContainer .screenshotButton").bind('click', this._$screenshotButtonOnClick);	
 
 	// bind .fullscreenButton
-	this._$fullscreenButtonOnClick	= this._fullscreenButtonOnClick.bind(this);
-	jQuery("#osdContainer .fullscreenButton").bind('click', this._$fullscreenButtonOnClick);	
+	if( THREEx.FullScreen.available() ){
+		this._$fullscreenButtonOnClick	= this._fullscreenButtonOnClick.bind(this);
+		jQuery("#osdContainer .fullscreenButton").bind('click', this._$fullscreenButtonOnClick);
+	}else{
+		jQuery("#osdContainer .fullscreenButton").hide();		
+	}
 }
 
 Marble.OsdLayer.prototype.destroy	= function()
@@ -36,7 +40,9 @@ Marble.OsdLayer.prototype.destroy	= function()
 	// unbind .screenshotButton
 	jQuery("#osdContainer .screenshotButton").unbind('click', this._$screenshotButtonOnClick);	
 	// unbind .fullscreenButton
-	jQuery("#osdContainer .fullscreenButton").unbind('click', this._$fullscreenButtonOnClick);	
+	if( THREEx.FullScreen.available() ){
+		jQuery("#osdContainer .fullscreenButton").unbind('click', this._$fullscreenButtonOnClick);
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -94,6 +100,9 @@ Marble.OsdLayer.prototype._screenshotButtonOnClick	= function()
 
 Marble.OsdLayer.prototype._fullscreenButtonOnClick	= function()
 {
+	THREEx.FullScreen.toggleFullScreen();
+return
+
 	if( 'webkitIsFullScreen' in document ){
 		if( document.webkitIsFullScreen ){
 			document.webkitCancelFullScreen();		
