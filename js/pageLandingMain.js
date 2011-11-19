@@ -28,7 +28,7 @@ Marble.PageLandingMain	= function()
 	jQuery(this._pageSel+" .menuDialog .button.about").bind('click'		, this._$aboutButtonClick);
 
 // go directly to pageGameMain
-//if(location.host === "127.0.0.1:8000")	this._pageGameMainCtor();
+if(location.host === "127.0.0.1:8000")	this._pageGameMainCtor();
 
 }
 

@@ -17,6 +17,10 @@ MicroEvent.mixin(Marble.VisualFx);
 Marble.VisualFx.prototype.destroy	= function()
 {
 	this._timeoutId		&& clearTimeout(this._timeoutId)
-	this._timeoutId		= null;
-	
+	this._timeoutId		= null;	
+}
+
+Marble.VisualFx.prototype.update	= function()
+{
+	// do nothing
 }

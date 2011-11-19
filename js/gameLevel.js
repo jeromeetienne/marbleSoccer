@@ -16,6 +16,7 @@ Marble.GameLevel	= function()
 	this._visualFxs	= [];
 
 	this.visualFxAdd(new Marble.VisualFxLightNormal());
+	this.visualFxAdd(new Marble.VisualFxParticles());
 	
 	// create all the balls
 	this._balls	= [];
@@ -77,6 +78,14 @@ Marble.GameLevel.prototype.visualFxRemove	= function(visualFx)
 	this._visualFxs.splice( this._visualFxs.indexOf(visualFx), 1 );
 }
 
+Marble.GameLevel.prototype._visualFxUpdate	= function(visualFx)
+{
+	this._visualFxs.forEach(function(visualFx){
+		visualFx.update();
+	});
+}
+
+
 //////////////////////////////////////////////////////////////////////////////////
 //										//
 //////////////////////////////////////////////////////////////////////////////////
@@ -121,7 +130,7 @@ Marble.GameLevel.prototype.tick	= function()
 	this._balls  .forEach(	function(item){ item.tick(); });
 	this._enemies.forEach(	function(item){	item.tick(); });
 	
-	osdLayer.update();
+	this._visualFxUpdate();
 
 	this._camera.tick();
 
@@ -132,6 +141,8 @@ Marble.GameLevel.prototype.tick	= function()
 		nbVisible	+= ball.isVisible() ? 1 : 0;
 	});
 	if( nbVisible === 0 )	pageGameLife.triggerEndOfLevel('win', 'levelCompleted');
+
+	osdLayer.update();
 }
 
 //////////////////////////////////////////////////////////////////////////////////
