@@ -4,8 +4,12 @@ var microphysics;
 */
 Marble.GameLevel	= function()
 {
+	this._visualFxs	= [];
+
 	// init THREEx.Microphysics
 	microphysics	= new THREEx.Microphysics().start();
+
+	this.visualFxAdd(new Marble.VisualFxParticles());
 
 	this._player	= new Marble.Player();
 	this._map	= new Marble.Map();
@@ -13,10 +17,8 @@ Marble.GameLevel	= function()
 	//this._skybox	= new Marble.Skymap();
 
 
-	this._visualFxs	= [];
 
 	this.visualFxAdd(new Marble.VisualFxLightNormal());
-	this.visualFxAdd(new Marble.VisualFxParticles());
 	
 	// create all the balls
 	this._balls	= [];
@@ -160,6 +162,11 @@ Marble.GameLevel.prototype._ballCtor	= function(ballOpts)
 		ball.setInvisible();
 		gameLevel.player().scoreChange(20);
 		soundPool.get('goal').play();
+		
+		// add a particle where the ball disapeared
+		this.visualFxAdd(new Marble.VisualFxParticles({
+			position	: ball.mesh().position
+		}));
 
 	}.bind(this));
 }

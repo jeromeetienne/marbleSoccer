@@ -1,23 +1,26 @@
-Marble.VisualFxParticles	= function()
+Marble.VisualFxParticles	= function(opts)
 {
+	opts		= opts	|| {};
+	var position	= opts.position	|| new THREE.Vector3(0, 0, 0);
+	var timeout	= opts.timeout	|| undefined;
+	
 	// call parent class constructor
 	this.parent.constructor.call(this);
 	this.parent.init.call(this, {
-		//timeout	: 10*1000
+		timeout	: timeout
 	});
 
-	var scale	= Marble.tileSize;
-	scale	= 3;
+	var scale	= 3;
 	var parameters	= {
-		nbItems		: 10000,
+		nbItems		: 500,
 		textureUrl	: "tmp/particles-emitter/editor/images/lensFlare/Flare1.png",
 
 
-		emitRate	: 30,
-		timeToLive	: 2000,
+		emitRate	: 3,
+		timeToLive	: 1000,
 
 		originZaValue	: Math.PI/2,
-		originZaRange	: 30 * Math.PI/180,
+		originZaRange	: 20 * Math.PI/180,
 		originZhValue	: 0,
 		originZhRange	: 0,
 		originRadiusValue	: 0.5*scale,
@@ -32,10 +35,10 @@ Marble.VisualFxParticles	= function()
 		colorInc	: { r: 0,  g: 0, b: 0},
 
 		opacitySrc	: 1.0,
-		opacityInc	: 0.0,
+		opacityInc	: -0,
 
-		sizeSrc		: 16.0,
-		sizeInc		:  0.0,
+		sizeSrc		: 32.0,
+		sizeInc		: -1.0*0.2,
 
 		rotationSrc	:  0.0,
 		rotationInc	:  0.0
@@ -43,7 +46,10 @@ Marble.VisualFxParticles	= function()
 	
 	// build the emitter
 	this._emitter	= new THREEx.Particle.Emitter(parameters);
+	// add the container to the scene
 	scene.addObject( this._emitter.container() );
+	// set the position of the container
+	this._emitter.container().position.copy(position);
 }
 
 // inherit from Marble.VisualFxParticles methods
@@ -57,7 +63,7 @@ Marble.VisualFxParticles.prototype.destroy	= function()
 	this.parent.destroy.call(this);
 
 	scene.removeObject( this._emitter.container() );
-	
+
 	this._emitter.destroy();
 	this._emitter	= null;
 }
