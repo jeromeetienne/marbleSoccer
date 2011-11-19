@@ -57,8 +57,10 @@ THREEx.Particle.Emitter.prototype._createMaterial	= function()
 	this._material = new THREE.MeshShaderMaterial({
 		uniforms	: uniforms,
 		attributes	: attributes,
-		vertexShader	: document.getElementById( 'vertexshader' ).textContent,
-		fragmentShader	: document.getElementById( 'fragmentshader' ).textContent,
+		vertexShader	: THREEx.Particle.Emitter._vertexShaderText,
+		fragmentShader	: THREEx.Particle.Emitter._fragmentShaderText,
+		//vertexShader	: document.getElementById( 'vertexshader' ).textContent,
+		//fragmentShader	: document.getElementById( 'fragmentshader' ).textContent,
 
 		blending	: THREE.AdditiveBlending,
 		transparent	: true,
@@ -66,6 +68,52 @@ THREEx.Particle.Emitter.prototype._createMaterial	= function()
 		depthTest	: false,
 	});
 }
+
+THREEx.Particle.Emitter._vertexShaderText	= [
+	"attribute	float	aSize;",
+	"attribute	float	aRotation;",
+	"attribute	vec3	aColor;",
+	"attribute	float	aOpacity;",
+
+	"varying	float	vRotation;",
+	"varying	vec3	vColor;",
+	"varying	float	vOpacity;",
+
+	"void main() {",
+		"gl_Position	= projectionMatrix * modelViewMatrix * vec4( position, 1.0 );",
+
+		// set the size
+		"gl_PointSize	= aSize;",
+
+		// pass the rotation+color+opacity to the fragment shader
+		"vRotation	= aRotation;",
+		"vColor		= aColor;",
+		"vOpacity	= aOpacity;",
+	"}"
+].join('\n');
+
+THREEx.Particle.Emitter._fragmentShaderText	= [
+	"uniform vec3	color;",
+	"uniform sampler2D texture;",
+
+	"varying vec3	vColor;",
+	"varying float	vOpacity;",
+	"varying float	vRotation;",
+
+	"vec2 autoRotation(vec2 p, float angle){",
+		"const vec2 offset	= vec2(0.5, 0.5);",
+		"vec2 t 	= p - offset;",
+		"p.x	= t.x * cos(angle) - t.y * sin(angle);",
+		"p.y 	= t.y * cos(angle) + t.x * sin(angle);",
+		"return p + offset;",
+	"}",
+
+	"void main() {",
+		"vec2 coord	= autoRotation(gl_PointCoord, vRotation);",
+		"gl_FragColor	= vec4( color * vColor, vOpacity );",
+		"gl_FragColor	= gl_FragColor * texture2D( texture, coord );",
+	"}"
+].join('\n');
 
 /**
  * Emit one particle
