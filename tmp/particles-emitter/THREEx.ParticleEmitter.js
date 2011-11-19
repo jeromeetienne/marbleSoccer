@@ -15,6 +15,13 @@ THREEx.Particle.Emitter	= function(params)
 	this._particleSys	= new THREE.ParticleSystem( this._geometry, this._material );
 }
 
+THREEx.Particle.Emitter.prototype.destroy	= function()
+{
+}
+
+
+THREEx.Particle.Emitter.prototype.container	= function(){	return this._particleSys;	}
+
 /**
  * Create the geometry for all the particles
 */
@@ -49,71 +56,23 @@ THREEx.Particle.Emitter.prototype._createMaterial	= function()
 
 	var uniforms = {
 		color		: { type: "c", value: new THREE.Color( 0xFFFFFF ) },
-		//texture		: { type: "t", value: 0, texture: THREE.ImageUtils.loadTexture( "images/lensFlare/Flare1.png" ) }
-		//texture		: { type: "t", value: 0, texture: THREE.ImageUtils.loadTexture( "images/ball.png" ) }
 		texture		: { type: "t", texture: THREE.ImageUtils.loadTexture( this._params.textureUrl ) }
 	};
 
 	this._material = new THREE.MeshShaderMaterial({
 		uniforms	: uniforms,
 		attributes	: attributes,
+
 		vertexShader	: THREEx.Particle.Emitter._vertexShaderText,
 		fragmentShader	: THREEx.Particle.Emitter._fragmentShaderText,
-		//vertexShader	: document.getElementById( 'vertexshader' ).textContent,
-		//fragmentShader	: document.getElementById( 'fragmentshader' ).textContent,
+
 
 		blending	: THREE.AdditiveBlending,
 		transparent	: true,
 
-		depthTest	: false,
+		depthTest	: true,
 	});
 }
-
-THREEx.Particle.Emitter._vertexShaderText	= [
-	"attribute	float	aSize;",
-	"attribute	float	aRotation;",
-	"attribute	vec3	aColor;",
-	"attribute	float	aOpacity;",
-
-	"varying	float	vRotation;",
-	"varying	vec3	vColor;",
-	"varying	float	vOpacity;",
-
-	"void main() {",
-		"gl_Position	= projectionMatrix * modelViewMatrix * vec4( position, 1.0 );",
-
-		// set the size
-		"gl_PointSize	= aSize;",
-
-		// pass the rotation+color+opacity to the fragment shader
-		"vRotation	= aRotation;",
-		"vColor		= aColor;",
-		"vOpacity	= aOpacity;",
-	"}"
-].join('\n');
-
-THREEx.Particle.Emitter._fragmentShaderText	= [
-	"uniform vec3	color;",
-	"uniform sampler2D texture;",
-
-	"varying vec3	vColor;",
-	"varying float	vOpacity;",
-	"varying float	vRotation;",
-
-	"vec2 autoRotation(vec2 p, float angle){",
-		"const vec2 offset	= vec2(0.5, 0.5);",
-		"vec2 t 	= p - offset;",
-		"p.x	= t.x * cos(angle) - t.y * sin(angle);",
-		"p.y 	= t.y * cos(angle) + t.x * sin(angle);",
-		"return p + offset;",
-	"}",
-
-	"void main() {",
-		"vec2 coord	= autoRotation(gl_PointCoord, vRotation);",
-		"gl_FragColor	= vec4( color * vColor, vOpacity );",
-		"gl_FragColor	= gl_FragColor * texture2D( texture, coord );",
-	"}"
-].join('\n');
 
 /**
  * Emit one particle
@@ -141,7 +100,6 @@ THREEx.Particle.Emitter.prototype._emitItem	= function(itemIdx)
 	var speedScalar	= randomValue(this._params.speedValue, this._params.speedRange);
 	opts.speed	= new THREE.Vector3();
 	opts.speed.copy(opts.position);
-//	opts.speed.z	= 0;
 	opts.speed.normalize().multiplyScalar( speedScalar );
 
 
@@ -213,7 +171,52 @@ THREEx.Particle.Emitter.prototype.update	= function()
 	geometry.__dirtyVertices = true;
 }
 
-THREEx.Particle.Emitter.prototype.container	= function()
-{
-	return this._particleSys;
-}
+//////////////////////////////////////////////////////////////////////////////////
+//		Shader source							//
+//////////////////////////////////////////////////////////////////////////////////
+
+THREEx.Particle.Emitter._vertexShaderText	= [
+	"attribute	float	aSize;",
+	"attribute	float	aRotation;",
+	"attribute	vec3	aColor;",
+	"attribute	float	aOpacity;",
+
+	"varying	float	vRotation;",
+	"varying	vec3	vColor;",
+	"varying	float	vOpacity;",
+
+	"void main() {",
+		"gl_Position	= projectionMatrix * modelViewMatrix * vec4( position, 1.0 );",
+
+		// set the size
+		"gl_PointSize	= aSize;",
+
+		// pass the rotation+color+opacity to the fragment shader
+		"vRotation	= aRotation;",
+		"vColor		= aColor;",
+		"vOpacity	= aOpacity;",
+	"}"
+].join('\n');
+
+THREEx.Particle.Emitter._fragmentShaderText	= [
+	"uniform vec3	color;",
+	"uniform sampler2D texture;",
+
+	"varying vec3	vColor;",
+	"varying float	vOpacity;",
+	"varying float	vRotation;",
+
+	"vec2 autoRotation(vec2 p, float angle){",
+		"const vec2 offset	= vec2(0.5, 0.5);",
+		"vec2 t 	= p - offset;",
+		"p.x	= t.x * cos(angle) - t.y * sin(angle);",
+		"p.y 	= t.y * cos(angle) + t.x * sin(angle);",
+		"return p + offset;",
+	"}",
+
+	"void main() {",
+		"vec2 coord	= autoRotation(gl_PointCoord, vRotation);",
+		"gl_FragColor	= vec4( color * vColor, vOpacity );",
+		"gl_FragColor	= gl_FragColor * texture2D( texture, coord );",
+	"}"
+].join('\n');
