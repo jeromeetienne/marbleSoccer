@@ -67,7 +67,8 @@ THREEx.Particle.Emitter.prototype._createMaterial	= function()
 		fragmentShader	: THREEx.Particle.Emitter._fragmentShaderText,
 
 
-		depthTest	: true,
+		depthTest	: false,
+		//depthWrite	: false,
 
 		blending	: THREE.AdditiveBlending,
 		transparent	: true
