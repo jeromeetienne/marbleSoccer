@@ -8,6 +8,9 @@ Marble.GameLevel	= function()
 
 	this.visualFxAdd(new Marble.VisualFxLightNormal());
 
+	//this.visualFxAdd(new Marble.VisualFxParticles());
+	
+
 	// init THREEx.Microphysics
 	microphysics	= new THREEx.Microphysics().start();
 
@@ -21,14 +24,14 @@ Marble.GameLevel	= function()
 	//for(var i = 0; i < 1; i++)	this._ballCtor('8');
 	this._ballBuild9Rack();
 
-	this.visualFxAdd(new Marble.VisualFxParticles());
-	
 	// create all the enemies
 	this._enemies	= [];
 	for(var i = 0; i < 0; i++){
 		this._enemies.push( new Marble.Enemy() );
 	}
 
+	//this.visualFxAdd(new Marble.VisualFxParticles());
+	
 	this._timeoutCtor();
 }
 
@@ -162,9 +165,9 @@ Marble.GameLevel.prototype._ballCtor	= function(ballOpts)
 		soundPool.get('goal').play();
 		
 		// add a particle where the ball disapeared
-		this.visualFxAdd(new Marble.VisualFxParticles({
-			position	: ball.mesh().position
-		}));
+		//this.visualFxAdd(new Marble.VisualFxParticles({
+		//	position	: ball.mesh().position
+		//}));
 
 	}.bind(this));
 }
