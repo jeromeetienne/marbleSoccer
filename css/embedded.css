@@ -9,3 +9,12 @@
 		width	: 48px;
 	}
 }
+
+@media screen and (max-width: 320px) {
+	body {
+		font-size	: 45%;
+	}
+	#osdContainer .button img {
+		width	: 32px;
+	}
+}
