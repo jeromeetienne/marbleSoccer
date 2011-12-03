@@ -1,7 +1,8 @@
 Marble.Sound	= function(opts)
 {
 	this._urls	= opts.urls	|| console.assert(false, "urls parameter MUST be provided");
-	
+	this._disabled	= opts.disabled !== undefined ? opts.disabled : true;
+
 	this._id	= "sound-"+Math.floor(Math.random()*99999999).toString(36);
 	this._sound	= null;
 
@@ -38,6 +39,7 @@ Marble.Sound.prototype._createSound	= function()
 
 Marble.Sound.prototype._initialize	= function()
 {
+	if( this._disabled )	return;
 	if( soundManager.ok() ){
 		this._createSound();
 	}else{

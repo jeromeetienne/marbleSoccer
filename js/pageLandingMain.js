@@ -27,9 +27,8 @@ Marble.PageLandingMain	= function()
 	jQuery(this._pageSel+" .menuDialog .button.tutorial").bind('click'	, this._$tutorialButtonClick);
 	jQuery(this._pageSel+" .menuDialog .button.about").bind('click'		, this._$aboutButtonClick);
 
-// go directly to pageGameMain
-if(location.host === "127.0.0.1:8000")	this._pageGameMainCtor();
-
+	// go directly to pageGameMain
+	if( jQuery.url().param('bypasslanding') !== undefined )	this._pageGameMainCtor();
 }
 
 Marble.PageLandingMain.prototype.destroy	= function()
@@ -109,16 +108,21 @@ Marble.PageLandingMain.prototype._aboutShow	= function()
 Marble.PageLandingMain.prototype._soundsCtor	= function()
 {
 	console.assert( !this._soundPool );
-	
+
+	var disabled	= jQuery.url().param('nosound') !== undefined ? true : false;
+
 	this._soundPool	= new Marble.SoundPool();
 	this._soundPool.insert('goal', new Marble.Sound({
-		urls	: ['sounds/pacman/eatghost.mp3']
+		urls	: ['sounds/pacman/eatghost.mp3'],
+		disabled: disabled
 	}));
 	this._soundPool.insert('die', new Marble.Sound({
-		urls	: ['sounds/pacman/die.mp3']
+		urls	: ['sounds/pacman/die.mp3'],
+		disabled: disabled
 	}));
 	this._soundPool.insert('marbleContact', new Marble.Sound({
-		urls	: ['sounds/pacman/eating.short.mp3']
+		urls	: ['sounds/pacman/eating.short.mp3'],
+		disabled: disabled
 	}));
 
 	// export in global
