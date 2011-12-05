@@ -88,9 +88,9 @@
 /********************************************************************************/
 
 #pageLandingContainer .menuDialog {
-	width	: 30em;
-	height	: 23em;
-	margin	: -11.5em 0 0 -15em;
+	width		: 30em;
+	height		: 23em;
+	margin		: -11.5em 0 0 -15em;
 }
 
 #pageLandingContainer .menuDialog div.button {
