@@ -73,3 +73,9 @@ Marble.Player.prototype.scoreChange	= function(delta)
 {
 	osdLayer.scoreChange(delta);
 }
+
+Marble.Player.prototype.tick	= function()
+{
+	// call the parent class .tick()
+	this.parent.tick.call(this);
+}

@@ -143,7 +143,8 @@ Marble.GameLevel.prototype.tick	= function()
 	this._balls.forEach(function(ball){
 		nbVisible	+= ball.isVisible() ? 1 : 0;
 	});
-	if( nbVisible === 0 )	pageGameLife.triggerEndOfLevel('win', 'levelCompleted');
+// removed during r46...
+//	if( nbVisible === 0 )	pageGameLife.triggerEndOfLevel('win', 'levelCompleted');
 
 	osdLayer.update();
 }

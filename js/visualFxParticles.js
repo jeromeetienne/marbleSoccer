@@ -47,7 +47,7 @@ Marble.VisualFxParticles	= function(opts)
 	// build the emitter
 	this._emitter	= new THREEx.Particle.Emitter(parameters);
 	// add the container to the scene
-	scene.addObject( this._emitter.container() );
+	scene.add( this._emitter.container() );
 	// set the position of the container
 	this._emitter.container().position.copy(position);
 }

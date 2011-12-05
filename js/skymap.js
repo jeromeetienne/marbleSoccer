@@ -11,7 +11,7 @@ Marble.Skymap	= function()
 	//var urls	= THREEx.SkyMap.UrlsPx("images/cube/SwedishRoyalCastle/", ".jpg");
 	var urls	= THREEx.SkyMap.UrlsPx("images/cube/redsky/", ".jpg");
 	this._mesh	= THREEx.SkyMap.buildMesh(urls);
-	scene.addObject( this._mesh );
+	scene.add( this._mesh );
 }
 
 /**

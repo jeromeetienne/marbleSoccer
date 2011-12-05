@@ -37,7 +37,7 @@ Marble.Marble.prototype.init	= function(opts)
 	this._mesh.add(this._ballMesh);
 	this._mesh.add(this._shadowMesh);
 
-	scene.addObject( this._mesh );		
+	scene.add( this._mesh );		
 
 	// bind the mesh with microphysics.js
 	microphysics.bindMesh(this._mesh, {

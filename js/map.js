@@ -26,7 +26,7 @@ Marble.Map	= function()
 		this._bindPhysics();
 	}
 	
-	scene.addObject( this._mesh );
+	scene.add( this._mesh );
 }
 
 Marble.Map.prototype.destroy	= function()
