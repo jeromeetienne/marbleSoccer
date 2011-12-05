@@ -113,7 +113,8 @@ Marble.PageLandingMain.prototype._soundsCtor	= function()
 
 	this._soundPool	= new Marble.SoundPool();
 	this._soundPool.insert('goal', new Marble.Sound({
-		urls	: ['sounds/pacman/eatghost.mp3'],
+		//urls	: ['sounds/pacman/eatghost.mp3'],
+		urls	: ['sounds/flashkit.com/Poolshot-GamePro9-8159_hifi.mp3'],
 		disabled: disabled
 	}));
 	this._soundPool.insert('die', new Marble.Sound({
@@ -121,7 +122,8 @@ Marble.PageLandingMain.prototype._soundsCtor	= function()
 		disabled: disabled
 	}));
 	this._soundPool.insert('marbleContact', new Marble.Sound({
-		urls	: ['sounds/pacman/eating.short.mp3'],
+		//urls	: ['sounds/pacman/eating.short.mp3'],
+		urls	: ['sounds/flashkit.com/Poolshot-GamePro9-8159_hifi.mp3'],
 		disabled: disabled
 	}));
 
