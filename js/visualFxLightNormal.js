@@ -5,17 +5,17 @@ Marble.VisualFxLightNormal	= function()
 	this.parent.init.call(this, {});
 
 	var light	= new THREE.AmbientLight( 0xAAAAAA, 1 );
-	scene.addLight( light );
+	scene.add( light );
 	this._ambient	= light;
 
 	var light	= new THREE.DirectionalLight( 0x8888FF, 1 );
 	light.position.set( -10, 15, 0 ).normalize();
-	scene.addLight( light );
+	scene.add( light );
 	this._directional1	= light;
 
 	var light	= new THREE.DirectionalLight( 0x004400, 0.3 );
 	light.position.set( 5, 5, -2 ).normalize();
-	scene.addLight( light );
+	scene.add( light );
 	this._directional2	= light;
 }
 

@@ -34,8 +34,8 @@ Marble.Marble.prototype.init	= function(opts)
 	// build this._mesh
 	this._mesh	= new THREE.Object3D();
 	this._mesh.position.copy(position)
-	this._mesh.addChild(this._ballMesh);
-	this._mesh.addChild(this._shadowMesh);
+	this._mesh.add(this._ballMesh);
+	this._mesh.add(this._shadowMesh);
 
 	scene.addObject( this._mesh );		
 
@@ -126,7 +126,7 @@ Marble.Marble.prototype._updateSphere	= function()
 	matrix.multiplySelf(new THREE.Matrix4().setTranslation(0,-this._radius,0));
 	mesh.matrix.copy(matrix.multiplySelf(mesh.matrix));
 	
-	mesh.update(false, true, camera);
+	mesh.updateMatrixWorld(true);
 }
 
 
