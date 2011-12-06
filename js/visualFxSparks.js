@@ -63,13 +63,13 @@ Marble.VisualFxSparks	= function()
 	var uniforms	= {
 		amplitude	: { type: "f", value: 1.0 },
 		color		: { type: "c", value: new THREE.Color( 0xffffff ) },
-		texture		: { type: "t", value: 0, texture:texture } 
+		texture		: { type: "t", value: 0, texture: texture } 
 	};
 					
-	var shaderMaterial = new THREE.MeshShaderMaterial( {
+	var material	= new THREE.ShaderMaterial( {
 		uniforms	: uniforms,
 		attributes	: this._attributes,
-
+		// TODO remove this from the DOM
 		vertexShader	: document.getElementById( 'vertexshaderSparks' ).textContent,
 		fragmentShader	: document.getElementById( 'fragmentshaderSparks' ).textContent,
 
@@ -78,18 +78,19 @@ Marble.VisualFxSparks	= function()
 		transparent	: true
 	});
 
-	this._group		= new THREE.ParticleSystem( particles, shaderMaterial );
+	this._group	= new THREE.ParticleSystem( particles, material );
 	this._group.dynamic	= true;
 	//group.sortParticles = true;
-	scene.addObject( this._group );
+	scene.add( this._group );
 
 	var vertices	= this._group.geometry.vertices;
-	var values_size = this._attributes.size.value;
-	var values_color= this._attributes.aColor.value;
+	var valuesSize	= this._attributes.size.value;
+	var valuesColor	= this._attributes.aColor.value;
 	
+	// put some default values
 	for(var v = 0; v < vertices.length; v++ ){
-		values_size[v]	= 50;
-		values_color[v]	= new THREE.Color( 0x000000 );
+		valuesSize[v]	= 50;
+		valuesColor[v]	= new THREE.Color( 0x000000 );
 		particles.vertices[v].position.x = Number.POSITIVE_INFINITY;
 		particles.vertices[v].position.y = Number.POSITIVE_INFINITY;
 		particles.vertices[v].position.z = Number.POSITIVE_INFINITY;
@@ -100,7 +101,7 @@ Marble.VisualFxSparks	= function()
 	var setTargetParticle = function() {					
 		// Find available vertex index
 		var target	= vertexIndexPool.get();
-		values_size[target] = 50;
+		valuesSize[target] = 100;
 		
 		return target;
 	};
@@ -110,7 +111,7 @@ Marble.VisualFxSparks	= function()
 		if( !target )	return;
 
 		particles.vertices[target].position = particle.position;						
-		values_color[target].setHSV(0.5, 0.8, 0.1);
+		valuesColor[target].setHSV(0.5, 0.8, 0.1);
 	};
 	
 	var onParticleDead = function(particle) {
@@ -118,40 +119,44 @@ Marble.VisualFxSparks	= function()
 		if( !target )	return;
 
 		// Hide the particle
-		values_color[target].setHSV(0, 0, 0);
+		valuesColor[target].setHSV(0, 0, 0);
 		particles.vertices[target].position.set(Number.POSITIVE_INFINITY,Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY);
 		
 		// Mark particle system as available by returning to pool
 		vertexIndexPool.add(particle.target);
 	};
 	
-	var sparksEmitter	= new SPARKS.Emitter(new SPARKS.SteadyCounter(70));
+	var emitter	= this._emitter	= new SPARKS.Emitter(new SPARKS.SteadyCounter(70));
 
-	sparksEmitter.addInitializer(new SPARKS.Position( new SPARKS.PointZone( new THREE.Vector3(0,0,0) ) ) );
-	sparksEmitter.addInitializer(new SPARKS.Lifetime(0,3));
-	sparksEmitter.addInitializer(new SPARKS.Target(null, setTargetParticle));
-	sparksEmitter.addInitializer(new SPARKS.Velocity(new SPARKS.PointZone(new THREE.Vector3(0,100,00))));
+	emitter.addInitializer(new SPARKS.Position( new SPARKS.PointZone( new THREE.Vector3(0,0,0) ) ) );
+	emitter.addInitializer(new SPARKS.Lifetime(0,3));
+	emitter.addInitializer(new SPARKS.Target(null, setTargetParticle));
+	emitter.addInitializer(new SPARKS.Velocity(new SPARKS.PointZone(new THREE.Vector3(0,100,00))));
 	
-	sparksEmitter.addAction(new SPARKS.Age());
-	sparksEmitter.addAction(new SPARKS.Move()); 
-	sparksEmitter.addAction(new SPARKS.RandomDrift(2*500,500,2*500));
-	sparksEmitter.addAction(new SPARKS.Accelerate(0,-40,0));
+	emitter.addAction(new SPARKS.Age());
+	emitter.addAction(new SPARKS.Move()); 
+	emitter.addAction(new SPARKS.RandomDrift(2*500,500,2*500));
+	emitter.addAction(new SPARKS.Accelerate(0,-40,0));
 	
-	sparksEmitter.addCallback("created"	, onParticleCreated	);
-	sparksEmitter.addCallback("dead"	, onParticleDead	);
+	emitter.addCallback("created"	, onParticleCreated	);
+	emitter.addCallback("dead"	, onParticleDead	);
 	
-	sparksEmitter.start();
+	emitter.start();
 }
 
 // inherit from Marble.VisualFxSparks methods
-Marble.VisualFxSparks.prototype		= new Marble.VisualFx();
+Marble.VisualFxSparks.prototype			= new Marble.VisualFx();
 Marble.VisualFxSparks.prototype.constructor	= Marble.VisualFx;
-Marble.VisualFxSparks.prototype.parent	= Marble.VisualFx.prototype;
+Marble.VisualFxSparks.prototype.parent		= Marble.VisualFx.prototype;
 
 Marble.VisualFxSparks.prototype.destroy	= function()
 {
 	// call parent class destructor
 	this.parent.destroy.call(this);
+
+	this._emitter.stop();
+	
+	scene.remove( this._group );
 }
 
 Marble.VisualFxSparks.prototype.update	= function()
