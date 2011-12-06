@@ -8,7 +8,7 @@ Marble.GameLevel	= function()
 
 	this.visualFxAdd(new Marble.VisualFxLightNormal());
 
-	//this.visualFxAdd(new Marble.VisualFxParticles());
+	this.visualFxAdd(new Marble.VisualFxSparks());
 
 	// init THREEx.Microphysics
 	microphysics	= new THREEx.Microphysics().start();
@@ -16,7 +16,7 @@ Marble.GameLevel	= function()
 	this._player	= new Marble.Player();
 	this._map	= new Marble.Map();
 	this._camera	= new Marble.Camera();
-	this._skybox	= new Marble.Skymap();
+	//this._skybox	= new Marble.Skymap();
 
 	// create all the balls
 	this._balls	= [];

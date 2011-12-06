@@ -148,10 +148,7 @@
 		<script src="vendor/three-r46.js/build/Three.js"></script>
 		<script src="vendor/three-r46.js/examples/js/Detector.js"></script>
 		<script src="vendor/three-r46.js/examples/js/Stats.js"></script>
-<!--		<script src="vendor/three.js/build/Three.js"></script>
-		<script src="vendor/three.js/examples/js/Detector.js"></script>
-		<script src="vendor/three.js/examples/js/Stats.js"></script>
--->
+
 		<script src='vendor/es5-shim/es5-shim.min.js'></script>
 
 		<script src='vendor/underscore/underscore-min.js'></script>
@@ -196,6 +193,7 @@
 		<script src="js/visualFxLightNormal.js"></script>
 		<script src="js/visualFxLightRed.js"></script>
 		<script src="js/visualFxParticles.js"></script>
+		<script src="js/visualFxSparks.js"></script>
 		<script src="js/skymap.js"></script>
 		<script src="js/marble.js"></script>
 		<script src="js/player.js"></script>
@@ -210,6 +208,34 @@
 		<script src="js/pageLandingMain.js"></script>
 		<script src="js/pageGameMain.js"></script>
 		<script src="js/pageGameLife.js"></script>
+
+		<script src="./vendor/sparks.js/Sparks.js"></script>
+		<script src="./vendor/sparks.js/examples/js/Tween.js"></script>
+		<script type="x-shader/x-vertex" id="vertexshaderSparks"> 
+			attribute	float	size;
+			attribute	vec4	aColor;
+
+			varying		vec4	vColor;
+
+			void main() {
+				vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+				gl_PointSize	= size * ( 150.0 / length( mvPosition.xyz ) );
+				gl_Position	= projectionMatrix * mvPosition;
+
+				vColor		= aColor;
+			}
+		</script> 
+		<script type="x-shader/x-fragment" id="fragmentshaderSparks"> 
+			uniform	vec3		color;
+			uniform sampler2D	texture;
+
+			varying vec4		vColor;
+			
+			void main() {
+				vec4 outColor	= texture2D( texture, gl_PointCoord );
+				gl_FragColor	= outColor * vec4( color * vColor.xyz, 1.0 );
+			}
+		</script>
 
 		<script>
 			jQuery(function(){
