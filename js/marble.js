@@ -27,6 +27,7 @@ Marble.Marble.prototype.init	= function(opts)
 		return THREE.ImageUtils.loadTexture("images/shadow.png");
 	});
 	var material	= new THREE.MeshBasicMaterial( { transparent: true, map: texture, opacity : 0.8 } );
+	//var material	= new THREE.MeshBasicMaterial( { map: texture } );
 	var geometry	= new THREE.PlaneGeometry(2*this._radius, 2*this._radius);
 	this._shadowMesh= new THREE.Mesh(geometry, material);
 	this._shadowMesh.rotation.x	= -90 * Math.PI/180;
