@@ -51,16 +51,12 @@ Marble.Map.prototype._bindPhysicsContact	= function(body, voxelType)
 			var thisBody	= this;
 			var marbleId	= otherBody._marbleId;
 			var voxelType	= thisBody._voxelType;
-			voxelType	= 0;	// TODO suddently super slow if i set thisBody._voxelType, reason unknown
-			//console.log("type", thisBody._voxelType, otherBody._marbleId, world);
 			gameLevel.onContactMarbleVoxel(marbleId, voxelType);
 		},
 		function(event, otherBody){
 			var thisBody	= this;
 			var marbleId	= otherBody._marbleId;
 			var voxelType	= thisBody._voxelType;
-			voxelType	= 1;	// TODO suddently super slow if i set thisBody._voxelType, reason unknown
-			//console.log("type", thisBody._voxelType, otherBody._marbleId, world);
 			gameLevel.onContactMarbleVoxel(marbleId, voxelType);
 		},
 		null,
@@ -74,13 +70,13 @@ Marble.Map.prototype._bindPhysicsContact	= function(body, voxelType)
 		null,
 	];
 
+	// set voxelType in the body
+	body._voxelType	= voxelType;
+
 	// register the contact callback if any
 	var contactFct	= type2contact[voxelType];
 	if( contactFct )	body.events.on('contact', contactFct);
 
-	// TODO suddently super slow if i set thisBody._voxelType, reason unknown
-	//body._voxelType	= voxelType;
-	//body.prout	= "kkkk";
 }
 
 Marble.Map.prototype._bindPhysics	= function()
