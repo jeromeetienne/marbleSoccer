@@ -43,7 +43,7 @@ Marble.VisualFxSparks	= function()
 		context.closePath();
 		
 		context.fillStyle	= gradient;
-		context.fillStyle	= 'rgba(255,255,255,1)';
+		//context.fillStyle	= 'rgba(128,128,128,1)';
 		context.fill();
 		
 		return canvas;
@@ -61,9 +61,8 @@ Marble.VisualFxSparks	= function()
 	};
 	
 	var uniforms	= {
-		amplitude	: { type: "f", value: 1.0 },
-		color		: { type: "c", value: new THREE.Color( 0xffffff ) },
-		texture		: { type: "t", value: 0, texture: texture } 
+		texture	: { type: "t", texture: texture },
+		color	: { type: "c", value: new THREE.Color( 0xffffff ) }
 	};
 	
 	var vertexShaderText	= [
@@ -94,20 +93,17 @@ Marble.VisualFxSparks	= function()
 	var material	= new THREE.ShaderMaterial( {
 		uniforms	: uniforms,
 		attributes	: this._attributes,
-		// TODO remove this from the DOM
 		vertexShader	: vertexShaderText,
 		fragmentShader	: fragmentShaderText,
 
 		blending	: THREE.AdditiveBlending,
-		//depthTest	: false,
 		depthWrite	: false,
-		transparent	: true,
-		//opacity		: 0.5
+		transparent	: true
 	});
 
 	this._group	= new THREE.ParticleSystem( particles, material );
-	this._group.dynamic	= true;
-	//group.sortParticles = true;
+	this._group.dynamic		= true;
+	this._group.sortParticles	= true;
 	scene.add( this._group );
 
 	var vertices	= this._group.geometry.vertices;
@@ -128,18 +124,22 @@ Marble.VisualFxSparks	= function()
 	var setTargetParticle = function() {					
 		// Find available vertex index
 		var target	= vertexIndexPool.get();
-		valuesSize[target] = 150;
+		valuesSize[target] = 100;
 		
 		return target;
 	};
 	
+	var hue	= 0;
 	var onParticleCreated = function(particle) {
 		var target = particle.target;
 		if( !target )	return;
 
 		particles.vertices[target].position = particle.position;						
-		valuesColor[target].setHSV(0.5, 0.8, 0.1);
-		valuesColor[target].setRGB(1,1,1);
+
+		hue		+= 0.01;
+		if( hue > 1 )	hue	-= 1;
+		valuesColor[target].setHSV(hue, 0.8, 0.8);
+		//valuesColor[target].setRGB(1,1,1);
 	};
 	
 	var onParticleDead = function(particle) {
@@ -159,12 +159,12 @@ Marble.VisualFxSparks	= function()
 	emitter.addInitializer(new SPARKS.Position( new SPARKS.PointZone( new THREE.Vector3(0,0,0) ) ) );
 	emitter.addInitializer(new SPARKS.Lifetime(0,2));
 	emitter.addInitializer(new SPARKS.Target(null, setTargetParticle));
-	emitter.addInitializer(new SPARKS.Velocity(new SPARKS.PointZone(new THREE.Vector3(0,75,00))));
+	emitter.addInitializer(new SPARKS.Velocity(new SPARKS.PointZone(new THREE.Vector3(0,150,00))));
 	
 	emitter.addAction(new SPARKS.Age());
 	emitter.addAction(new SPARKS.Move()); 
-	emitter.addAction(new SPARKS.RandomDrift(2*500,500,2*500));
-	emitter.addAction(new SPARKS.Accelerate(0,-40,0));
+	emitter.addAction(new SPARKS.RandomDrift(1000,0,1000));
+	emitter.addAction(new SPARKS.Accelerate(0,-100,0));
 	
 	emitter.addCallback("created"	, onParticleCreated	);
 	emitter.addCallback("dead"	, onParticleDead	);

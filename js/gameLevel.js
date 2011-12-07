@@ -30,7 +30,7 @@ Marble.GameLevel	= function()
 		this._enemies.push( new Marble.Enemy() );
 	}
 
-//	this.visualFxAdd(new Marble.VisualFxSparks());
+	this.visualFxAdd(new Marble.VisualFxSparks());
 //	this.visualFxAdd(new Marble.VisualFxParticles());
 	
 	this._timeoutCtor();
@@ -82,7 +82,7 @@ Marble.GameLevel.prototype.visualFxRemove	= function(visualFx)
 	this._visualFxs.splice( this._visualFxs.indexOf(visualFx), 1 );
 }
 
-Marble.GameLevel.prototype._visualFxUpdate	= function(visualFx)
+Marble.GameLevel.prototype._visualFxUpdate	= function()
 {
 	this._visualFxs.forEach(function(visualFx){
 		visualFx.update();

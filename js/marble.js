@@ -31,6 +31,8 @@ Marble.Marble.prototype.init	= function(opts)
 	var geometry	= new THREE.PlaneGeometry(2*this._radius, 2*this._radius);
 	this._shadowMesh= new THREE.Mesh(geometry, material);
 	this._shadowMesh.rotation.x	= -90 * Math.PI/180;
+	this._shadowMesh.position.z	= -0.1;	// TODO FIXME this is a silly trick to avoid zbuffer between shaddow and particles
+	this._shadowMesh.position.y	= 0.1;
 
 	// build this._mesh
 	this._mesh	= new THREE.Object3D();
@@ -105,15 +107,16 @@ Marble.Marble.prototype._buildShaddowTexture	= function()
 	canvas.height	= canvasH;
 	// build gradient
 	var gradient	= context.createRadialGradient( canvas.width/2, canvas.height /2, 0, canvas.width /2, canvas.height /2, canvas.width /2 );				
-	gradient.addColorStop( 0.0, 'rgba( 0, 0, 0,1)' );
-	gradient.addColorStop( 0.6, 'rgba(20,20,20,1)' );
-	gradient.addColorStop( 0.9, 'rgba( 0, 0, 0,0)' );
+	gradient.addColorStop( 0.0, 'rgba( 5, 5, 5, 0.7)' );
+	gradient.addColorStop( 0.6, 'rgba( 5, 5, 5, 0.7)' );
+	gradient.addColorStop( 0.9, 'rgba( 0, 0, 0, 0.0)' );
 	// do path
 	context.beginPath();
 	context.arc(canvasW/2, canvasH/2, canvasW/2, 0, Math.PI*2, false);
 	context.closePath();
 	// fill path with gradient
 	context.fillStyle	= gradient;
+//	context.fillStyle	= "red";
 	context.fill();
 	// build texture
 	var texture	= new THREE.Texture( canvas );
@@ -169,7 +172,7 @@ Marble.Marble.prototype._updateShadow	= function()
 {
 	var height	= gameLevel.map().getHeight(this._mesh.position.x, this._mesh.position.z);
 	if( height !== undefined ){
-		// +0.1 to ensure the map is above the ground
+		// +0.1 to ensure the map is above the ground without z-fighting
 		this._shadowMesh.position.y	= height - this._mesh.position.y + 0.1;
 	}else{
 		this._shadowMesh.position.y	= -Number.MAX_VALUE;
