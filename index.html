@@ -211,31 +211,6 @@
 
 		<script src="./vendor/sparks.js/Sparks.js"></script>
 		<script src="./vendor/sparks.js/examples/js/Tween.js"></script>
-		<script type="x-shader/x-vertex" id="vertexshaderSparks"> 
-			attribute	float	size;
-			attribute	vec4	aColor;
-
-			varying		vec4	vColor;
-
-			void main() {
-				vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
-				gl_PointSize	= size * ( 150.0 / length( mvPosition.xyz ) );
-				gl_Position	= projectionMatrix * mvPosition;
-
-				vColor		= aColor;
-			}
-		</script> 
-		<script type="x-shader/x-fragment" id="fragmentshaderSparks"> 
-			uniform	vec3		color;
-			uniform sampler2D	texture;
-
-			varying vec4		vColor;
-			
-			void main() {
-				vec4 outColor	= texture2D( texture, gl_PointCoord );
-				gl_FragColor	= outColor * vec4( color * vColor.xyz, 1.0 );
-			}
-		</script>
 
 		<script>
 			jQuery(function(){

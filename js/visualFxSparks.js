@@ -65,18 +65,44 @@ Marble.VisualFxSparks	= function()
 		color		: { type: "c", value: new THREE.Color( 0xffffff ) },
 		texture		: { type: "t", value: 0, texture: texture } 
 	};
-					
+	
+	var vertexShaderText	= [
+		"attribute	float	size;",
+		"attribute	vec4	aColor;",
+		
+		"varying	vec4	vColor;",
+
+		"void main() {",
+			"vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );",
+			"gl_PointSize	= size * ( 150.0 / length( mvPosition.xyz ) );",
+			"gl_Position	= projectionMatrix * mvPosition;",
+
+			"vColor		= aColor;",
+		"}"
+	].join('\n');
+	var fragmentShaderText	= [
+		"uniform vec3		color;",
+		"uniform sampler2D	texture;",
+
+		"varying vec4		vColor;",
+		
+		"void main() {",
+			"vec4 outColor	= texture2D( texture, gl_PointCoord );",
+			"gl_FragColor	= outColor * vec4( color * vColor.xyz, 1.0 );",
+		"}"
+	].join('\n');
 	var material	= new THREE.ShaderMaterial( {
 		uniforms	: uniforms,
 		attributes	: this._attributes,
 		// TODO remove this from the DOM
-		vertexShader	: document.getElementById( 'vertexshaderSparks' ).textContent,
-		fragmentShader	: document.getElementById( 'fragmentshaderSparks' ).textContent,
+		vertexShader	: vertexShaderText,
+		fragmentShader	: fragmentShaderText,
 
 		blending	: THREE.AdditiveBlending,
 		//depthTest	: false,
 		depthWrite	: false,
-		transparent	: true
+		transparent	: true,
+		//opacity		: 0.5
 	});
 
 	this._group	= new THREE.ParticleSystem( particles, material );

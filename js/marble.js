@@ -27,7 +27,7 @@ Marble.Marble.prototype.init	= function(opts)
 		return this._buildShaddowTexture();
 	}.bind(this));
 	var material	= new THREE.MeshBasicMaterial( { transparent: true, map: texture, opacity : 0.8 } );
-	//var material	= new THREE.MeshLambertMaterial( { map: texture transparent: true } );
+	//var material	= new THREE.MeshLambertMaterial( { map: texture } );
 	var geometry	= new THREE.PlaneGeometry(2*this._radius, 2*this._radius);
 	this._shadowMesh= new THREE.Mesh(geometry, material);
 	this._shadowMesh.rotation.x	= -90 * Math.PI/180;
@@ -96,18 +96,21 @@ Marble.Marble.prototype.marbleId	= function(){	return this._marbleId;	}
 */
 Marble.Marble.prototype._buildShaddowTexture	= function()
 {
+	var canvasW	= 64;
+	var canvasH	= 64;
 	// init canvas
 	var canvas	= document.createElement( 'canvas' );
 	var context	= canvas.getContext( '2d' );
-	canvas.width	= canvas.height	= 128;
+	canvas.width	= canvasW;
+	canvas.height	= canvasH;
 	// build gradient
 	var gradient	= context.createRadialGradient( canvas.width/2, canvas.height /2, 0, canvas.width /2, canvas.height /2, canvas.width /2 );				
-	gradient.addColorStop( 0  , 'rgba(0,0,0,1)' );
-	gradient.addColorStop( 0.4, 'rgba(20,20,20,1)' );
-	gradient.addColorStop( 1  , 'rgba(0,0,0,0)' );
+	gradient.addColorStop( 0.0, 'rgba( 0, 0, 0,1)' );
+	gradient.addColorStop( 0.6, 'rgba(20,20,20,1)' );
+	gradient.addColorStop( 0.9, 'rgba( 0, 0, 0,0)' );
 	// do path
 	context.beginPath();
-	context.arc(64, 64, 60, 0, Math.PI*2, false);
+	context.arc(canvasW/2, canvasH/2, canvasW/2, 0, Math.PI*2, false);
 	context.closePath();
 	// fill path with gradient
 	context.fillStyle	= gradient;
