@@ -6,8 +6,6 @@ Marble.GameLevel	= function()
 {
 	this._visualFxs	= [];
 
-	//this.visualFxAdd(new Marble.VisualFxSparks());
-
 	this.visualFxAdd(new Marble.VisualFxLightNormal());
 
 
