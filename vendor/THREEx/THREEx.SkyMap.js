@@ -13,13 +13,15 @@ THREEx.SkyMap.buildMesh	= function(urls, opts)
 	
 	// init the cube shadder
 	var shader	= THREE.ShaderUtils.lib["cube"];
-	shader.uniforms["tCube"].texture	= texture;
+	var uniforms	= THREE.UniformsUtils.clone( shader.uniforms );
+	uniforms["tCube"].texture	= texture;
 
 	// init the material with the shadder
-	var material = new THREE.MeshShaderMaterial({
+	var material = new THREE.ShaderMaterial({
 		fragmentShader	: shader.fragmentShader,
 		vertexShader	: shader.vertexShader,
-		uniforms	: shader.uniforms	// should that be cloned ?
+		uniforms	: uniforms,
+		//depthWrite	: false
 	});
 
 	// build the geometry
@@ -27,6 +29,7 @@ THREEx.SkyMap.buildMesh	= function(urls, opts)
 
 	// build the skybox Mesh
 	var mesh	= new THREE.Mesh( geometry, material );
+	mesh.flipSided = true;
 	return mesh;
 }
 
