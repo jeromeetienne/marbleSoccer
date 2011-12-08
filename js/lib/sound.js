@@ -1,11 +1,13 @@
 Marble.Sound	= function(opts)
 {
+	opts		= opts || {};
 	this._urls	= opts.urls	|| console.assert(false, "urls parameter MUST be provided");
-	this._disabled	= opts.disabled !== undefined ? opts.disabled : true;
+	this._disabled	= opts.disabled !== undefined	? opts.disabled : false;
+	this._volume	= opts.volume !== undefined	? opts.volume : 1.0;
 
 	this._id	= "sound-"+Math.floor(Math.random()*99999999).toString(36);
-	this._sound	= null;
 
+	this._sound	= null;
 	this._initialize();
 }
 
@@ -50,13 +52,19 @@ Marble.Sound.prototype._initialize	= function()
 }
 
 
-Marble.Sound.prototype.play	= function()
+Marble.Sound.prototype.play	= function(opts)
 {
+	opts		= opts || {};
+	var volume	= opts.volume	|| this._volume;
+
 	if( !this.isInitialized() ){
 		this._initialize();
 		return;
 	}
-	this._sound.play();
+
+	this._sound.play({
+		volume	: volume * 100
+	});
 }
 
 Marble.Sound.prototype.stop	= function()

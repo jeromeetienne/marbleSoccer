@@ -1,4 +1,4 @@
-Marble.SoundPool	= function(opts)
+Marble.SoundPool	= function()
 {
 	this._sounds	= {};
 }

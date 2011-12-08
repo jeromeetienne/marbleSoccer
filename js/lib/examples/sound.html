@@ -1,0 +1,42 @@
+<html>
+	<body>
+		<script src="../../../vendor/microevent.js/microevent.js"></script>
+
+		<script src='../../../vendor/soundmanager2/script/soundmanager2.js'></script>
+		<script>
+			console.assert(soundManager, "soundmanager2 is not loaded");
+			soundManager.url		= '../../../vendor/soundmanager2/swf';
+			soundManager.debugMode		= true;
+			// FIXME no clue why but this useHTML5Audio trigger a http request for "null"
+			soundManager.useHTML5Audio	= true;
+			soundManager.preferFlash	= false;
+		</script>
+
+		<script src="../core.js"></script>
+		<script src="../sound.js"></script>
+
+		<script>
+			var sound	= new Marble.Sound({
+				urls	: ['../../../sounds/flashkit.com/Poolshot-GamePro9-8159_hifi.mp3']
+			});
+			
+			if( false ){
+				sound.bind('loaded', function(){
+					sound.play();
+				});
+			}
+			// to test repeat + multichannel
+			if( true ){
+				var volume	= 100;
+				setInterval(function(){
+					sound.play({
+						volume	: volume
+					});
+				
+					volume	-= 10;
+					if( volume < 0 )	volume	= 100;
+				}, 0.1*1000);				
+			}
+		</script>
+	</body>
+</html>
