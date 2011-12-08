@@ -65,8 +65,6 @@ Marble.VisualFxSparks	= function()
 		sizeRatio	: { type: "f", value: this._computeSizeRatio()	}
 	};
 	
-	
-	
 	var vertexShaderText	= [
 		"attribute	float	size;",
 		"attribute	vec4	aColor;",
@@ -128,7 +126,7 @@ Marble.VisualFxSparks	= function()
 	var setTargetParticle = function() {					
 		// Find available vertex index
 		var target	= vertexIndexPool.get();
-		valuesSize[target] = 100;
+		valuesSize[target] = 150;
 		
 		return target;
 	};
