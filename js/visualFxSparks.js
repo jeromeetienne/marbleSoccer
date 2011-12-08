@@ -48,7 +48,6 @@ Marble.VisualFxSparks	= function()
 		
 		return canvas;
 	}
-
 	
 	// Create pools of vectors
 
@@ -60,20 +59,25 @@ Marble.VisualFxSparks	= function()
 		aColor	: { type: 'c', value: [] }
 	};
 	
-	var uniforms	= {
-		texture	: { type: "t", texture: texture },
-		color	: { type: "c", value: new THREE.Color( 0xffffff ) }
+	var uniforms	= this._uniforms	= {
+		texture		: { type: "t", texture: texture },
+		color		: { type: "c", value: new THREE.Color(0xffffff) },
+		sizeRatio	: { type: "f", value: this._computeSizeRatio()	}
 	};
+	
+	
 	
 	var vertexShaderText	= [
 		"attribute	float	size;",
 		"attribute	vec4	aColor;",
 		
+		"uniform	float	sizeRatio;",
+
 		"varying	vec4	vColor;",
 
 		"void main() {",
 			"vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );",
-			"gl_PointSize	= size * ( 150.0 / length( mvPosition.xyz ) );",
+			"gl_PointSize	= size * sizeRatio * ( 150.0 / length( mvPosition.xyz ) );",
 			"gl_Position	= projectionMatrix * mvPosition;",
 
 			"vColor		= aColor;",
@@ -170,6 +174,10 @@ Marble.VisualFxSparks	= function()
 	emitter.addCallback("dead"	, onParticleDead	);
 	
 	emitter.start();
+
+	// to handle window resize
+	this._$onWindowResize	= this._onWindowResize.bind(this);
+	window.addEventListener('resize', this._$onWindowResize, false);
 }
 
 // inherit from Marble.VisualFxSparks methods
@@ -181,6 +189,8 @@ Marble.VisualFxSparks.prototype.destroy	= function()
 {
 	// call parent class destructor
 	this.parent.destroy.call(this);
+
+	window.removeEventListener('resize', this._$onWindowResize);
 
 	this._emitter.stop();
 
@@ -194,3 +204,19 @@ Marble.VisualFxSparks.prototype.update	= function()
 	this._attributes.size.needsUpdate	= true;
 	this._attributes.aColor.needsUpdate	= true;
 }
+
+//////////////////////////////////////////////////////////////////////////////////
+//		handle window resize						//
+//////////////////////////////////////////////////////////////////////////////////
+
+Marble.VisualFxSparks.prototype._onWindowResize	= function()
+{
+	this._uniforms.sizeRatio.value	= this._computeSizeRatio();
+	this._uniforms.sizeRatio.needsUpdate	= true;
+}
+
+Marble.VisualFxSparks.prototype._computeSizeRatio	= function()
+{
+	return window.innerHeight / 1024;
+}
+
