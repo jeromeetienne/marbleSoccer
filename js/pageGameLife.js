@@ -110,7 +110,7 @@ Marble.PageGameLife.prototype._render = function()
 	
 	// FIXME this should be INSIDE webgl renderer... bug
 	renderer.context.depthMask( true );
-	
+
 	// actually display the scene in the Dom element
 	renderer.render( scene, gameLevel.camera().object() );
 }

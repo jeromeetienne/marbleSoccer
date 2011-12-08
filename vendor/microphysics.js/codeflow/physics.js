@@ -203,6 +203,32 @@
                 this.pz + (this.z - this.pz)*u,
             ]
         },
+        separatingVelocity: function(other){
+            var b1 = this, b2 = other;
+                
+            var x = b1.x - b2.x;
+            var y = b1.y - b2.y;
+            var z = b1.z - b2.z;
+            var l = sqrt(x*x + y*y + z*z);
+            var xn = x/l;
+            var yn = y/l;
+            var zn = z/l;
+            
+            var v1  = b1.getVelocity();
+            var v2  = b2.getVelocity();
+
+            var vrx = v1[0] - v2[0];
+            var vry = v1[1] - v2[1];
+            var vrz = v1[2] - v2[2];
+
+            var vdotn = vrx*xn + vry*yn + vrz*zn;
+            var xs = vrx*vdotn;
+            var ys = vry*vdotn;
+            var zs = vrz*vdotn;
+            var speed = sqrt(xs*xs + ys*ys + zs*zs);
+
+            return speed;
+        },
         collide: function(other, restitute){
             switch(other.type){
                 case AABB:

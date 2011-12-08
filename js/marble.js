@@ -58,7 +58,11 @@ Marble.Marble.prototype.init	= function(opts)
 		// - used to have a single contact notification when 2 marbles are in contact
 		if( this._marbleId >= otherBody._marbleId )	return;
 		//console.log("marlbe", this._marbleId, "collide with", otherBody._marbleId)
-		soundPool.get('marbleContact').play();
+		var volume	= this.separatingVelocity(otherBody) * 0.8 / Marble.tileSize;
+		volume		= Math.min(volume, 1.0);
+		soundPool.get('marbleContact').play({
+			volume	: volume
+		});
 	});
 
 	// apply friction
