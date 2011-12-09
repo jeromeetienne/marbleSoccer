@@ -7,9 +7,9 @@
 //
 
 var THREEx	= THREEx 	|| {};
-THREEx.Sparks	= THREEx.Sparks	|| {};
 
-THREEx.Sparks.Emitter	= function(opts)
+
+THREEx.Sparks	= function(opts)
 {
 	opts		= opts	|| {};
 	this._maxParticles = opts.maxParticles	|| console.assert(false);
@@ -63,8 +63,8 @@ THREEx.Sparks.Emitter	= function(opts)
 	var material	= new THREE.ShaderMaterial( {
 		uniforms	: this._uniforms,
 		attributes	: this._attributes,
-		vertexShader	: THREEx.Sparks.Emitter.vertexShaderText,
-		fragmentShader	: THREEx.Sparks.Emitter.fragmentShaderText,
+		vertexShader	: THREEx.Sparks.vertexShaderText,
+		fragmentShader	: THREEx.Sparks.fragmentShaderText,
 
 		blending	: THREE.AdditiveBlending,
 		depthWrite	: false,
@@ -90,6 +90,7 @@ THREEx.Sparks.Emitter	= function(opts)
 
 	var onParticleCreated = function(particle) {
 		var vertexIdx	= particle.target.vertexIdx;
+		// copy particle position into three.js geometry
 		vertices[vertexIdx].position	= particle.position;						
 	};
 	
@@ -106,37 +107,13 @@ THREEx.Sparks.Emitter	= function(opts)
 	
 	var emitter	= this._emitter	= new SPARKS.Emitter(counter);
 
-var hue	= 0;
-var initColorSize	= function() {};
-initColorSize.prototype.initialize = function( emitter, particle ){
-	hue		+= 0.01;
-	if( hue > 1 )	hue	-= 1;
-	particle.target.color().setHSV(hue, 0.8, 0.8);
-
-	particle.target.size(150);
-};
-
 	emitter.addInitializer(new SPARKS.Target(null, setTargetParticle));
 	emitter.addCallback("created"	, onParticleCreated	);
 	emitter.addCallback("dead"	, onParticleDead	);
-
-
-	emitter.addInitializer(new initColorSize());
-	emitter.addInitializer(new SPARKS.Position( new SPARKS.PointZone( new THREE.Vector3(0,0,0) ) ) );
-	emitter.addInitializer(new SPARKS.Lifetime(0,2));
-	emitter.addInitializer(new SPARKS.Velocity(new SPARKS.PointZone(new THREE.Vector3(0,150,00))));
-	
-	emitter.addAction(new SPARKS.Age());
-	emitter.addAction(new SPARKS.Move()); 
-	emitter.addAction(new SPARKS.RandomDrift(1000,0,1000));
-	emitter.addAction(new SPARKS.Accelerate(0,-100,0));
-	
-	
-	emitter.start();
 }
 
 
-THREEx.Sparks.Emitter.prototype.destroy	= function()
+THREEx.Sparks.prototype.destroy	= function()
 {
 	window.removeEventListener('resize', this._$onWindowResize);
 
@@ -147,12 +124,17 @@ THREEx.Sparks.Emitter.prototype.destroy	= function()
 //										//
 //////////////////////////////////////////////////////////////////////////////////
 
-THREEx.Sparks.Emitter.prototype.container	= function()
+THREEx.Sparks.prototype.container	= function()
 {
 	return this._group;
 }
 
-THREEx.Sparks.Emitter.prototype.update	= function()
+THREEx.Sparks.prototype.emitter		= function()
+{
+	return this._emitter;
+}
+
+THREEx.Sparks.prototype.update	= function()
 {
 	this._group.geometry.__dirtyVertices	= true;
 	this._group.geometry.__dirtyColors	= true;
@@ -164,14 +146,14 @@ THREEx.Sparks.Emitter.prototype.update	= function()
 //		handle window resize						//
 //////////////////////////////////////////////////////////////////////////////////
 
-THREEx.Sparks.Emitter.prototype._onWindowResize	= function()
+THREEx.Sparks.prototype._onWindowResize	= function()
 {
 	this._uniforms.sizeRatio.value	= this._computeSizeRatio();
 	this._uniforms.sizeRatio.needsUpdate	= true;
 }
 
 
-THREEx.Sparks.Emitter.prototype._computeSizeRatio	= function()
+THREEx.Sparks.prototype._computeSizeRatio	= function()
 {
 	return window.innerHeight / 1024;
 }
@@ -181,7 +163,7 @@ THREEx.Sparks.Emitter.prototype._computeSizeRatio	= function()
 //		Shader Text							//
 //////////////////////////////////////////////////////////////////////////////////
 
-THREEx.Sparks.Emitter.vertexShaderText	= [
+THREEx.Sparks.vertexShaderText	= [
 	"attribute	float	size;",
 	"attribute	vec4	aColor;",
 	
@@ -197,7 +179,7 @@ THREEx.Sparks.Emitter.vertexShaderText	= [
 		"vColor		= aColor;",
 	"}"
 ].join('\n');
-THREEx.Sparks.Emitter.fragmentShaderText	= [
+THREEx.Sparks.fragmentShaderText	= [
 	"uniform vec3		color;",
 	"uniform sampler2D	texture;",
 
@@ -213,7 +195,7 @@ THREEx.Sparks.Emitter.fragmentShaderText	= [
 //		Texture								//
 //////////////////////////////////////////////////////////////////////////////////
 
-THREEx.Sparks.Emitter.prototype._buildDefaultTexture	= function(size)
+THREEx.Sparks.prototype._buildDefaultTexture	= function(size)
 {
 	size		= size || 128;
 	var canvas	= document.createElement( 'canvas' );

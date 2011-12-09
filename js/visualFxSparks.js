@@ -4,14 +4,38 @@ Marble.VisualFxSparks	= function()
 	this.parent.constructor.call(this);
 	this.parent.init.call(this, {});
 
-	this._emitter	= new THREEx.Sparks.Emitter({
-		maxParticles	: 10000,
+	this._sparks	= new THREEx.Sparks({
+		maxParticles	: 1000,
 		counter		: new SPARKS.SteadyCounter(70)
 	});
 	
+	scene.add(this._sparks.container());
 	
+	// setup the emitter
+	var emitter	= this._sparks.emitter();
+
+	var hue	= 0;
+	var initColorSize	= function() {};
+	initColorSize.prototype.initialize = function( emitter, particle ){
+		hue		+= 0.01;
+		if( hue > 1 )	hue	-= 1;
+		particle.target.color().setHSV(hue, 0.8, 0.8);
 	
-	scene.add(this._emitter.container());
+		particle.target.size(150);
+	};
+
+
+	emitter.addInitializer(new initColorSize());
+	emitter.addInitializer(new SPARKS.Position( new SPARKS.PointZone( new THREE.Vector3(0,0,0) ) ) );
+	emitter.addInitializer(new SPARKS.Lifetime(0,2));
+	emitter.addInitializer(new SPARKS.Velocity(new SPARKS.PointZone(new THREE.Vector3(0,150,00))));
+
+	emitter.addAction(new SPARKS.Age());
+	emitter.addAction(new SPARKS.Move()); 
+	emitter.addAction(new SPARKS.RandomDrift(1000,0,1000));
+	emitter.addAction(new SPARKS.Accelerate(0,-100,0));
+	
+	emitter.start();
 }
 
 // inherit from Marble.VisualFxSparks methods
@@ -24,12 +48,12 @@ Marble.VisualFxSparks.prototype.destroy	= function()
 	// call parent class destructor
 	this.parent.destroy.call(this);
 
-	scene.remove(this._emitter.container());
+	scene.remove(this._sparks.container());
 
-	this._emitter.destroy();
+	this._sparks.destroy();
 }
 
 Marble.VisualFxSparks.prototype.update	= function()
 {
-	this._emitter.update();
+	this._sparks.update();
 }
