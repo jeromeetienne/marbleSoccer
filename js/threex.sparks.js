@@ -13,7 +13,8 @@ THREEx.Sparks.Emitter	= function(opts)
 {
 	opts		= opts	|| {};
 	this._maxParticles = opts.maxParticles	|| console.assert(false);
-	this._texture	= opts.texture		|| this._buildDefaultTexture();
+	this._texture	= opts.texture	|| this._buildDefaultTexture();
+	var counter	= opts.counter	|| console.assert(false);
 	
 	var vertexIndexPool = {
 		__pools: [],
@@ -29,11 +30,16 @@ THREEx.Sparks.Emitter	= function(opts)
 	
 	
 	var particles	= new THREE.Geometry();
+	var vertices	= particles.vertices;
 	for ( i = 0; i < this._maxParticles; i++ ) {
 		var position	= new THREE.Vector3(Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY);
-		particles.vertices.push(new THREE.Vertex(position));
+		vertices.push(new THREE.Vertex(position));
 		vertexIndexPool.add(i);
 	}
+
+	// to handle window resize
+	this._$onWindowResize	= this._onWindowResize.bind(this);
+	window.addEventListener('resize', this._$onWindowResize, false);
 
 	var attributes	= this._attributes	= {
 		size	: { type: 'f', value: [] },
@@ -66,48 +72,58 @@ THREEx.Sparks.Emitter	= function(opts)
 	});
 
 	this._group	= new THREE.ParticleSystem( particles, material );
-	this._group.dynamic		= true;
-	this._group.sortParticles	= true;	// TODO is this needed ?	
+	//this._group.dynamic		= true;
+	//this._group.sortParticles	= true;	// TODO is this needed ?	
 
 	//// EMITTER STUFF
 
 	var setTargetParticle = function() {					
-		// Find available vertex index
-		var target	= vertexIndexPool.get();
-		valuesSize[target] = 150;
-		
+		var vertexIdx	= vertexIndexPool.get();
+		var target	= {
+			vertexIdx	: vertexIdx,
+			size		: function(value){ valuesSize[vertexIdx] = value;	},
+			color		: function(){ return valuesColor[vertexIdx];		}
+		};
 		return target;
 	};
-	
-	var hue	= 0;
+
+
 	var onParticleCreated = function(particle) {
-		var target = particle.target;
-		if( !target )	return;
-
-		particles.vertices[target].position = particle.position;						
-
-		hue		+= 0.01;
-		if( hue > 1 )	hue	-= 1;
-		valuesColor[target].setHSV(hue, 0.8, 0.8);
+		var vertexIdx	= particle.target.vertexIdx;
+		vertices[vertexIdx].position	= particle.position;						
 	};
 	
 	var onParticleDead = function(particle) {
-		var target = particle.target;
-		if( !target )	return;
+		var vertexIdx	= particle.target.vertexIdx;
 
 		// Hide the particle
-		valuesColor[target].setHSV(0, 0, 0);
-		particles.vertices[target].position.set(Number.POSITIVE_INFINITY,Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY);
+		valuesColor[vertexIdx].setHex( 0x000000 );
+		vertices[vertexIdx].position.set(Number.POSITIVE_INFINITY,Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY);
 		
 		// Mark particle system as available by returning to pool
-		vertexIndexPool.add(particle.target);
+		vertexIndexPool.add( vertexIdx );
 	};
 	
-	var emitter	= this._emitter	= new SPARKS.Emitter(new SPARKS.SteadyCounter(70));
+	var emitter	= this._emitter	= new SPARKS.Emitter(counter);
 
+var hue	= 0;
+var initColorSize	= function() {};
+initColorSize.prototype.initialize = function( emitter, particle ){
+	hue		+= 0.01;
+	if( hue > 1 )	hue	-= 1;
+	particle.target.color().setHSV(hue, 0.8, 0.8);
+
+	particle.target.size(150);
+};
+
+	emitter.addInitializer(new SPARKS.Target(null, setTargetParticle));
+	emitter.addCallback("created"	, onParticleCreated	);
+	emitter.addCallback("dead"	, onParticleDead	);
+
+
+	emitter.addInitializer(new initColorSize());
 	emitter.addInitializer(new SPARKS.Position( new SPARKS.PointZone( new THREE.Vector3(0,0,0) ) ) );
 	emitter.addInitializer(new SPARKS.Lifetime(0,2));
-	emitter.addInitializer(new SPARKS.Target(null, setTargetParticle));
 	emitter.addInitializer(new SPARKS.Velocity(new SPARKS.PointZone(new THREE.Vector3(0,150,00))));
 	
 	emitter.addAction(new SPARKS.Age());
@@ -115,14 +131,8 @@ THREEx.Sparks.Emitter	= function(opts)
 	emitter.addAction(new SPARKS.RandomDrift(1000,0,1000));
 	emitter.addAction(new SPARKS.Accelerate(0,-100,0));
 	
-	emitter.addCallback("created"	, onParticleCreated	);
-	emitter.addCallback("dead"	, onParticleDead	);
 	
 	emitter.start();
-
-	// to handle window resize
-	this._$onWindowResize	= this._onWindowResize.bind(this);
-	window.addEventListener('resize', this._$onWindowResize, false);
 }
 
 

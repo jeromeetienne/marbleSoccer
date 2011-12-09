@@ -5,8 +5,11 @@ Marble.VisualFxSparks	= function()
 	this.parent.init.call(this, {});
 
 	this._emitter	= new THREEx.Sparks.Emitter({
-		maxParticles	: 10000
+		maxParticles	: 10000,
+		counter		: new SPARKS.SteadyCounter(70)
 	});
+	
+	
 	
 	scene.add(this._emitter.container());
 }
