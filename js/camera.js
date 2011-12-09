@@ -7,6 +7,7 @@ Marble.Camera	= function()
 	// for debug
 	//this._relativePos	= new THREE.Vector3(0, 75*0.5, 150);
 	//this._relativePos	= new THREE.Vector3(0, 600, 10);
+	//this._relativePos	= new THREE.Vector3(0, 1.5*Marble.tileSize/2, 0);
 	
 	scene.add( this._object );
 }
@@ -24,5 +25,14 @@ Marble.Camera.prototype.tick	= function()
 
 	camera.position.add( player.mesh().position, this._relativePos);
 	camera.lookAt( player.mesh().position );
+	
+if(false){
+	var target	= player.mesh().position.clone();
+	var direction	= Math.PI/2;
+	var distance	= 500;
+	target.x	+= Math.cos(direction)*distance;
+	target.z	-= Math.sin(direction)*distance;
+	camera.lookAt( target );
+}
 }
 
