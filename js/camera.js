@@ -23,23 +23,17 @@ Marble.Camera.prototype.tick	= function()
 	var player	= gameLevel.player();
 
 	camera.position.add( player.mesh().position, this._relativePos);
-	//camera.lookAt( player.mesh().position );
+	camera.lookAt( player.mesh().position );
+
+	if( player.fpsControl().isActivated() ){
+		camera.position.copy( player.mesh().position );
+		camera.position.y	+= 1*Marble.tileSize/2;
 	
-if( player.fpsControl().isActivated() ){
-	var angleY	= player.fpsControl().angleY();
-	camera.rotation.y	= angleY;
-	camera.position.copy( player.mesh().position );
-	camera.position.y	+= 1.2*Marble.tileSize/2;
-	return;
-}
-	
-if(false){
-	var target	= player.mesh().position.clone();
-	var direction	= Math.PI/2;
-	var distance	= 500;
-	target.x	+= Math.cos(direction)*distance;
-	target.z	-= Math.sin(direction)*distance;
-	camera.lookAt( target );
-}
+		var direction	= player.fpsControl().angleY();
+		var target	= camera.position.clone();
+		target.x	+= Math.cos(direction);
+		target.z	-= Math.sin(direction);
+		camera.lookAt( target );
+	}
 }
 

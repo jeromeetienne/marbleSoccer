@@ -28,7 +28,7 @@ Marble.GameLevel	= function()
 		this._enemies.push( new Marble.Enemy() );
 	}
 
-	//this.visualFxAdd(new Marble.VisualFxSparks());
+	this.visualFxAdd(new Marble.VisualFxSparks());
 	
 	this._timeoutCtor();
 }
