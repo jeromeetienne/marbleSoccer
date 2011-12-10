@@ -86,6 +86,9 @@ Marble.PageGameLife.prototype._init	= function(){
 	// for debug
 	//var mesh	= new THREE.Mesh( new THREE.SphereGeometry(75,16,8), new THREE.MeshNormalMaterial() );
 	//scene.add(mesh);
+	
+	// for debug
+	scene.add(new THREE.Axes());
 
 	gameLevel	= new Marble.GameLevel();
 

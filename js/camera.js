@@ -27,12 +27,12 @@ Marble.Camera.prototype.tick	= function()
 
 	if( player.fpsControl().isActivated() ){
 		camera.position.copy( player.mesh().position );
-		camera.position.y	+= 1*Marble.tileSize/2;
+		camera.position.y	+= Marble.tileSize/2;
 	
 		var direction	= player.fpsControl().angleY();
 		var target	= camera.position.clone();
 		target.x	+= Math.cos(direction);
-		target.z	-= Math.sin(direction);
+		target.z	+= Math.sin(direction);
 		camera.lookAt( target );
 	}
 }

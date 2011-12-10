@@ -1,6 +1,6 @@
 Marble.PlayerFpsControl	= function()
 {
-	this._angleY	= 0;
+	this._angleY	= -Math.PI/2;
 	// bind events
 	this._$onMouseMove	= this._onMouseMove.bind(this);
 	this._$onFullscreenChange=this._onFullscreenChange.bind(this);
@@ -66,14 +66,11 @@ Marble.PlayerFpsControl.prototype._onMouseMove	= function(domEvent)
 {
 	console.assert( domEvent.movementX !== undefined );
 	console.assert( domEvent.movementY !== undefined );
-	console.log("mousemove", "movementX", domEvent.movementX, "movementY", domEvent.movementY);
 
-	var speed	= 1 / 1024;
-	var deltaAngle	= domEvent.movementX * speed * Math.PI * -1;
+	var speed	= 1 / 1024;	// nPixPerPI;
+	var deltaAngle	= domEvent.movementX * speed * Math.PI;
 	this._angleY	+= deltaAngle;
 	this._angleY	%= 2*Math.PI;
-
-	console.log("angleY", this._angleY/Math.PI*180);
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -100,8 +97,8 @@ Marble.PlayerFpsControl.FpsAccelerator	= vphy.Class({
 		};
 		// TODO rewrite formula in a controlled manner
 		var angle	= gameLevel.player().fpsControl().angleY();
-		var accX	= - Math.sin(angle) * this.acceleration;
-		var accZ	= - Math.cos(angle) * this.acceleration;;
+		var accX	= Math.cos(angle) * this.acceleration;
+		var accZ	= Math.sin(angle) * this.acceleration;;
 		for(var i = 0; i < this.bodies.length; i++){
 			var body	= this.bodies[i];
 			if( key.right )	body.accelerate(-accZ,0,+accX);
