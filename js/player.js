@@ -29,6 +29,8 @@ Marble.Player	= function()
 		});
 		microphysics.world().add(this._devOrientAcc);		
 	}
+	
+	this._fpsControl	= new Marble.PlayerFpsControl();
 }
 
 // inherit from Marble.Marble methods
@@ -46,6 +48,9 @@ Marble.Player.prototype.destroy	= function()
 	
 	this._devOrientAcc	&& microphysics.world().remove(this._devOrientAcc);
 	this._devOrientAcc	= null;	
+
+	this._fpsControl	&& this._fpsControl.destroy();
+	this._fpsControl	= null;	
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -68,6 +73,8 @@ Marble.Player.prototype.onContactVoxel	= function(voxelType)
 //////////////////////////////////////////////////////////////////////////////////
 //										//
 //////////////////////////////////////////////////////////////////////////////////
+
+Marble.Player.prototype.fpsControl	= function(){ return this._fpsControl;	}
 
 Marble.Player.prototype.scoreChange	= function(delta)
 {

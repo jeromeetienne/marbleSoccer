@@ -117,7 +117,7 @@ THREEx.Sparks.prototype.destroy	= function()
 {
 	window.removeEventListener('resize', this._$onWindowResize);
 
-	this._emitter.stop();
+	if( this._emitter.isRunning() )	this._emitter.stop();
 }
 
 //////////////////////////////////////////////////////////////////////////////////

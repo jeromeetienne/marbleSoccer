@@ -19,12 +19,19 @@ Marble.Camera.prototype.object	= function()
 
 Marble.Camera.prototype.tick	= function()
 {
-	// TODO should i use mesh or body ?
 	var camera	= this._object;
 	var player	= gameLevel.player();
 
 	camera.position.add( player.mesh().position, this._relativePos);
-	camera.lookAt( player.mesh().position );
+	//camera.lookAt( player.mesh().position );
+	
+if( player.fpsControl().isActivated() ){
+	var angleY	= player.fpsControl().angleY();
+	camera.rotation.y	= angleY;
+	camera.position.copy( player.mesh().position );
+	camera.position.y	+= 1.2*Marble.tileSize/2;
+	return;
+}
 	
 if(false){
 	var target	= player.mesh().position.clone();

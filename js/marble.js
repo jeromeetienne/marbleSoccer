@@ -174,11 +174,18 @@ Marble.Marble.prototype._updateSphere	= function()
 */
 Marble.Marble.prototype._updateShadow	= function()
 {
-	var height	= gameLevel.map().getHeight(this._mesh.position.x, this._mesh.position.z);
-	if( height !== undefined ){
-		// +0.1 to ensure the map is above the ground without z-fighting
-		this._shadowMesh.position.y	= height - this._mesh.position.y + 0.1;
-	}else{
+	var scale	= 1;
+	var voxelHeight	= gameLevel.map().getHeight(this._mesh.position.x, this._mesh.position.z);
+	// if no voxel below
+	if( voxelHeight === undefined ){
 		this._shadowMesh.position.y	= -Number.MAX_VALUE;
+		this._shadowMesh.scale.set(scale, scale, scale)
+		return;
 	}
+	
+	var deltaHeight	= this._mesh.position.y - voxelHeight;
+	// +0.1 to ensure the map is above the ground without z-fighting
+	this._shadowMesh.position.y	= -deltaHeight + 0.1;
+	scale	= 1 + 0.3 * deltaHeight / Marble.tileSize;
+	this._shadowMesh.scale.set(scale, scale, scale)
 }

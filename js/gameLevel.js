@@ -15,7 +15,7 @@ Marble.GameLevel	= function()
 	this._player	= new Marble.Player();
 	this._map	= new Marble.Map();
 	this._camera	= new Marble.Camera();
-	this._skybox	= new Marble.Skymap();
+	//this._skybox	= new Marble.Skymap();
 
 	// create all the balls
 	this._balls	= [];
@@ -28,7 +28,7 @@ Marble.GameLevel	= function()
 		this._enemies.push( new Marble.Enemy() );
 	}
 
-	this.visualFxAdd(new Marble.VisualFxSparks());
+	//this.visualFxAdd(new Marble.VisualFxSparks());
 	
 	this._timeoutCtor();
 }
