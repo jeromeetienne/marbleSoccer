@@ -14,8 +14,9 @@ Marble.VisualFxSparks	= function()
 	// setup the emitter
 	var emitter	= this._sparks.emitter();
 
-	var hue	= 0;
+	var hue		= 0;
 	var initColorSize	= function() {};
+// TODO put that in the threex as a special initializer
 	initColorSize.prototype.initialize = function( emitter, particle ){
 		hue		+= 0.01;
 		if( hue > 1 )	hue	-= 1;
@@ -38,7 +39,7 @@ Marble.VisualFxSparks	= function()
 	emitter.start();
 }
 
-// inherit from Marble.VisualFxSparks methods
+// inherit from Marble.VisualFx methods
 Marble.VisualFxSparks.prototype			= new Marble.VisualFx();
 Marble.VisualFxSparks.prototype.constructor	= Marble.VisualFx;
 Marble.VisualFxSparks.prototype.parent		= Marble.VisualFx.prototype;

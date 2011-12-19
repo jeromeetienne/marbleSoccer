@@ -4,12 +4,21 @@ Marble.PlayerFpsControl	= function()
 	// bind events
 	this._$onMouseMove	= this._onMouseMove.bind(this);
 	this._$onFullscreenChange=this._onFullscreenChange.bind(this);
+
+	if( this.isSupported() === false ){
+		console.log("mouse lock unsupported :(");
+		return;
+	}
+	console.log("mouse lock supported!!");
+	
 	document.addEventListener('mozfullscreenchange', this._$onFullscreenChange, false);
+	document.addEventListener('webkitfullscreenchange', this._$onFullscreenChange, false);
 }
 
 Marble.PlayerFpsControl.prototype.destroy	= function()
 {
 	document.removeEventListener('mozfullscreenchange'	, this._$onFullscreenChange);
+	document.removeEventListener('webkitfullscreenchange'	, this._$onFullscreenChange);
 
 	document.removeEventListener('mousemove'		, this._$onMousemove);
 
@@ -26,7 +35,11 @@ Marble.PlayerFpsControl.prototype._onFullscreenChange	= function()
 {
 	if( THREEx.FullScreen.activated() ){
 
-		navigator.pointer.lock(document.body);
+		navigator.pointer.lock(document.body, function(){
+			console.log("navigator.pointer.lock() succeed")
+		},function(){
+			console.log("navigator.pointer.lock() failled")
+		});
 
 		console.log("after pointer lock, isLocked is", navigator.pointer.islocked());
 		console.assert(navigator.pointer.islocked());
@@ -88,14 +101,12 @@ Marble.PlayerFpsControl.FpsAccelerator	= vphy.Class({
 	},
 	perform		: function(){
 		var keyboard	= this.keyboard;
-		var acc		= this.acceleration;
 		var key		= {
 			left	: keyboard.pressed('A') || keyboard.pressed('J') || keyboard.pressed('Q') ,
 			right	: keyboard.pressed('D') || keyboard.pressed('L') ,
 			up	: keyboard.pressed('W') || keyboard.pressed('I') || keyboard.pressed('Z') ,
 			down	: keyboard.pressed('S') || keyboard.pressed('K')
 		};
-		// TODO rewrite formula in a controlled manner
 		var angle	= gameLevel.player().fpsControl().angleY();
 		var accX	= Math.cos(angle) * this.acceleration;
 		var accZ	= Math.sin(angle) * this.acceleration;;

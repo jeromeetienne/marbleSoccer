@@ -40,7 +40,7 @@
 
 				//camera	= new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 5000 );
 				camera	= new THREE.Camera( 60, window.innerWidth / window.innerHeight, 1, 100000 );
-				camera.position.z = 500;
+				camera.position.z = 800;
 
 				scene	= new THREE.Scene();
 
@@ -95,52 +95,70 @@
 				radgrad4.addColorStop(1, 'rgba(228,199,0,0)');
 
 				var radgrad5 = ctx.createRadialGradient(canvasW/2, canvasH/2, canvasW/4,canvasW/2, canvasH/2, canvasW/2);  
-				var radgrad5 = ctx.createRadialGradient(canvasW/2, 0, canvasW/4,canvasW/2, 0, canvasW/2);  
+				//var radgrad5 = ctx.createRadialGradient(canvasW/2, 0, canvasW/4,canvasW/2, 0, canvasW/2);  
 				radgrad5.addColorStop(0.0, 'rgba(255,255,255,1)');  
-				radgrad4.addColorStop(0.8, 'rgba(192,192,192,0.5)');  
-				radgrad5.addColorStop(1.0, 'rgba(0,0,0,0)');   
+				radgrad4.addColorStop(0.8, 'rgba(192,192,192,1)');  
+				radgrad5.addColorStop(1.0, 'rgba(0,0,0,1)');   
 
 				ctx.save();
 				ctx.fillStyle	= radgrad5;
 				//ctx.fillStyle	= "#fff";
+				//ctx.fillStyle	= "rgba(192,192,192,0.8)";
 				ctx.fillRect(0,0, canvas.width, canvas.height)
 				ctx.restore();
 				texture.needsUpdate = true
 				
 
 				group = new THREE.Object3D();
+				group.position.y	= 256;
 				scene.addChild(group);
 
 				var mesh	= new THREE.Mesh(new THREE.PlaneGeometry(512, 512), new THREE.MeshBasicMaterial({
-					color	: 0x00FF00
+					color		: 0x00FF00,
+					transparent	: true
 				}));
 				mesh.position.z	= -256;
 				scene.addChild( mesh );
 				
 				var geometry	= new THREE.PlaneGeometry(64, 512);
-				var material	= new THREE.MeshLambertMaterial({
-					map		: THREE.ImageUtils.loadTexture( "../../images/thenounproject/options.png" ),
-					//map		: THREE.ImageUtils.loadTexture( "spot.png" ),
+				var material	= new THREE.MeshBasicMaterial({
+					//color		: 0xFF01FF,
+					//map		: THREE.ImageUtils.loadTexture( "../../images/thenounproject/options.png" ),
+					map		: THREE.ImageUtils.loadTexture( "spot.png" ),
 					//map		: texture,
 					blending	: THREE.AdditiveBlending,
+					depthWrite	: false,
 					transparent	: true
 				});
+				//material	= new THREE.MeshNormalMaterial();
+
 				var mesh	= new THREE.Mesh(geometry, material);
-				mesh.doubleSided= true;
 				mesh.rotation.y	= 0*Math.PI/3;
-				mesh.position.y	= 256;
 				group.addChild( mesh );
 				var mesh	= new THREE.Mesh(geometry, material);
-				mesh.doubleSided= true;
+				mesh.rotation.y	= 0*Math.PI/3 + Math.PI;
+				group.addChild( mesh );
+
+				var mesh	= new THREE.Mesh(geometry, material);
 				mesh.rotation.y	= 1*Math.PI/3;
-				mesh.position.y	= 256;
 				group.addChild( mesh );
 				var mesh	= new THREE.Mesh(geometry, material);
-				mesh.doubleSided= true;
+				mesh.rotation.y	= 1*Math.PI/3 + Math.PI;
+				group.addChild( mesh );
+
+				var mesh	= new THREE.Mesh(geometry, material);
 				mesh.rotation.y	= 2*Math.PI/3;
-				mesh.position.y	= 256;
+				group.addChild( mesh );
+				var mesh	= new THREE.Mesh(geometry, material);
+				mesh.rotation.y	= 2*Math.PI/3 + Math.PI;
 				group.addChild( mesh );
 				
+				var mesh	= new THREE.Mesh(new THREE.PlaneGeometry(512, 512), new THREE.MeshBasicMaterial({
+					color		: 0x00FF00,
+					transparent	: true
+				}));
+				mesh.position.z	= -256;
+				scene.addChild( mesh );
 
 
 				var sprite = new THREE.Sprite({
@@ -185,12 +203,14 @@
 				// here animate your object 
 				if( true ){
 					//group.rotation.x = time * 0.5;
-					group.rotation.y = time * 0.75;
+					group.rotation.y = time * 0.75 * 3;
 					//group.rotation.z = time * 1.0;
 				}
 				
 				time += 0.02;
 
+				// FIXME this should be INSIDE webgl renderer... bug
+				renderer.context.depthMask( true );
 				renderer.render( scene, camera );
 			}
 

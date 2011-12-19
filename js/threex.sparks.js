@@ -221,3 +221,17 @@ THREEx.Sparks.prototype._buildDefaultTexture	= function(size)
 	
 	return texture;
 }
+
+//////////////////////////////////////////////////////////////////////////////////
+//		Custom initializer TODO put it elsewhere			//
+//////////////////////////////////////////////////////////////////////////////////
+
+THREEx.Sparks.ColorSizeInitializer	= function(color, size){
+	this._color	= color;
+	this._size	= size;
+}
+THREEx.Sparks.ColorSizeInitializer.prototype.initialize	= function(emitter, particle)
+{
+	if( this._color !== undefined )	particle.target.color().copy(this._color);
+	if( this._size !== undefined )	particle.target.size(this._size);
+}
