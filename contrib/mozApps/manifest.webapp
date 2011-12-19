@@ -1,0 +1,24 @@
+{
+	"version"	: "1.0",
+	"name"		: "MarbleSoccer",
+	"description"	: "Play soccer with a marble",
+	"icons": {
+		"16"	: "/img/icon-16.png",
+		"48"	: "/img/icon-48.png",
+		"128"	: "/img/icon-128.png"
+	},
+	"widget": {
+		"path"	: "/widget.html",
+		"width"	: 100,
+		"height": 200
+	},
+	"developer": {
+	  "name"	: "Jerome Etienne",
+	  "url"		: "http://jetienne.com"
+	},
+	"installs_allowed_from": [
+		"https://appstore.mozillalabs.com",
+		"https://marblesoccer.com"  
+	],
+	"default_locale": "en"
+}
