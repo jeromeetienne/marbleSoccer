@@ -18,6 +18,7 @@
 	},
 	"installs_allowed_from": [
 		"https://appstore.mozillalabs.com",
+		"https://apps-preview.mozilla.org",
 		"https://marblesoccer.com"  
 	],
 	"default_locale": "en"
