@@ -22,7 +22,7 @@ Marble.Player	= function()
 	microphysics.world().add(this._keyboardAcc);
 
 	// accelerator for deviceOrientation
-	if( false ){
+	if( true ){
 		this._devOrientAcc	= new vphy.ThreexDeviceOrientationAccelerator({
 			bodies			: [microphysics.body(this.mesh())],
 			deviceOrientation	: devOrientation

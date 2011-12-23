@@ -14,8 +14,14 @@ Marble.Marble.prototype.init	= function(opts)
 	this._marbleId	= opts.marbleId 	|| "marbleId-"+Math.floor(Math.random()*9999999).toString(36);
 	var material	= opts.material		|| new THREE.MeshNormalMaterial();
 
+	var hasWebGL	= renderer instanceof THREE.WebGLRenderer;
+
 	// build this._ballMesh
-	var geometry	= new THREE.SphereGeometry(this._radius, 32, 16);
+	if( hasWebGL ){
+		var geometry	= new THREE.SphereGeometry(this._radius, 32, 16);
+	}else{
+		var geometry	= new THREE.SphereGeometry(this._radius, 4,4);
+	}
 	this._ballMesh	= new THREE.Mesh(geometry, material);
 	this._ballMesh.position.y	= this._radius;
 	this._ballMesh.rotation.copy(rotation);
@@ -38,7 +44,7 @@ Marble.Marble.prototype.init	= function(opts)
 	this._mesh	= new THREE.Object3D();
 	this._mesh.position.copy(position)
 	this._mesh.add(this._ballMesh);
-	this._mesh.add(this._shadowMesh);
+	hasWebGL && this._mesh.add(this._shadowMesh);
 
 	scene.add( this._mesh );		
 

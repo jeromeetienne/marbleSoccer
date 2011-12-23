@@ -17,12 +17,20 @@ Marble.Voxel	= function(opts)
 		//return THREE.ImageUtils.loadTexture( "images/PlywoodOld0024_23_thumbhuge.jpg")
 		return THREE.ImageUtils.loadTexture( "images/square-outline-textured.png" );
 	});
+	var hasWebGL	= renderer instanceof THREE.WebGLRenderer;
 	var material	= renderer._microCache.getSet('voxelMaterial_'+type, function(){
-		return new THREE.MeshLambertMaterial({
-			color	: Marble.Voxel._type2colors[type].getHex(),
-			//shading	: THREE.FlatShading,
-			map	: texture
-		});
+		var color	= Marble.Voxel._type2colors[type].getHex();
+		if( hasWebGL ){
+			return new THREE.MeshLambertMaterial({
+				color	: color,
+				//shading	: THREE.FlatShading,
+				map	: texture
+			});			
+		}else{
+			return new THREE.MeshBasicMaterial({
+				color	: color
+			});			
+		}
 	});
 
 	var geometry	= new THREE.CubeGeometry( tileSize, tileSize, tileSize, 1, 1, 1, [material, material, material, material, material, material ]);

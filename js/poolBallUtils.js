@@ -16,8 +16,19 @@ Marble.PoolBallUtils.colorPerNumber	= {
 	'9'	: 0xFDD017,	// Yellow
 }
 
-Marble.PoolBallUtils.ballMaterial	= function(ballDesc)
+Marble.PoolBallUtils._ballMaterialCanvas= function(ballDesc)
 {
+	var hasWebGL	= renderer instanceof THREE.WebGLRenderer;
+	console.assert(hasWebGL === false)
+	return new THREE.MeshBasicMaterial({
+		color		: Marble.PoolBallUtils.colorPerNumber[ballDesc]
+	});
+}
+
+Marble.PoolBallUtils._ballMaterialWebGL	= function(ballDesc)
+{
+	var hasWebGL	= renderer instanceof THREE.WebGLRenderer;
+	console.assert(hasWebGL === true);
 	var buildTextureFlat	= function(){
 		return renderer._microCache.getSet('poolBallTexture-'+ballDesc, function(){
 			if( ballDesc === 'cue' ){
@@ -63,4 +74,14 @@ Marble.PoolBallUtils.ballMaterial	= function(ballDesc)
 		//map		: buildTextureFlat()
 		map		: buildTextureStone()
 	});
+}
+
+Marble.PoolBallUtils.ballMaterial	= function(ballDesc)
+{
+	var hasWebGL	= renderer instanceof THREE.WebGLRenderer;
+	if( hasWebGL === true ){
+		return this._ballMaterialWebGL(ballDesc);
+	}else{
+		return this._ballMaterialCanvas(ballDesc);
+	}
 }

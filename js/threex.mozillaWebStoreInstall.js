@@ -26,7 +26,7 @@ THREEx.MozillaWebStoreInstall.apiAvailable	= function()
 */
 THREEx.MozillaWebStoreInstall.isInstalled	= function(callback)
 {
-	if( !this.apiAvailable() )	return false;
+	console.assert( this.apiAvailable() );
 	navigator.mozApps.amInstalled(callback);
 }
 
@@ -36,8 +36,7 @@ THREEx.MozillaWebStoreInstall.isInstalled	= function(callback)
  * @param {Function} callback called if installation succeed
  * @param {Function} callback called if installation failed
 */
-THREEx.MozillaWebStoreInstall.install	= function(url, callback)
+THREEx.MozillaWebStoreInstall.install	= function(url, successCallback, failureCallback)
 {
-	console.assert( this.apiAvailable() )
 	navigator.mozApps.install(url, successCallback, failureCallback);
 }

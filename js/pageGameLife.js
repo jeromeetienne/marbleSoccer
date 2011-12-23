@@ -13,7 +13,7 @@ Marble.PageGameLife	= function()
 	console.log("enter PageGameLife")
 
 	// test if webgl is supported
-	console.assert( Detector.webgl, "WebGL isnt supported" );
+	//console.assert( Detector.webgl, "WebGL isnt supported" );
 
 	this._requestAnimId	= null;
 
@@ -63,11 +63,17 @@ Marble.PageGameLife.prototype._init	= function(){
 	var container = jQuery(this._containerSel).get(0);
 
 	// init the WebGL renderer and append it to the Dom
-	renderer = new THREE.WebGLRenderer({
-		antialias		: true,
-		preserveDrawingBuffer	: true 
-	});
-
+	var supportWebGL= Detector.webgl ? true : false;
+	var useWebGL	= supportWebGL;
+	useWebGL	= jQuery.url().param('render') ? false : useWebGL;
+	if( useWebGL ){
+		renderer = new THREE.WebGLRenderer({
+			antialias		: true,
+			preserveDrawingBuffer	: true 
+		});		
+	}else{
+		renderer	= new THREE.CanvasRenderer();
+	}
 	renderer.setSize( window.innerWidth, window.innerHeight );
 	container.appendChild( renderer.domElement );
 	
@@ -87,7 +93,7 @@ Marble.PageGameLife.prototype._init	= function(){
 	//var mesh	= new THREE.Mesh( new THREE.SphereGeometry(75,16,8), new THREE.MeshNormalMaterial() );
 	//scene.add(mesh);
 	
-	// for debug
+	// for debug - display xyz axes on the screen
 	scene.add(new THREE.Axes());
 
 	gameLevel	= new Marble.GameLevel();
@@ -112,7 +118,7 @@ Marble.PageGameLife.prototype._render = function()
 	gameLevel.tick();
 	
 	// FIXME this should be INSIDE webgl renderer... bug
-	renderer.context.depthMask( true );
+	renderer instanceof THREE.WebGLRenderer	&& renderer.context.depthMask( true );
 
 	// actually display the scene in the Dom element
 	renderer.render( scene, gameLevel.camera().object() );

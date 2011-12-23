@@ -16,8 +16,12 @@ Marble.PageLandingMain	= function()
 
 	jQuery(this._pageSel).show();
 	
-	if( Detector.webgl )	this._menuShow();
-	else			this._nowebglShow();
+	if( false ){
+		if( Detector.webgl )	this._menuShow();
+		else			this._nowebglShow();		
+	}else{
+		this._menuShow();		
+	}
 	this._chromeWebStoreCtor();
 	
 	this._$playButtonClick		= this._playClick.bind(this);
