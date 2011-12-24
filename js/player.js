@@ -22,12 +22,22 @@ Marble.Player	= function()
 	microphysics.world().add(this._keyboardAcc);
 
 	// accelerator for deviceOrientation
-	if( true ){
+	if( false ){
 		this._devOrientAcc	= new vphy.ThreexDeviceOrientationAccelerator({
 			bodies			: [microphysics.body(this.mesh())],
 			deviceOrientation	: devOrientation
 		});
 		microphysics.world().add(this._devOrientAcc);		
+	}
+	
+	// accelerator for deviceOrientation
+	if( vJoystick ){
+		this._virtualJoystickAcc	= new vphy.VirtualJoystickAccelerator({
+			bodies		: [microphysics.body(this.mesh())],
+			acceleration	: 8*Marble.tileSize,
+			joystick	: vJoystick
+		});
+		microphysics.world().add(this._virtualJoystickAcc);		
 	}
 	
 	this._fpsControl	= new Marble.PlayerFpsControl();
@@ -48,6 +58,9 @@ Marble.Player.prototype.destroy	= function()
 	
 	this._devOrientAcc	&& microphysics.world().remove(this._devOrientAcc);
 	this._devOrientAcc	= null;	
+
+	this._virtualJoystickAcc&& microphysics.world().remove(this._virtualJoystickAcc);
+	this._virtualJoystickAcc	= null;	
 
 	this._fpsControl	&& this._fpsControl.destroy();
 	this._fpsControl	= null;	

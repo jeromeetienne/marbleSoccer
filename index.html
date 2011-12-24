@@ -1,4 +1,9 @@
+<html>
 <head>
+	<title>Marble Soccer</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
 	<link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/cfbcdiidnfncmcomhfnfbpcpfikjemie"/>
 
 	<link rel='stylesheet' href="css/main.css"		/>
@@ -131,13 +136,15 @@
 				<center>
 					<span class="youtube"></span>
 				</center>
-
+				<p style="font-size: 80%; float: right">
+					try an <b>experimental</b> <a href="/?render=canvas">canvas version</a>
+				</p>
 			</div>
 		</div></div>
 
 		<!-- include weinre client script to debug on mobile -->s
-		<script src="http://192.168.0.10:8080/target/target-script-min.js#anonymous"></script>
-
+<!--		<script src="http://192.168.0.10:8080/target/target-script-min.js#anonymous"></script>
+-->
 		<!-- include javascript files -->
 		<script src="vendor/jquery/jquery.min.js"></script>
 		<script src="vendor/jquery/jquery.url.js"></script>
@@ -171,6 +178,8 @@
 		<script src='./vendor/microevent.js/microevent.js'></script>
 		<script src='./vendor/excanvas.js'></script>
 
+		<script src='./vendor/virtualjoystick.js/virtualjoystick.js'></script>
+
 		<script src="https://myapps.mozillalabs.com/jsapi/include.js"></script>
 		<script src='./js/threex.mozillaWebStoreInstall.js'></script>
 
@@ -190,6 +199,7 @@
 		<script src='js/lib/microphysics.maxSpeedAccelerator.js'></script>
 		<script src='js/lib/microphysics.threexKeyboardAccelerator.js'></script>
 		<script src='js/lib/microphysics.threexDeviceOrientationAccelerator.js'></script>
+		<script src='js/lib/microphysics.virtualjoystickAccelerator.js'></script>
 		<script src="js/lib/visualFx.js"></script>
 
 		<script src='tmp/particles-emitter/threex.particlesemitter.js'></script>
@@ -239,3 +249,4 @@
 		</script>
 	</body>
 </body>
+</html>

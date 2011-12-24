@@ -15,10 +15,13 @@ Marble.PageLandingMain	= function()
 	this._pageGameMain	= null;
 
 	jQuery(this._pageSel).show();
+
+
+Detector.webgl	= false;
+
 	
-	if( false ){
-		if( Detector.webgl )	this._menuShow();
-		else			this._nowebglShow();		
+	if( !Detector.webgl && !jQuery.url().param('render') ){
+		this._nowebglShow();		
 	}else{
 		this._menuShow();		
 	}
