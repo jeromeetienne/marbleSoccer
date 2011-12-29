@@ -1,5 +1,6 @@
 var osdLayer;
 var pageGameLife;
+var vJoystick;
 
 Marble.PageGameMain	= function()
 {
@@ -8,12 +9,25 @@ Marble.PageGameMain	= function()
 	osdLayer	= new Marble.OsdLayer();
 	osdLayer.livesSet( this._playerLives );
 
+	if( true || !VirtualJoystick.touchScreenAvailable() ){
+		this._virtualJoystick	= new VirtualJoystick({
+			mouseSupport	: true
+		});	
+		vJoystick	= this._virtualJoystick;
+	}
+
+
 	this._gameLifeCtor();
 }
 
 Marble.PageGameMain.prototype.destroy	= function()
 {
 	this._gameLifeDtor();
+
+	
+	this._virtualJoystick	&& this._virtualJoystick.destroy();
+	this._virtualJoystick	= null;
+	vJoystick		= this._virtualJoystick;
 
 	osdLayer	&& osdLayer.destroy();
 	osdLayer	= null;

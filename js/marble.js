@@ -20,7 +20,8 @@ Marble.Marble.prototype.init	= function(opts)
 	if( hasWebGL ){
 		var geometry	= new THREE.SphereGeometry(this._radius, 32, 16);
 	}else{
-		var geometry	= new THREE.SphereGeometry(this._radius, 4,4);
+		var geometry	= new THREE.SphereGeometry(this._radius, 3,3);
+		//var geometry	= new THREE.CubeGeometry(this._radius*2, this._radius*2, this._radius*2);
 	}
 	this._ballMesh	= new THREE.Mesh(geometry, material);
 	this._ballMesh.position.y	= this._radius;

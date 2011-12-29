@@ -1,7 +1,6 @@
 // TODO reduce the amount of global
 var gameLevel;
 var camera, scene, renderer;
-var vJoystick;
 
 //////////////////////////////////////////////////////////////////////////////////
 //		ctor/dtor							//
@@ -27,7 +26,7 @@ Marble.PageGameLife.prototype.destroy	= function()
 {	
 	this._requestAnimId	&& cancelRequestAnimationFrame( this._requestAnimId );
 	this._requestAnimId	= null;
-	
+
 	this._winResize 	&& this._winResize.stop();
 
 	this._stats 		&& this._stats.domElement.parentNode.removeChild(this._stats.domElement);
@@ -96,32 +95,6 @@ Marble.PageGameLife.prototype._init	= function(){
 	
 	// for debug - display xyz axes on the screen
 	scene.add(new THREE.Axes());
-
-// TODO fix this init
-// - add a destructor
-(function(){
-	//if( 'createTouch' in document === false )	return;
-	var container	= document.createElement('div');
-	container.style.width		= '100%';
-	container.style.height		= '100%';
-	container.style.position	= 'absolute';
-	container.style.top		= '0px';
-	container.style.left		= '0px';
-	
-	document.body.appendChild(container);
-
-	var subContainer= document.createElement('div');
-	subContainer.style.position	= 'relative';
-	subContainer.style.width	= '100%';
-	subContainer.style.height	= '100%';
-	container.appendChild(subContainer);
-	
-	var joystick	= vJoystick	= new VirtualJoystick({
-		container	: subContainer,
-		debug		: true
-	});
-}());
-
 
 	gameLevel	= new Marble.GameLevel();
 
