@@ -9,7 +9,7 @@ Marble.PageGameMain	= function()
 	osdLayer	= new Marble.OsdLayer();
 	osdLayer.livesSet( this._playerLives );
 
-	if( true || !VirtualJoystick.touchScreenAvailable() ){
+	if( true ||  !VirtualJoystick.touchScreenAvailable() ){
 		this._virtualJoystick	= new VirtualJoystick({
 			mouseSupport	: true
 		});	

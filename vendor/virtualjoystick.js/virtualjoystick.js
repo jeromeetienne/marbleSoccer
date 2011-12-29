@@ -34,9 +34,9 @@ var VirtualJoystick	= function(opts)
 		this._$onMouseDown	= __bind(this._onMouseDown	, this);
 		this._$onMouseUp	= __bind(this._onMouseUp	, this);
 		this._$onMouseMove	= __bind(this._onMouseMove	, this);
-		this._container.addEventListener( 'mousedown'	, this._$onMouseDown	, true );
-		this._container.addEventListener( 'mouseup'	, this._$onMouseUp	, true );
-		this._container.addEventListener( 'mousemove'	, this._$onMouseMove	, true );
+		this._container.addEventListener( 'mousedown'	, this._$onMouseDown	, false );
+		this._container.addEventListener( 'mouseup'	, this._$onMouseUp	, false );
+		this._container.addEventListener( 'mousemove'	, this._$onMouseMove	, false );
 	}
 }
 
@@ -49,8 +49,8 @@ VirtualJoystick.prototype.destroy	= function()
 	this._container.removeEventListener( 'touchend'		, this._$onTouchEnd	, false );
 	this._container.removeEventListener( 'touchmove'	, this._$onTouchMove	, false );
 	if( this._mouseSupport ){
-		this._container.removeEventListener( 'mouseup'		, this._$onMouseUp	, false );
 		this._container.removeEventListener( 'mousedown'	, this._$onMouseDown	, false );
+		this._container.removeEventListener( 'mouseup'		, this._$onMouseUp	, false );
 		this._container.removeEventListener( 'mousemove'	, this._$onMouseMove	, false );
 	}
 }
@@ -166,7 +166,8 @@ VirtualJoystick.prototype._onMouseDown	= function(event)
 {
 	var x	= event.clientX;
 	var y	= event.clientY;
-	return this._onDown(x, y);
+	//return
+	this._onDown(x, y);
 }
 
 VirtualJoystick.prototype._onMouseMove	= function(event)
