@@ -9,13 +9,13 @@ Marble.PageGameMain	= function()
 	osdLayer	= new Marble.OsdLayer();
 	osdLayer.livesSet( this._playerLives );
 
-	if( true ||  !VirtualJoystick.touchScreenAvailable() ){
+	var needCanvas	= jQuery.url().param('render') ? true : false;
+	if( needCanvas || VirtualJoystick.touchScreenAvailable() ){
 		this._virtualJoystick	= new VirtualJoystick({
 			mouseSupport	: true
-		});	
+		});
 		vJoystick	= this._virtualJoystick;
 	}
-
 
 	this._gameLifeCtor();
 }
@@ -24,7 +24,6 @@ Marble.PageGameMain.prototype.destroy	= function()
 {
 	this._gameLifeDtor();
 
-	
 	this._virtualJoystick	&& this._virtualJoystick.destroy();
 	this._virtualJoystick	= null;
 	vJoystick		= this._virtualJoystick;
