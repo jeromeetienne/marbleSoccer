@@ -15,7 +15,7 @@ Marble.GameLevel	= function()
 	this._player	= new Marble.Player();
 	this._map	= new Marble.Map();
 	this._camera	= new Marble.Camera();
-	//this._skybox	= new Marble.Skymap();
+	this._skybox	= new Marble.Skymap();
 
 	// create all the balls
 	this._balls	= [];
@@ -173,7 +173,7 @@ Marble.GameLevel.prototype._ballCtor	= function(ballOpts)
 
 Marble.GameLevel.prototype._ballBuild9Rack	= function(){
 	var radius	= Marble.tileSize;
-	var rack	= new THREE.Vector3(0,0, -3 * radius);
+	var rack	= new THREE.Vector3(0,0, -6 * radius);
 	var offset;
 	var addBall	= function(arr, offset){
 		arr.forEach(function(ballDesc, index){

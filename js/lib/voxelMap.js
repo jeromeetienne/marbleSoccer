@@ -16,9 +16,40 @@ Marble.VoxelMap.prototype.clone	= function()
 }
 
 //////////////////////////////////////////////////////////////////////////////////
+//		transformation							//
+//////////////////////////////////////////////////////////////////////////////////
+
+Marble.VoxelMap.prototype.translate	= function(x, y, z)
+{
+	this._map.forEach(function(voxel){
+		voxel.x	+= x;
+		voxel.y	+= y;
+		voxel.z	+= z;
+	})
+	return this;
+}
+
+Marble.VoxelMap.prototype.multiply	= function(x, y, z)
+{
+	this._map.forEach(function(voxel){
+		voxel.x	*= x;
+		voxel.y	*= y;
+		voxel.z	*= z;
+	});
+	return this;
+}
+
+//////////////////////////////////////////////////////////////////////////////////
 //		getters								//
 //////////////////////////////////////////////////////////////////////////////////
 Marble.VoxelMap.prototype.map	= function(){	return this._map;	}
+
+Marble.VoxelMap.prototype.computeAll	= function()
+{
+	this._computeBoundingBox();
+	this._computeHeightMap();
+	return this;
+}
 
 Marble.VoxelMap.prototype._computeHeightMap	= function()
 {
@@ -81,7 +112,7 @@ Marble.VoxelMap.prototype._computeBoundingBox	= function()
 	this._size.z	= Math.abs(this._max.z - this._min.z + 1);
 
 	// display to debug
-	//console.log('map bbmin', this._min, "bbMax", this._max, "size", this._size);
+	console.log('map bbmin', this._min, "bbMax", this._max, "size", this._size);
 }
 
 /**
@@ -121,7 +152,8 @@ Marble.VoxelMap.prototype._indexOf	= function(x, y, z, t)
 
 /**
  * return true if all voxels of the box are of type t
- * TODO rename to a better name
+ * - used for voxel clustering
+ * - not really optimized
 */
 Marble.VoxelMap.prototype._checkBox	= function(minX, minY, minZ, maxX, maxY, maxZ, t)
 {
@@ -137,6 +169,7 @@ Marble.VoxelMap.prototype._checkBox	= function(minX, minY, minZ, maxX, maxY, max
 
 /**
  * remove all voxels of the box from arr
+ * - used for voxel clustering
 */
 Marble.VoxelMap.prototype._removeBox	= function(minX, minY, minZ, maxX, maxY, maxZ, t)
 {

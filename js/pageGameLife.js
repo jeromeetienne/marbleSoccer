@@ -103,7 +103,8 @@ Marble.PageGameLife.prototype._init	= function(){
 }
 
 // ## Animate and Display the Scene
-Marble.PageGameLife.prototype._animate	= function(){
+Marble.PageGameLife.prototype._animate	= function()
+{
 	// render the 3D scene
 	this._render();
 	// relaunch the 'timer' 
