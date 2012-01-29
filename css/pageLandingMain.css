@@ -107,6 +107,11 @@
 	background	: red;
 }
 
+#pageLandingContainer .menuDialog div.button.disable {
+	background	: grey;
+	cursor		: default;
+}
+
 /********************************************************************************/
 /*		.tutorialDialog							*/
 /********************************************************************************/

@@ -142,7 +142,7 @@ Marble.GameLevel.prototype.tick	= function()
 		nbVisible	+= ball.isVisible() ? 1 : 0;
 	});
 // removed during r46...
-//	if( nbVisible === 0 )	pageGameLife.triggerEndOfLevel('win', 'levelCompleted');
+	if( nbVisible === 0 )	pageGameLife.triggerEndOfLevel('win', 'levelCompleted');
 
 	osdLayer.update();
 }
@@ -172,7 +172,7 @@ Marble.GameLevel.prototype._ballCtor	= function(ballOpts)
 }
 
 Marble.GameLevel.prototype._ballBuild9Rack	= function(){
-	var radius	= Marble.tileSize;
+	var radius	= Marble.tileSize; 
 	var rack	= new THREE.Vector3(0,0, -6 * radius);
 	var offset;
 	var addBall	= function(arr, offset){

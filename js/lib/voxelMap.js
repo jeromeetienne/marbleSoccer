@@ -3,9 +3,7 @@ var Marble	= Marble	|| {};
 Marble.VoxelMap	= function(opts)
 {
 	this._map	= opts.map	|| console.assert(false);
-
-	this._computeBoundingBox();
-	this._computeHeightMap();
+	this.computeAll();
 }
 
 Marble.VoxelMap.prototype.clone	= function()
@@ -112,7 +110,7 @@ Marble.VoxelMap.prototype._computeBoundingBox	= function()
 	this._size.z	= Math.abs(this._max.z - this._min.z + 1);
 
 	// display to debug
-	console.log('map bbmin', this._min, "bbMax", this._max, "size", this._size);
+//	console.log('map bbmin', this._min, "bbMax", this._max, "size", this._size);
 }
 
 /**

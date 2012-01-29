@@ -8,6 +8,8 @@ Marble.PageLandingMain	= function()
 
 	// create Marble.SoundPool
 	this._soundsCtor();
+	this._preloadCtor();
+
 
 	keyboard	= new THREEx.KeyboardState();
 	devOrientation	= new THREEx.DeviceOrientationState();
@@ -22,6 +24,8 @@ Marble.PageLandingMain	= function()
 		this._menuShow();		
 	}
 	this._chromeWebStoreCtor();
+
+	jQuery(this._pageSel+" .menuDialog .button.play").addClass('disable');
 	
 	this._$playButtonClick		= this._playClick.bind(this);
 	this._$tutorialButtonClick	= this._tutorialShow.bind(this);
@@ -38,6 +42,7 @@ Marble.PageLandingMain.prototype.destroy	= function()
 {
 	this._pageGameMainDtor();
 
+	this._prealoadDtor();
 	this._soundsDtor();
 
 	keyboard.destroy();
@@ -86,6 +91,7 @@ Marble.PageLandingMain.prototype._nowebglShow	= function()
 
 Marble.PageLandingMain.prototype._playClick	= function()
 {
+	var disable	= jQuery(this._pageSel+" .menuDialog .button.play").hasClass('disable');
 	this._pageGameMainCtor();
 }
 
@@ -102,6 +108,25 @@ Marble.PageLandingMain.prototype._aboutShow	= function()
 	var dialogSel	= this._pageSel+' .aboutDialog';
 	jQuery(dialogSel).jqm();
 	jQuery(dialogSel).jqmShow();
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+//		sounds								//
+//////////////////////////////////////////////////////////////////////////////////
+
+Marble.PageLandingMain.prototype._preloadCtor	= function()
+{
+	this._preloader	= new THREEx.Preloader();
+// TODO well there is a preloader... but what happened to it ?
+	this._preloader.bind('complete', function(){
+		jQuery(this._pageSel+" .menuDialog .button.play").removeClass('disable');
+	}.bind(this));
+	this._preloader.start();
+}
+
+Marble.PageLandingMain.prototype._preloadDtor	= function()
+{	
+	this._preloader && this._preloader.destroy();
 }
 
 //////////////////////////////////////////////////////////////////////////////////
