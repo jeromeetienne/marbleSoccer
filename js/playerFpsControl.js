@@ -4,6 +4,9 @@ Marble.PlayerFpsControl	= function()
 	// bind events
 	this._$onMouseMove	= this._onMouseMove.bind(this);
 	this._$onFullscreenChange=this._onFullscreenChange.bind(this);
+	
+	navigator.pointer	= navigator.pointer || navigator.webkitPointer;
+	navigator.pointer.islocked	= navigator.pointer.islocked || function(){ return navigator.pointer.isLocked; };
 
 	if( this.isSupported() === false ){
 		console.log("mouse lock unsupported :(");
@@ -36,13 +39,13 @@ Marble.PlayerFpsControl.prototype._onFullscreenChange	= function()
 	if( THREEx.FullScreen.activated() ){
 
 		navigator.pointer.lock(document.body, function(){
-			console.log("navigator.pointer.lock() succeed")
+			console.log("navigator.pointer.lock() succeed", navigator.pointer.islocked())
 		},function(){
 			console.log("navigator.pointer.lock() failled")
 		});
 
-		console.log("after pointer lock, isLocked is", navigator.pointer.islocked());
-		console.assert(navigator.pointer.islocked());
+		//console.log("after pointer lock, isLocked is", navigator.pointer.islocked());
+		//console.assert(navigator.pointer.islocked());
 
 		document.addEventListener('mousemove', this._$onMouseMove, false);
 
@@ -77,11 +80,14 @@ Marble.PlayerFpsControl.prototype.isActivated	= function(domEvent)
 
 Marble.PlayerFpsControl.prototype._onMouseMove	= function(domEvent)
 {
-	console.assert( domEvent.movementX !== undefined );
-	console.assert( domEvent.movementY !== undefined );
+	var movementX	= domEvent.movementX || domEvent.webkitMovementX;
+	var movementY	= domEvent.movementY || domEvent.webkitMovementY;
+	console.assert( movementX !== undefined );
+	console.assert( movementY !== undefined );
+//console.log("kkk"); console.dir(domEvent);
 
 	var speed	= 1 / 1024;	// nPixPerPI;
-	var deltaAngle	= domEvent.movementX * speed * Math.PI;
+	var deltaAngle	= movementX * speed * Math.PI;
 	this._angleY	+= deltaAngle;
 	this._angleY	%= 2*Math.PI;
 }
@@ -102,9 +108,9 @@ Marble.PlayerFpsControl.FpsAccelerator	= vphy.Class({
 	perform		: function(){
 		var keyboard	= this.keyboard;
 		var key		= {
-			left	: keyboard.pressed('A') || keyboard.pressed('J') || keyboard.pressed('Q') ,
+			left	: keyboard.pressed('A') || keyboard.pressed('J') || keyboard.pressed('Q'),
 			right	: keyboard.pressed('D') || keyboard.pressed('L') ,
-			up	: keyboard.pressed('W') || keyboard.pressed('I') || keyboard.pressed('Z') ,
+			up	: keyboard.pressed('W') || keyboard.pressed('I') || keyboard.pressed('Z'),
 			down	: keyboard.pressed('S') || keyboard.pressed('K')
 		};
 		var angle	= gameLevel.player().fpsControl().angleY();
