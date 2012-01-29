@@ -5,8 +5,6 @@ Marble.PlayerFpsControl	= function()
 	this._$onMouseMove	= this._onMouseMove.bind(this);
 	this._$onFullscreenChange=this._onFullscreenChange.bind(this);
 	
-	navigator.pointer	= navigator.pointer || navigator.webkitPointer;
-	navigator.pointer.islocked	= navigator.pointer.islocked || function(){ return navigator.pointer.isLocked; };
 
 	if( this.isSupported() === false ){
 		console.log("mouse lock unsupported :(");
@@ -14,6 +12,10 @@ Marble.PlayerFpsControl	= function()
 	}
 	console.log("mouse lock supported!!");
 	
+	// some compatibility layer for firefox/webkit
+	navigator.pointer	= navigator.pointer || navigator.webkitPointer;
+	navigator.pointer.islocked	= navigator.pointer.islocked || function(){ return navigator.pointer.isLocked; };
+
 	document.addEventListener('mozfullscreenchange'		, this._$onFullscreenChange, false);
 	document.addEventListener('webkitfullscreenchange'	, this._$onFullscreenChange, false);
 }
@@ -70,8 +72,9 @@ Marble.PlayerFpsControl.prototype._onFullscreenChange	= function()
 
 Marble.PlayerFpsControl.prototype.isSupported	= function(domEvent)
 {
-	return navigator.pointer !== undefined;
+	return navigator.pointer !== undefined || navigator.webkitPointer !== undefined;
 }
+
 Marble.PlayerFpsControl.prototype.isActivated	= function(domEvent)
 {
 	if( !this.isSupported() )	return false;

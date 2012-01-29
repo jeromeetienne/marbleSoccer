@@ -52,7 +52,7 @@ THREEx.FullScreen.request	= function(element)
 		element.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
 	}else if( this._hasMozFullScreen ){
 		element.mozRequestFullScreen();
-	}else{
+	}else{ 
 		console.assert(false);
 	}
 }
