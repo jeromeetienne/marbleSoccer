@@ -84,11 +84,12 @@ Marble.PlayerFpsControl.prototype.isActivated	= function(domEvent)
 
 Marble.PlayerFpsControl.prototype._onMouseMove	= function(domEvent)
 {
-	var movementX	= domEvent.movementX || domEvent.webkitMovementX;
-	var movementY	= domEvent.movementY || domEvent.webkitMovementY;
+	var movementX	= domEvent.movementX !== undefined ? domEvent.movementX : domEvent.webkitMovementX;
+	var movementY	= domEvent.movementY !== undefined ? domEvent.movementY : domEvent.webkitMovementY;
 	console.assert( movementX !== undefined );
 	console.assert( movementY !== undefined );
-//console.log("kkk"); console.dir(domEvent);
+
+	//console.log("_onMouseMove", movementX, movementY);console.dir(domEvent);
 
 	var speed	= 1 / 1024;	// nPixPerPI;
 	var deltaAngle	= movementX * speed * Math.PI;
