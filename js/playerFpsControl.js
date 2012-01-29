@@ -14,8 +14,8 @@ Marble.PlayerFpsControl	= function()
 	}
 	console.log("mouse lock supported!!");
 	
-	document.addEventListener('mozfullscreenchange', this._$onFullscreenChange, false);
-	document.addEventListener('webkitfullscreenchange', this._$onFullscreenChange, false);
+	document.addEventListener('mozfullscreenchange'		, this._$onFullscreenChange, false);
+	document.addEventListener('webkitfullscreenchange'	, this._$onFullscreenChange, false);
 }
 
 Marble.PlayerFpsControl.prototype.destroy	= function()
@@ -40,12 +40,10 @@ Marble.PlayerFpsControl.prototype._onFullscreenChange	= function()
 
 		navigator.pointer.lock(document.body, function(){
 			console.log("navigator.pointer.lock() succeed", navigator.pointer.islocked())
+
 		},function(){
 			console.log("navigator.pointer.lock() failled")
 		});
-
-		//console.log("after pointer lock, isLocked is", navigator.pointer.islocked());
-		//console.assert(navigator.pointer.islocked());
 
 		document.addEventListener('mousemove', this._$onMouseMove, false);
 
@@ -57,6 +55,9 @@ Marble.PlayerFpsControl.prototype._onFullscreenChange	= function()
 			keyboard	: keyboard
 		});
 		microphysics.world().add(this._fpsAcc);
+
+		//console.log("after pointer lock, isLocked is", navigator.pointer.islocked());
+		//console.assert(navigator.pointer.islocked());
 
 	}else{
 		navigator.pointer.unlock();		
